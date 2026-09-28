@@ -11,6 +11,14 @@
   img{max-width:100%}
   [hidden]{display:none!important}
 </style>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="مشاريع المكتب">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<script>if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){});});}</script>
 <script src="firebase-config.js"></script>
 </head>
 <body>
@@ -415,6 +423,18 @@ textarea{resize:vertical;min-height:80px;line-height:1.6}
   .acts{justify-content:flex-start}
 }
 @media (max-width:560px){
+  .hb-t{display:none}
+  .topbar{position:relative}
+  .toolbar input,.toolbar select{flex:1 1 140px;min-width:0}
+  .brand h1{font-size:16px}
+  .topbar-actions{gap:4px}
+  .topbar-actions .btn{padding:7px 9px}
+  .whochip .pill{display:none}
+  .today{display:none}
+  .row{padding:12px}
+  .lock-stage{gap:14px}
+  .lock-card{padding:22px 18px 16px}
+  .m-ft .btn{flex:1 1 auto;justify-content:center}
   .tiles{grid-template-columns:repeat(2,1fr)}
   .f-grid{grid-template-columns:1fr}
   .topbar{padding-block:11px 10px}
@@ -499,7 +519,13 @@ body.wm::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
 .lock.entering .lock-logo{opacity:.28;filter:var(--hk-mute) blur(22px);transform:scale(1.1)}
 .lock.entering .lock-halo::before{opacity:.35}
 .lock.entering .lock-intro{opacity:0;transform:translateY(12px);pointer-events:none}
-.lock.entering .lock-card{opacity:1;visibility:visible;transform:translate(-50%,-50%) scale(1)}
+.lock.entering .lock-card:not(.link-card),.lock.linking .link-card{opacity:1;visibility:visible;transform:translate(-50%,-50%) scale(1)}
+.lock.linking .lock-logo{opacity:.28;filter:var(--hk-mute) blur(22px);transform:scale(1.1)}
+.lock.linking .lock-halo::before{opacity:.35}
+.lock.linking .lock-intro{opacity:0;transform:translateY(12px);pointer-events:none}
+.lock-intro .l-inst{margin-top:2px;border-radius:11px;background:color-mix(in oklab,var(--surface) 75%,transparent)}
+body:has(.lock:not(.gone)) .mask{z-index:86}
+.link-card textarea{border-radius:12px}
 .lock.leaving{opacity:0;transition:opacity .55s ease .25s}
 .lock.leaving .lock-logo{opacity:0;transform:scale(.8);filter:var(--hk-mute) blur(10px)}
 .lock.leaving .lock-card{opacity:0;transform:translate(-50%,-56%) scale(.96)}
@@ -590,6 +616,20 @@ var ORDER_CLS = {"جديد":"work","قيد التنفيذ":"today","منجز":"d
 var PSIZES = ["A0","A1","A2","A3","A4","مقاس آخر"];
 var ADMIN_CODE = "000000";   /* سجل التعديلات الداخلي */
 var ROOT_CODE  = "0000";     /* حساب المدير المسؤول وإدارة الفريق */
+var APP_URL = "https://engahmedbakran2014-svg.github.io/maktab-projects/";  /* نسخة الجوال والمشاركة */
+/* التحقق من الأرقام السرية: الرقم المكتوب في الكود (إن لم يكن رقماً افتراضياً 0000)،
+   أو الرقم المحفوظ في إعدادات قاعدة البيانات، أو الرقم الشخصي للمسؤول الرئيسي */
+function codeOk(kind,v){
+  v=String(v||"").trim(); if(!v) return false;
+  var real=kind==="admin"?ADMIN_CODE:ROOT_CODE;
+  if(!/^0+$/.test(real) && v===real) return true;
+  var c=(S.meta&&S.meta.config)||{};
+  var saved=kind==="admin"?c.adminCode:c.rootCode;
+  if(saved && v===String(saved).trim()) return true;
+  for(var k in S.staff){ var x=S.staff[k];
+    if(x&&x.role==="root"&&x.pin&&String(x.pin).trim()===v) return true; }
+  return false;
+}
 /* --- متطلبات العميل --- */
 var PICKS = ["مجلس رجال بدورة مياه","مجلس نساء بدورة مياه","صالة طعام مشتركة",
   "مدخلان منفصلان","غرفة نوم رئيسية بغرفة ملابس وحمام","مطبخ","منطقة طهي",
@@ -916,9 +956,9 @@ function canEditStaff(s){
 var ROOT_UNLOCKED=false;
 function requireRootCode(title,cb){
   if(ROOT_UNLOCKED) return cb();
-  var i=inp("rcCode","",{type:"password",inputmode:"numeric",maxlength:"10",placeholder:"••••"});
+  var i=inp("rcCode","",{type:"password",maxlength:"24",placeholder:"••••",autocomplete:"off",dir:"ltr"});
   function go(){
-    if(i.value.trim()===ROOT_CODE){ ROOT_UNLOCKED=true; closeModal(); cb(); }
+    if(codeOk("root",i.value)){ ROOT_UNLOCKED=true; closeModal(); cb(); }
     else toast("الرقم السري غير صحيح",true);
   }
   i.addEventListener("keydown",function(e){ if(e.key==="Enter") go(); });
@@ -1026,6 +1066,13 @@ function lockBuild(){
   var err=el("div",{class:"lock-err",role:"alert"});
   var msg=el("span",{class:"lock-msg"});
   var dateP=el("p",{class:"l-date"});
+  var introLbl=el("span",{text:"الدخول بالرقم السري"}), introIco=el("span",{text:"🔒"});
+  var introBtn=el("button",{class:"btn primary",type:"button",onclick:function(){ lockEnter(); }},[introIco,introLbl]);
+  var instBtn=el("button",{class:"btn l-inst",type:"button",onclick:function(){ installApp(); }},
+    [el("span",{text:"📲"}),el("span",{text:"تثبيت البرنامج على الجوال"})]);
+  var linkIn=el("textarea",{id:"linkCode",rows:"3",placeholder:"الصق رابط الدعوة أو رمز الربط…",
+    spellcheck:"false",autocomplete:"off",style:"direction:ltr;text-align:left;font:12px/1.5 var(--f-num);min-height:74px"});
+  var linkErr=el("div",{class:"lock-err",role:"alert"});
   var root=el("div",{class:"lock",id:"lock"},[
     el("div",{class:"lock-bg"}), el("div",{class:"lock-veil"}),
     el("div",{class:"lock-stage"},[
@@ -1035,8 +1082,21 @@ function lockBuild(){
         el("h1",{text:OFFICE}),
         el("p",{class:"l-sub",text:"إدارة مشاريع المكتب — أعمال مشاريع الهندسة المعمارية"}),
         dateP,
-        el("button",{class:"btn primary",type:"button",onclick:function(){ lockEnter(); }},
-          [el("span",{text:"🔒"}),el("span",{text:"الدخول بالرقم السري"})])
+        introBtn,
+        instBtn
+      ])
+    ]),
+    el("form",{class:"lock-card link-card",autocomplete:"off",onsubmit:function(e){ e.preventDefault(); linkSubmit(); }},[
+      el("h2",{text:"ربط هذا الجهاز بالمكتب"}),
+      el("p",{text:"افتح «رابط الدعوة» الذي أرسله لك المدير المسؤول، أو الصق رمز الربط أو رابط الدعوة هنا. يتم الربط مرة واحدة على كل جهاز."}),
+      linkIn, linkErr,
+      el("button",{class:"btn primary",type:"submit",text:"ربط الجهاز"}),
+      el("div",{class:"l-foot"},[
+        el("button",{class:"btn ghost sm",type:"button",text:"رجوع",onclick:function(){ lockIntro(); }}),
+        el("button",{class:"btn ghost sm",type:"button",text:"لصق من الحافظة",onclick:function(){
+          if(navigator.clipboard&&navigator.clipboard.readText)
+            navigator.clipboard.readText().then(function(t){ linkIn.value=t||""; },function(){ toast("الصق يدوياً",true); });
+          else toast("الصق يدوياً",true); }})
       ])
     ]),
     el("form",{class:"lock-card",autocomplete:"off",onsubmit:function(e){ e.preventDefault(); lockSubmit(); }},[
@@ -1055,11 +1115,13 @@ function lockBuild(){
     if(e.key==="Escape") lockIntro();
   });
   document.addEventListener("keydown",function(e){
-    if(!LOCK||UNLOCKED||LOCK.root.classList.contains("entering")) return;
+    if(!LOCK||UNLOCKED||LOCK.root.classList.contains("entering")||LOCK.root.classList.contains("linking")) return;
     if(e.key==="Enter"||(e.key&&e.key.length===1&&!e.ctrlKey&&!e.metaKey&&!e.altKey)) lockEnter();
   });
   input.addEventListener("input",function(){ err.textContent=""; });
-  LOCK={root:root,input:input,err:err,msg:msg,dateP:dateP};
+  linkIn.addEventListener("input",function(){ linkErr.textContent=""; });
+  LOCK={root:root,input:input,err:err,msg:msg,dateP:dateP,introLbl:introLbl,introIco:introIco,
+    instBtn:instBtn,linkIn:linkIn,linkErr:linkErr};
   document.body.appendChild(root);
   return LOCK;
 }
@@ -1069,8 +1131,12 @@ function showLock(){
   L.msg.textContent=LOCK_MSG?"🔒 "+LOCK_MSG:"";
   L.msg.style.display=LOCK_MSG?"":"none";
   document.body.classList.remove("wm");
+  var nl=needsLink();
+  L.introLbl.textContent=nl?"ربط هذا الجهاز بالمكتب":"الدخول بالرقم السري";
+  L.introIco.textContent=nl?"🔗":"🔒";
+  L.instBtn.style.display=offerInstall()?"":"none";
   if(L.root.classList.contains("gone")||L.root.classList.contains("leaving")){
-    L.root.classList.remove("gone","leaving","entering");
+    L.root.classList.remove("gone","leaving","entering","linking");
     L.input.value=""; L.err.textContent="";
   }
 }
@@ -1083,12 +1149,128 @@ function hideLock(){
   setTimeout(function(){ if(UNLOCKED) r.classList.add("gone"); },900);
 }
 function lockEnter(){
-  var L=lockBuild(); L.root.classList.add("entering");
+  var L=lockBuild();
+  if(needsLink()){ L.root.classList.add("linking");
+    setTimeout(function(){ try{ L.linkIn.focus(); }catch(e){} },80); return; }
+  L.root.classList.add("entering");
   setTimeout(function(){ try{ L.input.focus(); }catch(e){} },80);
 }
 function lockIntro(){
   if(!LOCK) return;
-  LOCK.root.classList.remove("entering"); LOCK.input.value=""; LOCK.err.textContent=""; LOCK.input.blur();
+  LOCK.root.classList.remove("entering","linking"); LOCK.input.value=""; LOCK.err.textContent=""; LOCK.input.blur();
+}
+
+/* ============ الجوال: الربط بالمكتب، التثبيت، المشاركة ============ */
+/* خارج claude.ai (نسخة GitHub) يجب ربط الجهاز بقاعدة بيانات المكتب أولاً */
+function onClaude(){ return !!(window.claude&&window.claude.use); }
+function needsLink(){ return !onClaude() && !fbCfg(); }
+/* رابط الدعوة يحمل رمز الربط بعد علامة # فلا يُرسل لأي خادم ولا يُحفظ في المستودع */
+function consumeJoin(){
+  try{
+    var m=String(location.hash||"").match(/join=([^&]+)/);
+    if(!m) return;
+    var o=parseCfgText(decodeURIComponent(m[1]));
+    if(o) saveFbCfg(o);
+    history.replaceState(null,"",location.pathname+location.search);
+  }catch(e){}
+}
+function linkSubmit(){
+  var L=lockBuild(), t=String(L.linkIn.value||"").trim();
+  if(!t){ L.linkErr.textContent="الصق رابط الدعوة أو رمز الربط"; return; }
+  var m=t.match(/join=([^&\s]+)/); if(m){ try{ t=decodeURIComponent(m[1]); }catch(e){} }
+  var o=parseCfgText(t);
+  if(!o){ L.linkErr.textContent="الرمز غير صالح — تأكد من نسخه كاملاً"; return; }
+  saveFbCfg(o);
+  L.linkErr.style.color="var(--good)"; L.linkErr.textContent="تم الربط — جارٍ الفتح…";
+  setTimeout(function(){ location.reload(); },600);
+}
+function inviteLink(){
+  var c=fbCfg();
+  return APP_URL+(c?("#join="+encodeURIComponent(cfgCode(c))):"");
+}
+/* التثبيت على الجوال */
+var DEFER_INSTALL=null;
+window.addEventListener("beforeinstallprompt",function(e){ e.preventDefault(); DEFER_INSTALL=e;
+  if(LOCK) LOCK.instBtn.style.display=offerInstall()?"":"none"; });
+window.addEventListener("appinstalled",function(){ DEFER_INSTALL=null; toast("تم تثبيت البرنامج على الجهاز"); render(); });
+function isStandalone(){
+  try{ return window.matchMedia("(display-mode: standalone)").matches || navigator.standalone===true; }
+  catch(e){ return false; }
+}
+function isIOS(){ return /iphone|ipad|ipod/i.test(navigator.userAgent) ||
+  (navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1); }
+function offerInstall(){ return !onClaude() && !isStandalone(); }
+function installApp(){
+  if(DEFER_INSTALL){
+    var ev=DEFER_INSTALL; DEFER_INSTALL=null;
+    ev.prompt();
+    ev.userChoice.then(function(r){ if(r&&r.outcome==="accepted") toast("جارٍ التثبيت…"); },function(){});
+    return;
+  }
+  var ios=isIOS();
+  var steps=ios?[
+      "افتح الرابط في متصفح Safari.",
+      "اضغط زر المشاركة ⬆︎ أسفل الشاشة.",
+      "اختر «إضافة إلى الشاشة الرئيسية» ثم «إضافة».",
+      "افتح البرنامج من أيقونته — إذا طلب الربط الصق رابط الدعوة مرة واحدة."]
+    :[
+      "افتح الرابط في متصفح Chrome.",
+      "اضغط قائمة المتصفح ⋮ أعلى الشاشة.",
+      "اختر «تثبيت التطبيق» أو «إضافة إلى الشاشة الرئيسية».",
+      "يظهر البرنامج بأيقونة الشركة ويفتح كتطبيق مستقل."];
+  var ol=el("ol",{style:"margin:0;padding-inline-start:20px;line-height:2;font-size:13.5px"});
+  steps.forEach(function(x){ ol.appendChild(el("li",{text:x})); });
+  openModal(modal("تثبيت البرنامج على الجوال",[
+    el("p",{style:"margin:0;font-size:13px;color:var(--ink-2)",text:ios?"على آيفون وآيباد:":"على أندرويد:"}), ol
+  ],[ el("button",{class:"btn primary",text:"تم",onclick:closeModal}) ]));
+}
+function shareText(){
+  return ["السلام عليكم ورحمة الله","",
+    "رابط برنامج إدارة مشاريع المكتب:",inviteLink(),"",
+    "١) افتح الرابط من الجوال (Chrome في أندرويد، Safari في آيفون).",
+    "٢) للتثبيت: من قائمة المتصفح اختر «تثبيت التطبيق» أو «إضافة إلى الشاشة الرئيسية».",
+    "٣) ادخل برقمك السري الخاص الذي يرسله لك المدير المسؤول."].join("\n");
+}
+var QR_LOADING=null;
+function loadQR(){
+  if(window.QRCode) return Promise.resolve(true);
+  if(!QR_LOADING) QR_LOADING=loadScript("https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js")
+    .then(function(){ return !!window.QRCode; },function(){ return false; });
+  return QR_LOADING;
+}
+function shareApp(){
+  var link=inviteLink(), linked=!!fbCfg();
+  var qr=el("div",{style:"display:grid;place-items:center;padding:12px;background:#fff;border-radius:12px;"+
+    "border:1px solid var(--line);min-height:40px;align-self:center"});
+  loadQR().then(function(ok){
+    if(!ok){ qr.style.display="none"; return; }
+    try{ new window.QRCode(qr,{text:link,width:210,height:210,correctLevel:window.QRCode.CorrectLevel.L}); }
+    catch(e){ qr.style.display="none"; }
+  });
+  function copy(t,msg){
+    if(navigator.clipboard&&navigator.clipboard.writeText)
+      navigator.clipboard.writeText(t).then(function(){toast(msg);},function(){toast("انسخ يدوياً",true);});
+    else toast("انسخ يدوياً",true);
+  }
+  openModal(modal("مشاركة البرنامج مع الزملاء",[
+    el("div",{class:"msgbox",style:"border-style:solid"},[
+      el("div",{style:"font-size:13px;line-height:1.9",text:linked
+        ? "أرسل رابط الدعوة للزميل، أو اطلب منه تصوير الرمز بكاميرا الجوال. الرابط يربط جهازه بقاعدة بيانات المكتب، ثم يدخل برقمه السري الخاص فتظهر له مهامه فقط."
+        : "رابط البرنامج على الجوال. لربط أجهزة الزملاء بقاعدة بيانات المكتب افتح هذه النافذة من نسخة الجوال (GitHub) بعد ربط جهازك، فيظهر رابط الدعوة الكامل."})
+    ]),
+    qr,
+    el("div",{class:"field full"},[el("label",{text:linked?"رابط الدعوة":"رابط البرنامج"}),
+      el("div",{class:"msgbox",style:"direction:ltr;text-align:left;font-size:11px;max-height:90px",text:link})]),
+    el("span",{class:"hint",text:"لا ترسل رابط الدعوة خارج فريق المكتب — الدخول يبقى بالرقم السري الشخصي لكل موظف."})
+  ],[
+    navigator.share?el("button",{class:"btn primary",text:"مشاركة",onclick:function(){
+      navigator.share({title:"إدارة مشاريع المكتب",text:shareText()}).catch(function(){}); }}):null,
+    el("a",{class:"btn"+(navigator.share?"":" primary"),style:"text-decoration:none",target:"_blank",rel:"noopener",
+      href:"https://wa.me/?text="+encodeURIComponent(shareText()),text:"واتساب"}),
+    el("button",{class:"btn",text:"نسخ الرابط",onclick:function(){ copy(link,"نُسخ الرابط"); }}),
+    el("button",{class:"btn",text:"نسخ الرسالة",onclick:function(){ copy(shareText(),"نُسخت الرسالة"); }}),
+    el("button",{class:"btn ghost",text:"إغلاق",onclick:closeModal})
+  ]));
 }
 function lockErr(t){
   if(!LOCK) return;
@@ -1106,7 +1288,7 @@ function lockSubmit(){
   if(!hit.length){
     /* تشغيل أول: إن لم يُحدَّد رمز للمسؤول الرئيسي بعد يُقبل الرقم السري للنظام الرئيسي */
     var roots=all.filter(function(x){ return x.role==="root"; });
-    if(v===ROOT_CODE && roots.length && !roots.some(function(x){ return x.pin&&String(x.pin).trim(); })) hit=[roots[0]];
+    if(!/^0+$/.test(ROOT_CODE) && v===ROOT_CODE && roots.length && !roots.some(function(x){ return x.pin&&String(x.pin).trim(); })) hit=[roots[0]];
   }
   if(hit.length>1) return lockErr("هذا الرمز مسجّل لأكثر من حساب — راجع المدير المسؤول");
   if(!hit.length){
@@ -1453,14 +1635,13 @@ function inviteMsg(s){
   var c=CFG(), m=me();
   var L=["السلام عليكم ورحمة الله",""];
   L.push("رابط برنامج إدارة مشاريع المكتب:");
-  L.push(c.shareUrl||"(لم يُسجَّل الرابط بعد)");
+  L.push(fbCfg()?inviteLink():(c.shareUrl||APP_URL));
   L.push("");
   L.push("الاسم: "+s.name);
-  if(c.loginMode==="code") L.push("رمز الدخول: "+(s.pin||"(لم يُحدَّد بعد)"));
+  L.push("رقمك السري للدخول: "+(s.pin||"(لم يُحدَّد بعد)"));
   L.push("");
-  L.push(c.loginMode==="code"
-    ? "افتح الرابط وأدخل رمزك، فتظهر مشاريعك ومهامك أنت فقط."
-    : "افتح الرابط واختر اسمك من القائمة، فتظهر مشاريعك ومهامك أنت فقط.");
+  L.push("افتح الرابط من الجوال وأدخل رقمك السري، فتظهر مشاريعك ومهامك أنت فقط.");
+  L.push("للتثبيت: من قائمة المتصفح اختر «تثبيت التطبيق» أو «إضافة إلى الشاشة الرئيسية».");
   L.push("أي تحديث تسجّله يظهر مباشرة عند المهندس المسؤول دون إرسال ملفات.");
   L.push("");
   L.push("وشكراً لكم — "+(m?m.name:""));
@@ -1468,8 +1649,7 @@ function inviteMsg(s){
 }
 function sendInvite(s){
   var c=CFG();
-  if(!c.shareUrl){ toast("سجّل رابط البرنامج أولاً من «ربط الفريق بالموقع»",true); return linkSettings(); }
-  if(c.loginMode==="code"&&!s.pin){ toast("حدّد رمز دخول لهذا الموظف من تعديل بياناته",true); return; }
+  if(!s.pin){ toast("حدّد رقماً سرياً لهذا الموظف من تعديل بياناته أولاً",true); return; }
   sendTaskMsg(s.id,inviteMsg(s),"إرسال رابط الدخول إلى "+s.name);
 }
 function adminPanelRoot(){
@@ -2588,7 +2768,7 @@ function backupMenu(){
       el("button",{class:"pick",onclick:function(){closeModal();saveAllFolders(projList().sort(sortProjects));}},[
         el("span",{style:"flex:1"},[ el("span",{class:"nm",text:"حفظ ملفات كل المشاريع"}),
           el("span",{class:"ttl",text:"مجلد لكل مشروع: بيانات وورد، جدول أعمال إكسل، ملاحظات بالتاريخ، صور"}) ])]),
-      el("button",{class:"pick",onclick:function(){closeModal();importJSON();}},[
+      !isRoot()?null:el("button",{class:"pick",onclick:function(){closeModal();importJSON();}},[
         el("span",{style:"flex:1"},[ el("span",{class:"nm",text:"استعادة نسخة احتياطية"}),
           el("span",{class:"ttl",text:"إضافة سجلات من ملف محفوظ سابقاً"}) ])]),
       el("button",{class:"pick",onclick:function(){closeModal();setTimeout(function(){window.print();},120);}},[
@@ -4208,7 +4388,7 @@ var ADMIN_OPEN=false;
 function askCode(){
   var i=inp("acCode","",{type:"password",inputmode:"numeric",maxlength:"10",placeholder:"••••••"});
   function go(){
-    if(i.value.trim()===ADMIN_CODE){ ADMIN_OPEN=true; closeModal(); adminPanel(); }
+    if(codeOk("admin",i.value)){ ADMIN_OPEN=true; closeModal(); adminPanel(); }
     else toast("الرمز غير صحيح",true);
   }
   i.addEventListener("keydown",function(e){ if(e.key==="Enter") go(); });
@@ -4939,6 +5119,7 @@ function doRender(){
   var root=$("#root"); if(!root) return;
   var anyStaff=Object.keys(S.staff).length>0;
   if(UNLOCKED && MODE!=="loading" && anyStaff && !me()) UNLOCKED=false;
+  if(needsLink()){ root.innerHTML=""; UNLOCKED=false; showLock(); return; }
   var fresh = MODE!=="loading" && MODE!=="revoked" && !anyStaff;
   if(!UNLOCKED && !fresh){ root.innerHTML=""; showLock(); return; }
   hideLock();
@@ -5048,6 +5229,10 @@ function Header(){
             el("span",{text:m.name}),
             el("span",{class:"pill",style:"font-size:10.5px;padding:2px 7px",text:roleName(m.role)})])
       ):null,
+      (m&&isBoss())?el("button",{class:"btn ghost",title:"مشاركة البرنامج مع الزملاء",
+        onclick:shareApp},[el("span",{text:"📤"}),el("span",{class:"hb-t",text:"مشاركة"})]):null,
+      (m&&offerInstall())?el("button",{class:"btn ghost",title:"تثبيت البرنامج على الجوال",
+        onclick:installApp},[el("span",{text:"📲"}),el("span",{class:"hb-t",text:"تثبيت"})]):null,
       m?el("button",{class:"btn ghost lockbtn",title:"قفل البرنامج — يعود لصفحة الدخول بالرقم السري",
         onclick:function(){ lockNow(false); }},[el("span",{text:"🔒"}),el("span",{text:"قفل"})]):null,
       el("button",{class:"btn ghost",title:"تبديل الخلفية: فاتحة / غامقة / حسب الجهاز",
@@ -5581,11 +5766,11 @@ function Foot(){
   var n=projList().length, s=staffList().length;
   return el("div",{class:"foot"},[
     el("span",{text:"إجمالي المشاريع: "}),el("b",{class:"num",text:String(n)}),
-    el("span",{text:"· الفريق: "}),el("b",{class:"num",text:String(s)}),
+    rosterVisible()?el("span",{text:"· الفريق: "}):null, rosterVisible()?el("b",{class:"num",text:String(s)}):null,
     el("span",{class:"spacer"}),
     MODE==="shared"?el("span",{text:"البيانات مشتركة ومحدَّثة لحظياً لكل من يفتح الرابط"}):null,
-    el("button",{class:"btn ghost sm",title:"تحويل القائمة وتغيير المدير المسؤول",
-      text:"🔑 دخول بالرقم السري",onclick:adminGate}),
+    isRoot()?el("button",{class:"btn ghost sm",title:"تحويل القائمة وتغيير المدير المسؤول",
+      text:"🔑 دخول بالرقم السري",onclick:adminGate}):null,
     isRoot()?el("button",{class:"btn ghost sm",text:"تبديل المستخدم",
       onclick:function(){askWhoAmI(true);}}):null,
     isRoot()?el("button",{class:"btn ghost sm",title:"النظام الداخلي",text:"🔒",
@@ -5598,6 +5783,7 @@ function Foot(){
 try{ document.documentElement.setAttribute("dir","rtl");
      document.documentElement.setAttribute("lang","ar"); }catch(e){}
 applyTheme();
+consumeJoin();
 render();
 initStore();
 setInterval(function(){ render(); }, 60*60*1000);
