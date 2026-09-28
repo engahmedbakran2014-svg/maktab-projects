@@ -433,6 +433,112 @@ textarea{resize:vertical;min-height:80px;line-height:1.6}
   table.psheet tr{page-break-inside:avoid}
   .psub{page-break-after:avoid}
 }
+/* ---------- الشعار الرسمي + صفحة الدخول والقفل ---------- */
+:root{--hk-mask:url("data:image/webp;base64,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");
+  --hk-grad:linear-gradient(135deg,var(--accent-2) 0%,var(--accent) 55%,color-mix(in oklab,var(--accent) 70%,var(--good)) 100%)}
+#app{position:relative;z-index:1}
+body.wm::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:var(--hk-grad);
+  -webkit-mask:var(--hk-mask) center 58%/min(74vw,760px) auto no-repeat;
+  mask:var(--hk-mask) center 58%/min(74vw,760px) auto no-repeat;
+  opacity:.2;animation:wmIn 1.1s ease both}
+@keyframes wmIn{from{opacity:0;transform:scale(1.06)}to{opacity:.2;transform:none}}
+
+.lock{position:fixed;inset:0;z-index:80;direction:rtl;text-align:center;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;background:var(--ground);
+  transition:opacity .7s ease,visibility .7s}
+.lock.gone{opacity:0;visibility:hidden;pointer-events:none}
+.lock-bg{position:absolute;inset:-15%;filter:blur(70px) saturate(1.05);
+  background:
+    radial-gradient(38% 42% at 20% 26%,color-mix(in oklab,var(--accent) 60%,transparent),transparent 72%),
+    radial-gradient(36% 40% at 80% 74%,color-mix(in oklab,var(--accent-2) 50%,transparent),transparent 72%),
+    radial-gradient(28% 32% at 76% 18%,color-mix(in oklab,var(--good) 34%,transparent),transparent 72%),
+    radial-gradient(32% 34% at 24% 82%,color-mix(in oklab,var(--info) 28%,transparent),transparent 72%),
+    var(--ground);
+  animation:lockDrift 26s ease-in-out infinite alternate}
+@keyframes lockDrift{to{transform:translate3d(2.5%,-2%,0) scale(1.07)}}
+.lock-veil{position:absolute;inset:0;background:color-mix(in oklab,var(--surface) 30%,transparent);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.lock-stage{position:relative;width:100%;max-width:620px;padding:24px 16px;
+  display:flex;flex-direction:column;align-items:center;gap:18px}
+.lock-halo{position:relative;display:grid;place-items:center;width:min(84vw,500px);aspect-ratio:900/522}
+.lock-halo::before{content:"";position:absolute;inset:-18% -12%;border-radius:50%;
+  background:radial-gradient(closest-side,color-mix(in oklab,var(--surface) 70%,transparent),transparent);
+  transition:opacity .6s}
+.lock-logo{position:relative;width:100%;height:100%;background:var(--hk-grad);
+  -webkit-mask:var(--hk-mask) center/contain no-repeat;mask:var(--hk-mask) center/contain no-repeat;
+  opacity:.92;
+  transition:opacity .6s ease,filter .6s ease,transform .6s ease}
+.lock-intro{display:flex;flex-direction:column;align-items:center;gap:8px;transition:opacity .4s,transform .4s}
+.lock-intro h1{font-size:clamp(19px,3.4vw,25px);color:var(--ink)}
+.lock-intro .l-sub{font-size:13.5px;color:var(--ink-2);margin:0}
+.lock-intro .l-date{font-size:12px;color:var(--ink-3);margin:0}
+.lock-intro .btn.primary{margin-top:10px;padding:11px 22px;font-size:14.5px;border-radius:11px;
+  box-shadow:0 12px 26px -12px color-mix(in oklab,var(--accent) 80%,transparent)}
+.lock-msg{display:inline-flex;gap:6px;align-items:center;font-size:12.5px;font-weight:600;
+  background:color-mix(in oklab,var(--surface) 80%,transparent);border:1px solid var(--line);
+  color:var(--ink-2);border-radius:20px;padding:5px 12px}
+.lock-card{position:absolute;left:50%;top:50%;width:min(92vw,390px);
+  transform:translate(-50%,-44%) scale(.97);opacity:0;visibility:hidden;
+  background:color-mix(in oklab,var(--surface) 78%,transparent);
+  backdrop-filter:blur(20px) saturate(1.2);-webkit-backdrop-filter:blur(20px) saturate(1.2);
+  border:1px solid color-mix(in oklab,var(--line) 80%,transparent);border-radius:18px;
+  box-shadow:0 34px 70px -28px rgba(0,0,0,.45);padding:26px 24px 20px;
+  display:flex;flex-direction:column;gap:14px;text-align:right;
+  transition:opacity .45s ease,transform .45s ease,visibility .45s}
+.lock-card h2{font-size:18px;text-align:center}
+.lock-card p{margin:0;font-size:12.5px;color:var(--ink-2);line-height:1.8;text-align:center}
+.lock-in{position:relative}
+.lock-in input{font:600 20px/1.2 var(--f-num);letter-spacing:.28em;text-align:center;direction:ltr;
+  padding:13px 46px;border-radius:12px;background:var(--surface);border-width:1.5px}
+.lock-in .eye{position:absolute;inset-inline-end:8px;top:50%;transform:translateY(-50%);
+  border:0;background:none;color:var(--ink-3);font-size:15px;padding:6px 8px;border-radius:8px}
+.lock-in .eye:hover{background:var(--surface-3);color:var(--ink)}
+.lock-err{min-height:18px;font-size:12.5px;font-weight:600;color:var(--crit);text-align:center}
+.lock-card .btn.primary{justify-content:center;padding:11px;font-size:14.5px;border-radius:11px}
+.lock-card .l-foot{display:flex;justify-content:space-between;align-items:center;gap:8px;
+  font-size:11px;color:var(--ink-3);border-top:1px solid var(--line-soft);padding-top:11px}
+.lock.entering .lock-logo{opacity:.28;filter:blur(22px);transform:scale(1.1)}
+.lock.entering .lock-halo::before{opacity:.35}
+.lock.entering .lock-intro{opacity:0;transform:translateY(12px);pointer-events:none}
+.lock.entering .lock-card{opacity:1;visibility:visible;transform:translate(-50%,-50%) scale(1)}
+.lock.leaving{opacity:0;transition:opacity .55s ease .25s}
+.lock.leaving .lock-logo{opacity:0;transform:scale(.8);filter:blur(10px)}
+.lock.leaving .lock-card{opacity:0;transform:translate(-50%,-56%) scale(.96)}
+.lock.shake .lock-card{animation:lockShake .42s}
+@keyframes lockShake{20%,60%{margin-left:-9px}40%,80%{margin-left:9px}}
+.btn.lockbtn{color:var(--ink-2)}
+
+/* ---------- تحسين تنسيق القوائم ---------- */
+.register{border-radius:12px}
+.reg-head{padding-block:11px;font-size:11.5px;
+  background:color-mix(in oklab,var(--surface-2) 92%,var(--accent-soft))}
+.row{padding:14px 16px;transition:background .15s}
+.row:nth-child(even of .row){background:color-mix(in oklab,var(--surface-2) 55%,var(--surface))}
+.row:hover{background:color-mix(in oklab,var(--accent-soft) 45%,var(--surface))}
+.row .p-name{font-size:15px}
+.row.needs-reason,.row.needs-reason:nth-child(even of .row){background:var(--pause-soft)}
+.row .acts{gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.stripe{width:4px;border-radius:4px}
+.tiles{gap:12px}
+.tile{border-radius:12px;padding:14px 15px 13px;box-shadow:var(--shadow)}
+.tile .v{font-size:27px}
+.tabs{gap:4px;padding-bottom:1px;scrollbar-width:thin}
+.tab{border-radius:9px 9px 0 0;padding:10px 15px}
+.tab:hover{background:color-mix(in oklab,var(--surface-3) 60%,transparent)}
+.tab.on{background:color-mix(in oklab,var(--accent-soft) 70%,transparent)}
+.tasktable{border-radius:12px;box-shadow:var(--shadow)}
+.tt-row{padding-block:12px}
+.tt-row:not(.tt-head):hover{background:color-mix(in oklab,var(--accent-soft) 40%,var(--surface))}
+.tt-head{padding-block:10px}
+.tl-items{border-radius:12px;box-shadow:var(--shadow)}
+.tl-item{padding:12px 15px}
+.tl-item:hover{background:var(--surface-2)}
+.note{border-radius:12px;box-shadow:var(--shadow)}
+.toolbar{background:var(--surface);border:1px solid var(--line-soft);border-radius:12px;padding:10px 12px}
+@media print{ .lock{display:none!important} body.wm::before{display:none!important} }
+@media (max-width:900px){ .row .acts{justify-content:flex-start} }
+
 </style>
 
 <div id="app">
@@ -472,13 +578,20 @@ var TASK_STATES = ["لم يبدأ","قيد التنفيذ","بانتظار ال�
 var TASK_CLS = {"لم يبدأ":"pause","قيد التنفيذ":"work","بانتظار المراجعة":"soon","منجز":"done"};
 var SPECIALTIES = ["مهندس معماري","مهندس معماري مساعد","رسام معماري","مهندس إنشائي",
   "مهندس كهربائي","مهندس ميكانيكي","مساح","مهندس إشراف","إداري / سكرتارية","مندوب","أخرى"];
+/* نوع العضو: موظف يعمل داخل البرنامج، أو مدير يستقبل المستجدات فقط */
+var KINDS = [{v:"staff",t:"موظف — يعمل داخل البرنامج"},
+             {v:"contact",t:"مدير — يستقبل المستجدات فقط"}];
+var MSG_SCOPES = [{v:"all",t:"الجميع"},{v:"draftsmen",t:"الرسامين فقط"},{v:"none",t:"لا يرسل تنبيهات"}];
+var UPDATE_TYPES = ["تم إنجاز التعديل","تم تقديم الفكرة المبدئية","تم اعتماد المخطط الابتدائي",
+  "تم رفع المعاملة للجهة","صدرت الموافقة المبدئية","تم تسليم المخططات النهائية",
+  "تم إصدار رخصة البناء","تحديث على المشروع"];
 var ORDER_TYPES = ["طباعة مخططات","نسخة CD / فلاش","تصوير مستندات","تجليد وتغليف",
   "طباعة لوحة عرض","توصيل / مندوب","أخرى"];
 var ORDER_STATES = ["جديد","قيد التنفيذ","منجز","ملغى"];
 var ORDER_CLS = {"جديد":"work","قيد التنفيذ":"today","منجز":"done","ملغى":"pause"};
 var PSIZES = ["A0","A1","A2","A3","A4","مقاس آخر"];
-var ADMIN_CODE = "121410";   /* سجل التعديلات الداخلي */
-var ROOT_CODE  = "1214";     /* حساب المدير المسؤول وإدارة الفريق */
+var ADMIN_CODE = "000000";   /* سجل التعديلات الداخلي */
+var ROOT_CODE  = "0000";     /* حساب المدير المسؤول وإدارة الفريق */
 /* --- متطلبات العميل --- */
 var PICKS = ["مجلس رجال بدورة مياه","مجلس نساء بدورة مياه","صالة طعام مشتركة",
   "مدخلان منفصلان","غرفة نوم رئيسية بغرفة ملابس وحمام","مطبخ","منطقة طهي",
@@ -492,6 +605,9 @@ var COND_FIXED = [
 ];
 var STRUCTS = ["خرساني مسلح","هيكل حديدي","خرساني مسبق الصب","نظام مختلط","لم يُحدَّد"];
 var HVACS = ["سبليت جداري","مخفي (داكت)","مركزي شيلر","VRF","شباك","لم يُحدَّد"];
+var DEF_IDEA_DAYS = 5;    /* مدة تقديم الفكرة المبدئية — أيام عمل */
+var DEF_REVISE_DAYS = 2;  /* مدة التعديل — أيام عمل */
+var WEEKEND = {5:1,6:1};  /* الجمعة والسبت */
 var BATHOPT = ["حمام مستقل لكل غرفة","حمام مشترك"];
 var DISTOPT = ["دور واحد","دوران","حسب رأي المصمم"];
 var VERTOPT = ["سلم فقط","سلم ومصعد"];
@@ -524,7 +640,7 @@ var REQS = [
 var PTYPES = ["فيلا سكنية","عمارة سكنية","مجمع سكني","برج سكني","برج فندقي","فندق","مبنى تجاري","مجمع معارض","استراحة","ترميم / إضافة","أخرى"];
 var DAYS = ["الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"];
 var MONTHS = ["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
-var OFFICE = "مكتب عبدالرزاق حكيم للاستشارات الهندسية";
+var OFFICE = "شركة عبدالرزاق حكيم للاستشارات الهندسية";
 var LS_ID = "mirqab.me.v1";
 var LS_DATA = "mirqab.local.v1";
 
@@ -557,6 +673,23 @@ function fmtDate(s){ var d=parseD(s); if(!d) return "—";
 function dayName(s){ var d=parseD(s); return d?DAYS[d.getDay()]:""; }
 function fmtDT(s){ if(!s) return "—"; var p=String(s).split("T");
   return dayName(p[0])+" "+fmtDate(p[0])+(p[1]?" — الساعة "+p[1]:""); }
+/* أيام العمل: تتخطى الجمعة والسبت */
+function addWorkDays(fromISO,n){
+  var d=parseD(fromISO)||today(), added=0, guard=0;
+  n=Math.max(0,Number(n)||0);
+  while(added<n&&guard++<400){ d.setDate(d.getDate()+1); if(!WEEKEND[d.getDay()]) added++; }
+  return iso(d);
+}
+function workDaysLeft(toISO){
+  var t=parseD(toISO); if(!t) return null;
+  var d=today(), n=0, guard=0;
+  if(t<d){ var x=new Date(t);
+    while(x<d&&guard++<400){ x.setDate(x.getDate()+1); if(!WEEKEND[x.getDay()]) n--; }
+    return n; }
+  var y=new Date(d);
+  while(y<t&&guard++<400){ y.setDate(y.getDate()+1); if(!WEEKEND[y.getDay()]) n++; }
+  return n;
+}
 function diffDays(s){ var d=parseD(s); if(!d) return null;
   return Math.round((d-today())/86400000); }
 function hijri(d){
@@ -576,7 +709,7 @@ function waPhone(raw){
 }
 
 /* ============ store (shared db, local fallback) ============ */
-var DB=null, MODE="loading";
+var DB=null, MODE="loading", MODE_FB=false, MODE_ERR="";
 var S={staff:{},projects:{},notes:{},reviews:{},logs:{},orders:{},briefs:{},meta:{}};
 var AUDIT={};
 var ASSETS=null;
@@ -685,12 +818,32 @@ function loadScript(src){
   });
 }
 var FBV="10.12.2";
+var LS_FB="mirqab.fb.v1";
+/* إعدادات الاتصال: من ملف الإعداد، أو محفوظة على هذا الجهاز (لا تُنشر في المستودع) */
+function fbCfg(){
+  var c=window.MIRQAB_FB;
+  if(c&&c.apiKey) return c;
+  try{ var raw=localStorage.getItem(LS_FB); if(raw){ var o=JSON.parse(raw);
+    if(o&&o.apiKey) return o; } }catch(e){}
+  return null;
+}
+function saveFbCfg(o){ try{ localStorage.setItem(LS_FB,JSON.stringify(o)); }catch(e){} }
+function clearFbCfg(){ try{ localStorage.removeItem(LS_FB); }catch(e){} }
 async function initFirebase(cfg){
-  if(window.firebase&&window.firebase.apps&&window.firebase.apps.length) return true;
-  await loadScript("https://www.gstatic.com/firebasejs/"+FBV+"/firebase-app-compat.js");
-  await loadScript("https://www.gstatic.com/firebasejs/"+FBV+"/firebase-firestore-compat.js");
-  try{ await loadScript("https://www.gstatic.com/firebasejs/"+FBV+"/firebase-storage-compat.js"); }catch(e){}
-  window.firebase.initializeApp(cfg);
+  if(!(window.firebase&&window.firebase.apps&&window.firebase.apps.length)){
+    await loadScript("https://www.gstatic.com/firebasejs/"+FBV+"/firebase-app-compat.js");
+    await loadScript("https://www.gstatic.com/firebasejs/"+FBV+"/firebase-auth-compat.js");
+    await loadScript("https://www.gstatic.com/firebasejs/"+FBV+"/firebase-firestore-compat.js");
+    try{ await loadScript("https://www.gstatic.com/firebasejs/"+FBV+"/firebase-storage-compat.js"); }catch(e){}
+    window.firebase.initializeApp(cfg);
+  }
+  /* قواعد الحماية تشترط تسجيل دخول — دخول مجهول تلقائي لكل جهاز */
+  await new Promise(function(res,rej){
+    var auth=window.firebase.auth();
+    var off=auth.onAuthStateChanged(function(u){ if(u){ off(); res(u); } });
+    auth.signInAnonymously().catch(function(e){ off(); rej(e); });
+    setTimeout(function(){ off(); rej(new Error("auth timeout")); },20000);
+  });
   return true;
 }
 function fbAssets(){
@@ -710,16 +863,19 @@ function fbAssets(){
   };
 }
 async function initStore(){
-  var cfg=window.MIRQAB_FB||null;
+  var cfg=fbCfg();
   if(cfg&&cfg.apiKey){
     try{
       await initFirebase(cfg);
-      DB=window.firebase.firestore(); MODE="shared";
+      DB=window.firebase.firestore(); MODE="shared"; MODE_FB=true;
       subs=[watch("staff"),watch("projects"),watch("notes"),watch("reviews"),
             watch("logs"),watch("orders"),watch("briefs"),watch("meta")];
       ASSETS=fbAssets();
       render(); return;
-    }catch(e){ toast("تعذّر الاتصال بقاعدة البيانات — سيعمل البرنامج محلياً",true); }
+    }catch(e){
+      MODE_ERR=(e&&e.code)||(e&&e.message)||"خطأ";
+      toast("تعذّر الاتصال بقاعدة البيانات المشتركة — سيعمل البرنامج محلياً",true);
+    }
   }
   var db=null;
   try{ db = window.claude && window.claude.use ? await window.claude.use("db") : null; }catch(e){ db=null; }
@@ -745,6 +901,13 @@ function canManageStaff(){
   var m=me(); if(!m) return false;
   if(m.role==="root") return true;
   return m.role==="manager" && !!(m.perms&&m.perms.staff);
+}
+/* صلاحية إضافة المشاريع وتعديلها: المسؤول الرئيسي والمهندس المسؤول دائماً،
+   والموظف إذا منحه المسؤول الرئيسي هذه الصلاحية (مثل م. آسر) */
+function canAddProject(){
+  var m=me(); if(!m) return false;
+  if(m.role==="root"||m.role==="manager") return true;
+  return !!(m.perms&&m.perms.projects);
 }
 function canEditStaff(s){
   if(isRoot()) return true;
@@ -777,8 +940,10 @@ function rosterVisible(){ return canManageStaff(); }
 function pickPeople(p){
   if(rosterVisible()) return staffList();
   var seen={}, out=[];
-  function add(id){ if(id&&!seen[id]&&S.staff[id]){ seen[id]=1; out.push(S.staff[id]); } }
+  function add(id){ if(id&&!seen[id]&&S.staff[id]&&!isContact(S.staff[id])){ seen[id]=1; out.push(S.staff[id]); } }
   add(meId);
+  /* من يملك صلاحية إضافة المشاريع يرى الرسامين فقط ليوزّع عليهم — بلا بقية المهندسين */
+  if(canAddProject()) for(var k in S.staff) if(isDraftsman(S.staff[k])) add(k);
   if(p){
     add(p.assigneeId); add(p.managerId);
     (p.team||[]).forEach(function(t){ add(t.staffId); });
@@ -816,14 +981,180 @@ function setMe(id){
   meId=id; try{localStorage.setItem(LS_ID,id);}catch(e){}
   var s=S.staff[id];
   if(!s||s.role!=="root"){ ROOT_UNLOCKED=false; ADMIN_OPEN=false; }
+  if(id){ UNLOCKED=true; markActive(true); }
   closeModal(); render();
+}
+
+/* ============ الدخول بالرقم السري + القفل التلقائي بعد 10 دقائق ============ */
+var IDLE_MS=10*60*1000, LS_ACT="mirqab.act.v1";
+var UNLOCKED=false, LAST_ACT=0, IDLE_WARNED=false, FAILS=0, FAIL_UNTIL=0, LOCK=null, LOCK_MSG="";
+try{
+  var _t=Number(localStorage.getItem(LS_ACT))||0;
+  if(meId && _t && Date.now()-_t<IDLE_MS){ UNLOCKED=true; LAST_ACT=_t; }
+}catch(e){}
+var _actSaved=0;
+function markActive(force){
+  if(!UNLOCKED) return;
+  var n=Date.now(); LAST_ACT=n; IDLE_WARNED=false;
+  if(force||n-_actSaved>15000){ _actSaved=n; try{localStorage.setItem(LS_ACT,String(n));}catch(e){} }
+}
+["pointerdown","keydown","wheel","touchstart","scroll"].forEach(function(ev){
+  window.addEventListener(ev,function(){ markActive(); },{passive:true,capture:true}); });
+var _mv=0;
+window.addEventListener("mousemove",function(){ var n=Date.now(); if(n-_mv>4000){ _mv=n; markActive(); } },{passive:true});
+function idleCheck(){
+  if(!UNLOCKED) return;
+  var idle=Date.now()-LAST_ACT;
+  if(idle>=IDLE_MS) return lockNow(true);
+  if(idle>=IDLE_MS-30000 && !IDLE_WARNED){ IDLE_WARNED=true;
+    toast("سيُقفل النظام خلال 30 ثانية لعدم النشاط — حرّك الفأرة للاستمرار"); }
+}
+setInterval(idleCheck,5000);
+document.addEventListener("visibilitychange",function(){ if(!document.hidden) idleCheck(); });
+
+function lockNow(idle){
+  UNLOCKED=false; ROOT_UNLOCKED=false; ADMIN_OPEN=false;
+  try{ localStorage.removeItem(LS_ACT); }catch(e){}
+  closeModal();
+  LOCK_MSG = idle ? "أُقفل النظام تلقائياً بعد 10 دقائق من عدم النشاط" : "تم قفل البرنامج";
+  render();
+}
+function lockBuild(){
+  if(LOCK) return LOCK;
+  var input=el("input",{type:"password",id:"lockCode",maxlength:"24",placeholder:"••••••",
+    autocomplete:"off",autocapitalize:"off",spellcheck:"false","aria-label":"الرقم السري"});
+  var eye=el("button",{class:"eye",type:"button",title:"إظهار / إخفاء الرمز","aria-label":"إظهار الرمز",text:"👁",
+    onclick:function(){ input.type=input.type==="password"?"text":"password"; input.focus(); }});
+  var err=el("div",{class:"lock-err",role:"alert"});
+  var msg=el("span",{class:"lock-msg"});
+  var dateP=el("p",{class:"l-date"});
+  var root=el("div",{class:"lock",id:"lock"},[
+    el("div",{class:"lock-bg"}), el("div",{class:"lock-veil"}),
+    el("div",{class:"lock-stage"},[
+      el("div",{class:"lock-halo",onclick:function(){ lockEnter(); }},[el("div",{class:"lock-logo",role:"img","aria-label":OFFICE})]),
+      el("div",{class:"lock-intro"},[
+        msg,
+        el("h1",{text:OFFICE}),
+        el("p",{class:"l-sub",text:"إدارة مشاريع المكتب — أعمال مشاريع الهندسة المعمارية"}),
+        dateP,
+        el("button",{class:"btn primary",type:"button",onclick:function(){ lockEnter(); }},
+          [el("span",{text:"🔒"}),el("span",{text:"الدخول بالرقم السري"})])
+      ])
+    ]),
+    el("form",{class:"lock-card",autocomplete:"off",onsubmit:function(e){ e.preventDefault(); lockSubmit(); }},[
+      el("h2",{text:"الدخول بالرقم السري"}),
+      el("p",{text:"أدخل رمزك الخاص ليفتح البرنامج على صفحتك ومشاريعك ومهامك حسب صلاحياتك."}),
+      el("div",{class:"lock-in"},[input,eye]),
+      err,
+      el("button",{class:"btn primary",type:"submit",text:"دخول"}),
+      el("div",{class:"l-foot"},[
+        el("button",{class:"btn ghost sm",type:"button",text:"رجوع",onclick:function(){ lockIntro(); }}),
+        el("span",{text:"يُقفل تلقائياً بعد 10 دقائق من عدم النشاط"})
+      ])
+    ])
+  ]);
+  root.addEventListener("keydown",function(e){
+    if(e.key==="Escape") lockIntro();
+  });
+  document.addEventListener("keydown",function(e){
+    if(!LOCK||UNLOCKED||LOCK.root.classList.contains("entering")) return;
+    if(e.key==="Enter"||(e.key&&e.key.length===1&&!e.ctrlKey&&!e.metaKey&&!e.altKey)) lockEnter();
+  });
+  input.addEventListener("input",function(){ err.textContent=""; });
+  LOCK={root:root,input:input,err:err,msg:msg,dateP:dateP};
+  document.body.appendChild(root);
+  return LOCK;
+}
+function showLock(){
+  var L=lockBuild(), t=today();
+  L.dateP.textContent=DAYS[t.getDay()]+" "+t.getDate()+" "+MONTHS[t.getMonth()]+" "+t.getFullYear()+" · "+hijri(t);
+  L.msg.textContent=LOCK_MSG?"🔒 "+LOCK_MSG:"";
+  L.msg.style.display=LOCK_MSG?"":"none";
+  document.body.classList.remove("wm");
+  if(L.root.classList.contains("gone")||L.root.classList.contains("leaving")){
+    L.root.classList.remove("gone","leaving","entering");
+    L.input.value=""; L.err.textContent="";
+  }
+}
+function hideLock(){
+  document.body.classList.add("wm");
+  if(!LOCK||LOCK.root.classList.contains("gone")) return;
+  var r=LOCK.root;
+  r.classList.add("leaving");
+  LOCK.input.value=""; LOCK.input.blur(); LOCK_MSG="";
+  setTimeout(function(){ if(UNLOCKED) r.classList.add("gone"); },900);
+}
+function lockEnter(){
+  var L=lockBuild(); L.root.classList.add("entering");
+  setTimeout(function(){ try{ L.input.focus(); }catch(e){} },80);
+}
+function lockIntro(){
+  if(!LOCK) return;
+  LOCK.root.classList.remove("entering"); LOCK.input.value=""; LOCK.err.textContent=""; LOCK.input.blur();
+}
+function lockErr(t){
+  if(!LOCK) return;
+  LOCK.err.textContent=t;
+  LOCK.root.classList.remove("shake"); void LOCK.root.offsetWidth; LOCK.root.classList.add("shake");
+  LOCK.input.select();
+}
+function lockSubmit(){
+  var v=String(LOCK.input.value||"").trim();
+  if(!v) return lockErr("أدخل الرقم السري");
+  if(MODE==="loading") return lockErr("جارٍ الاتصال بقاعدة البيانات — حاول بعد لحظة");
+  if(Date.now()<FAIL_UNTIL) return lockErr("محاولات كثيرة — انتظر "+Math.ceil((FAIL_UNTIL-Date.now())/1000)+" ثانية");
+  var all=[]; for(var k in S.staff) if(!isContact(S.staff[k])) all.push(S.staff[k]);
+  var hit=all.filter(function(x){ return x.pin && String(x.pin).trim()===v; });
+  if(!hit.length){
+    /* تشغيل أول: إن لم يُحدَّد رمز للمسؤول الرئيسي بعد يُقبل الرقم السري للنظام الرئيسي */
+    var roots=all.filter(function(x){ return x.role==="root"; });
+    if(v===ROOT_CODE && roots.length && !roots.some(function(x){ return x.pin&&String(x.pin).trim(); })) hit=[roots[0]];
+  }
+  if(hit.length>1) return lockErr("هذا الرمز مسجّل لأكثر من حساب — راجع المدير المسؤول");
+  if(!hit.length){
+    FAILS++;
+    if(FAILS>=5){ FAILS=0; FAIL_UNTIL=Date.now()+30000; return lockErr("5 محاولات خاطئة — انتظر 30 ثانية"); }
+    return lockErr("الرقم السري غير صحيح");
+  }
+  FAILS=0;
+  var who=hit[0];
+  meId=who.id; try{ localStorage.setItem(LS_ID,who.id); }catch(e){}
+  ROOT_UNLOCKED=false; ADMIN_OPEN=false;
+  UNLOCKED=true; markActive(true);
+  V.tab = who.role==="staff" ? "desk" : "projects";
+  render();
+  toast("أهلاً "+who.name);
 }
 
 /* ============ derived ============ */
 function allProjects(){ var a=[]; for(var k in S.projects) a.push(S.projects[k]); return a; }
 function projList(){ return allProjects().filter(canSeeProject); }
+function isContact(s){ return !!s && s.kind==="contact"; }
+function contactList(){
+  var a=[]; for(var k in S.staff) if(isContact(S.staff[k])) a.push(S.staff[k]);
+  a.sort(function(x,y){ return String(x.name||"").localeCompare(String(y.name||""),"ar"); });
+  return a;
+}
+function isDraftsman(s){ return !!s && /رسام/.test(String(s.specialty||"")+" "+String(s.title||"")); }
+/* من يحق لهذا المستخدم إرسال التنبيهات والرسائل إليه */
+function msgScope(){
+  var m=me(); if(!m) return "none";
+  if(m.role==="root") return "all";
+  return (m.perms&&m.perms.msgScope)||"all";
+}
+function canMessage(id){
+  var sc=msgScope(); if(sc==="all") return true;
+  if(sc==="none") return false;
+  if(id===meId) return true;
+  return isDraftsman(S.staff[id]);
+}
+function msgPeople(list){
+  if(msgScope()==="all") return list;
+  return list.filter(function(s){ return canMessage(s.id); });
+}
 function staffList(){
   var a=[]; for(var k in S.staff) a.push(S.staff[k]);
+  a=a.filter(function(s){ return !isContact(s); });
   if(!isRoot()) a=a.filter(function(s){ return s.role!=="root"; });
   var rk={root:0,manager:1,staff:2};
   a.sort(function(x,y){ return ((rk[x.role]||2)-(rk[y.role]||2)) ||
@@ -967,8 +1298,8 @@ function sel(id,val,opts){
 function askWhoAmI(showAll){
   var list=staffList();
   if(!list.length){ return firstSetup(); }
-  var admin = showAll||isRoot();
-  if(!admin && CFG().loginMode==="code") return askOwnCode();
+  var admin = isRoot();
+  if(!admin) return lockNow(false);
   var shown = admin?list:list.filter(function(s){ return s.role!=="root"; });
   var body=[ el("p",{style:"margin:0;font-size:13px;color:var(--ink-2);line-height:1.7",
       text:admin?"اختر الحساب الذي تريد فتح البرنامج به. يُحفظ الاختيار على هذا المتصفح."
@@ -983,7 +1314,8 @@ function askWhoAmI(showAll){
         el("span",{class:"nm",text:s.name}),
         el("span",{class:"ttl",text:roleName(s.role)+" · "+(s.specialty||s.title||"موظف")})
       ]),
-      s.pin?el("span",{class:"pill",text:"محمي برمز"}):null
+      el("span",{class:"pill "+(s.pin?"accent":"pause"),
+        text:s.pin?"🔒 يحتاج رمزاً":"بلا رمز"})
     ]));
   });
   body.push(pl);
@@ -993,12 +1325,14 @@ function askWhoAmI(showAll){
 }
 /* دخول الموظف برمزه الشخصي — لا تظهر له أسماء الآخرين */
 function askOwnCode(){
-  var i=inp("ownCode","",{type:"password",inputmode:"numeric",maxlength:"10",placeholder:"••••"});
+  var i=inp("ownCode","",{type:"password",maxlength:"24",placeholder:"••••••",
+    autocomplete:"off",spellcheck:"false",dir:"ltr"});
+  i.style.direction="ltr"; i.style.textAlign="left";
   function go(){
     var v=i.value.trim();
     if(!v) return toast("أدخل رمز الدخول",true);
     var all=[]; for(var k in S.staff) all.push(S.staff[k]);
-    var hit=all.filter(function(s){ return s.pin&&String(s.pin)===v; });
+    var hit=all.filter(function(s){ return s.pin&&String(s.pin).trim()===v; });
     if(hit.length===1){ setMe(hit[0].id); toast("أهلاً "+hit[0].name); return; }
     if(hit.length>1){ toast("هذا الرمز مكرر — راجع المدير المسؤول",true); return; }
     toast("الرمز غير صحيح",true);
@@ -1023,6 +1357,74 @@ function rootLogin(){
 function adminGate(){
   requireRootCode("الدخول بالرقم السري",adminPanelRoot);
 }
+/* ===== ربط هذا الجهاز بقاعدة البيانات المشتركة ===== */
+function parseCfgText(t){
+  t=String(t||"").trim();
+  if(!t) return null;
+  /* رمز ربط مضغوط (Base64) */
+  if(/^[A-Za-z0-9+/=]+$/.test(t)&&t.length>60){
+    try{ var d=decodeURIComponent(escape(atob(t))); var o=JSON.parse(d);
+      if(o&&o.apiKey) return o; }catch(e){}
+  }
+  try{ var j=JSON.parse(t); if(j&&j.apiKey) return j; }catch(e){}
+  /* نص firebaseConfig كما يُنسخ من Firebase */
+  var out={}, keys=["apiKey","authDomain","projectId","storageBucket",
+    "messagingSenderId","appId","measurementId"];
+  keys.forEach(function(k){
+    var m=t.match(new RegExp(k+"\\s*:\\s*[\"']([^\"']+)[\"']"));
+    if(m) out[k]=m[1];
+  });
+  return out.apiKey?out:null;
+}
+function cfgCode(o){
+  try{ return btoa(unescape(encodeURIComponent(JSON.stringify(o)))); }catch(e){ return ""; }
+}
+function dbSetup(){
+  var cur=fbCfg();
+  var ta=el("textarea",{id:"fbPaste",style:"min-height:140px;direction:ltr;text-align:left;font-family:var(--f-num);font-size:12px",
+    placeholder:'الصق هنا رمز الربط، أو نص firebaseConfig كاملاً…'});
+  var info=el("div",{class:"hint"});
+  function show(){
+    info.innerHTML="";
+    if(cur) info.appendChild(el("span",{
+      text:"هذا الجهاز مرتبط بالمشروع: "+(cur.projectId||"—")}));
+    else info.appendChild(el("span",{text:"هذا الجهاز غير مرتبط — يعمل محلياً."}));
+  }
+  show();
+  openModal(modal("ربط قاعدة البيانات المشتركة",[
+    el("div",{class:"msgbox",style:"border-style:solid"},[
+      el("div",{style:"font-size:13px;line-height:1.9",
+        text:"لتعمل المشاركة بين الموظفين، يُربط كل جهاز مرة واحدة برمز الربط. "+
+          "لا يُحفظ الرمز داخل كود البرنامج حتى لا يظهر لأحد خارج المكتب — يُحفظ على هذا الجهاز فقط."})
+    ]),
+    info,
+    el("div",{class:"field full"},[el("label",{text:"رمز الربط"}),ta]),
+    cur?el("div",{class:"field full"},[
+      el("label",{text:"رمز هذا المكتب — أرسله لأجهزة الفريق"}),
+      el("div",{class:"msgbox",style:"direction:ltr;text-align:left;font-size:11px",text:cfgCode(cur)}),
+      el("button",{class:"btn sm",style:"align-self:flex-start",text:"نسخ رمز الربط",onclick:function(){
+        var t=cfgCode(cur);
+        if(navigator.clipboard&&navigator.clipboard.writeText)
+          navigator.clipboard.writeText(t).then(function(){toast("نُسخ رمز الربط");},
+            function(){toast("انسخه يدوياً",true);});
+        else toast("انسخه يدوياً",true); }})
+    ]):null
+  ],[
+    el("button",{class:"btn primary",text:"ربط هذا الجهاز",onclick:function(){
+      var o=parseCfgText(ta.value);
+      if(!o) return toast("الرمز غير صالح — الصق رمز الربط أو نص firebaseConfig",true);
+      saveFbCfg(o);
+      closeModal();
+      toast("تم الربط — جارٍ إعادة التشغيل…");
+      setTimeout(function(){ location.reload(); },700);
+    }}),
+    cur?el("button",{class:"btn danger",text:"فصل هذا الجهاز",onclick:function(){
+      clearFbCfg(); closeModal(); toast("فُصل الجهاز");
+      setTimeout(function(){ location.reload(); },700); }}):null,
+    el("button",{class:"btn",text:"إغلاق",onclick:closeModal})
+  ]));
+}
+
 /* ===== ربط الموظفين بالموقع: رابط البرنامج وطريقة الدخول ===== */
 function linkSettings(){
   var c=CFG();
@@ -1108,6 +1510,7 @@ function adminPanelRoot(){
       el("b",{text:"ربط الفريق بالموقع"}),
       el("span",{class:"hint",text:"رابط البرنامج وطريقة دخول الموظفين — التحديث بينهم يتم مباشرة عبر الموقع."}),
       el("div",{style:"display:flex;gap:7px;flex-wrap:wrap"},[
+        el("button",{class:"btn",text:"ربط قاعدة البيانات",onclick:function(){closeModal();dbSetup();}}),
         el("button",{class:"btn",text:"إعدادات الربط والرابط",onclick:function(){closeModal();linkSettings();}}),
         el("button",{class:"btn ghost",text:"إرسال الروابط للفريق",onclick:function(){
           closeModal(); V.tab="staff"; render(); }})
@@ -1160,35 +1563,57 @@ function tryPick(s){
       askPin(s);
     });
   }
-  if(!s.pin) return setMe(s.id);
   askPin(s);
 }
+/* كل موظف يفتح صفحته الخاصة برمزه — الرمز يحدده المدير */
 function askPin(s){
-  var i=inp("pinIn","",{type:"password",inputmode:"numeric",maxlength:"8",placeholder:"••••"});
+  var has=!!(s.pin&&String(s.pin).trim());
+  var i=inp("pinIn","",{type:"password",maxlength:"24",placeholder:"••••••",
+    autocomplete:"off",spellcheck:"false",dir:"ltr"});
+  i.style.direction="ltr"; i.style.textAlign="left";
+  function go(){
+    if(!has) return;
+    if(i.value.trim()===String(s.pin).trim()){ setMe(s.id); toast("أهلاً "+s.name); }
+    else toast("الرمز السري غير صحيح",true);
+  }
+  i.addEventListener("keydown",function(e){ if(e.key==="Enter") go(); });
   openModal(modal("رمز الدخول — "+s.name,[
-    field("أدخل الرمز الذي حدده المسؤول",i)
+    el("div",{style:"display:flex;gap:10px;align-items:center"},[
+      el("span",{class:"av"+(s.role!=="staff"?" mgr":""),text:initials(s.name)}),
+      el("span",{style:"flex:1"},[
+        el("b",{style:"display:block;font-size:14px",text:s.name}),
+        el("small",{style:"color:var(--ink-3);font-size:12px",
+          text:roleName(s.role)+(s.specialty?" · "+s.specialty:"")})])
+    ]),
+    has?field("أدخل رمزك السري لفتح صفحتك",i,"الرمز خاص بك ويحدده المدير المسؤول"):
+      el("div",{class:"msgbox",style:"border-style:solid;color:var(--crit)"},[
+        el("div",{style:"font-size:13px;line-height:1.8",
+          text:"لم يُحدَّد رمز سري لهذا الحساب بعد — راجع المدير المسؤول ليحدّد لك رمزاً."})])
   ],[
-    el("button",{class:"btn primary",text:"دخول",onclick:function(){
-      if(i.value===String(s.pin)) setMe(s.id); else toast("الرمز غير صحيح",true);
-    }}),
-    el("button",{class:"btn",text:"رجوع",onclick:askWhoAmI})
+    has?el("button",{class:"btn primary",text:"دخول",onclick:go}):null,
+    el("button",{class:"btn",text:"رجوع",onclick:function(){askWhoAmI();}}),
+    el("button",{class:"btn ghost",style:"margin-inline-start:auto",text:"🔑 دخول بالرقم السري",
+      onclick:adminGate})
   ]));
 }
 function firstSetup(){
   var n=inp("suName","",{placeholder:"مثال: أحمد بكر بكران"});
   var t=inp("suTitle","",{placeholder:"مثال: مهندس معماري / مدير المشاريع"});
   var ph=inp("suPhone","",{placeholder:"05xxxxxxxx",inputmode:"tel",dir:"ltr"});
+  var pn=inp("suPin","",{placeholder:"حروف وأرقام",maxlength:"24",autocomplete:"off",spellcheck:"false",dir:"ltr"});
   openModal(modal("ابدأ التشغيل",[
     el("p",{style:"margin:0;font-size:13px;color:var(--ink-2);line-height:1.75",
       text:"سجّل نفسك كمسؤول أول. بعدها تضيف الموظفين وأرقامهم، وتوزّع عليهم المشاريع وتواريخ التسليم."}),
-    el("div",{class:"f-grid"},[ field("الاسم",n,null,true), field("المسمى الوظيفي",t), field("رقم الجوال",ph,"يُستخدم للتذكير عبر واتساب") ])
+    el("div",{class:"f-grid"},[ field("الاسم",n,null,true), field("المسمى الوظيفي",t), field("رقم الجوال",ph,"يُستخدم للتذكير عبر واتساب"),
+      field("الرقم السري للدخول",pn,"به تدخل البرنامج من صفحة البداية") ])
   ],[
     el("button",{class:"btn primary",text:"إنشاء حساب المسؤول",onclick:function(){
       if(!n.value.trim()) return toast("اكتب الاسم أولاً",true);
+      if(!pn.value.trim()) return toast("حدّد رقمك السري للدخول",true);
       var id=uid();
       meId=id;
       put("staff",id,{name:n.value.trim(),title:t.value.trim()||"مدير المشاريع",phone:ph.value.trim(),
-        specialty:SPECIALTIES[0],role:"root",perms:{staff:true},pin:"",
+        specialty:SPECIALTIES[0],role:"root",perms:{staff:true},pin:pn.value.trim(),
         createdAt:Date.now()}).then(function(){ setMe(id); });
     }})
   ]));
@@ -1210,7 +1635,9 @@ function staffFormOpen(s){
   if(isRoot()) rOpts.push({v:"root",t:"مسؤول رئيسي"});
   var r=sel("stRole",s?s.role:"staff",rOpts);
   if(!isRoot()) r.disabled=true;
-  var pin=inp("stPin",s?s.pin:"",{placeholder:"اختياري",inputmode:"numeric",maxlength:"8"});
+  var pin=inp("stPin",s?s.pin:"",{placeholder:"حروف وأرقام — مثال: Ab2026",maxlength:"24",
+    autocomplete:"off",spellcheck:"false",dir:"ltr"});
+  pin.style.direction="ltr"; pin.style.textAlign="left";
   var pStaff=el("input",{id:"stPermStaff",type:"checkbox"});
   pStaff.checked=!!(s&&s.perms&&s.perms.staff);
   var permField=el("div",{class:"field full"},[
@@ -1219,29 +1646,64 @@ function staffFormOpen(s){
       [pStaff,el("span",{text:"السماح له بإضافة وتعديل الموظفين — الرسام والمهندس المساعد وغيرهم"})]),
     el("span",{class:"hint",text:"تُمنح للمهندس المسؤول فقط، ولا تشمل تغيير الصلاحيات"})
   ]);
-  function syncPerm(){ permField.style.display=(isRoot()&&r.value==="manager")?"":"none"; }
+  var pProj=el("input",{id:"stPermProj",type:"checkbox"});
+  pProj.checked=!!(s&&s.perms&&s.perms.projects);
+  var projField=el("div",{class:"field full"},[
+    el("label",{text:"صلاحية المشاريع (بأمر من المسؤول الرئيسي)"}),
+    el("label",{style:"display:flex;gap:8px;align-items:center;cursor:pointer;font-size:13px"},
+      [pProj,el("span",{text:"السماح له بإضافة المشاريع وتعديلها وطباعة أعماله وإرسال الرسائل"})]),
+    el("span",{class:"hint",text:"لا تشمل التحكم ببقية الموظفين ولا إظهار أسمائهم وأرقامهم"})
+  ]);
+  var kd=sel("stKind",s?(s.kind||"staff"):"staff",KINDS);
+  if(!isRoot()) kd.disabled=true;
+  var sc=sel("stScope",s?((s.perms&&s.perms.msgScope)||"all"):"all",MSG_SCOPES);
+  if(!isRoot()) sc.disabled=true;
+  var scField=el("div",{class:"field"},[el("label",{text:"يرسل التنبيهات والرسائل إلى"}),sc,
+    el("span",{class:"hint",text:"مثال: المهندس المعماري يرسل للرسامين فقط"})]);
+  var staffOnly=[];
+  function syncPerm(){
+    var contact=kd.value==="contact";
+    permField.style.display=(isRoot()&&r.value==="manager"&&!contact)?"":"none";
+    projField.style.display=(isRoot()&&r.value==="staff"&&!contact)?"":"none";
+    scField.style.display=(isRoot()&&!contact)?"":"none";
+    staffOnly.forEach(function(n){ if(n) n.style.display=contact?"none":""; });
+  }
   r.addEventListener("change",syncPerm);
-  openModal(modal(isNew?"إضافة موظف":"تعديل بيانات "+s.name,[
+  kd.addEventListener("change",syncPerm);
+  var fSpec=field("التخصص",sp,"يحدّد نوع الأعمال التي تُسند إليه");
+  var fRole=field("الصلاحية",r,isRoot()?"المسؤول الرئيسي وحده من يمنح صلاحية «مهندس مسؤول»":
+    "تحديد المسؤولين من صلاحية المسؤول الرئيسي فقط");
+  var fPin=field("الرمز السري للموظف",pin,"يُطلب عند اختيار اسمه لفتح صفحته — حروف وأرقام");
+  staffOnly=[fSpec,fRole,fPin];
+  openModal(modal(isNew?"إضافة عضو للفريق":"تعديل بيانات "+s.name,[
     el("div",{class:"f-grid"},[
+      el("div",{class:"field full"},[el("label",{text:"نوع العضو"}),kd,
+        el("span",{class:"hint",text:"«مدير» لا يدخل البرنامج — يستقبل آخر مستجدات المشاريع برسالة فقط"})]),
       field("الاسم",n,null,true),
       field("المسمى الوظيفي",t),
-      field("التخصص",sp,"يحدّد نوع الأعمال التي تُسند إليه"),
+      fSpec,
       field("رقم الجوال",ph,"بصيغة 05xxxxxxxx أو 9665xxxxxxxx"),
-      field("الصلاحية",r,isRoot()?"المسؤول الرئيسي وحده من يمنح صلاحية «مهندس مسؤول»":
-        "تحديد المسؤولين من صلاحية المسؤول الرئيسي فقط"),
-      field("رمز دخول",pin,"يُطلب عند اختيار هذا الاسم"),
-      permField
+      fRole, fPin, scField, permField, projField
     ])
   ],[
     el("button",{class:"btn primary",id:"stSave",text:isNew?"إضافة":"حفظ",onclick:function(){
       if(!n.value.trim()) return toast("اكتب الاسم أولاً",true);
       var id=isNew?uid():s.id;
       var newRole = isRoot()? r.value : (s?s.role:"staff");
-      var perms = isRoot()? {staff:(newRole==="manager"&&pStaff.checked)}
-                          : ((s&&s.perms)||{staff:false});
-      var body={name:n.value.trim(),title:t.value.trim(),specialty:sp.value,
-        phone:ph.value.trim(),role:newRole,perms:perms,
-        pin:pin.value.trim(),createdAt:s?s.createdAt:Date.now()};
+      var kind=isRoot()?kd.value:((s&&s.kind)||"staff");
+      var perms = isRoot()? {staff:(newRole==="manager"&&pStaff.checked&&kind!=="contact"),
+                             projects:(newRole==="staff"&&pProj.checked&&kind!=="contact"),
+                             msgScope:(kind==="contact"?"none":sc.value)}
+                          : ((s&&s.perms)||{staff:false,projects:false,msgScope:"all"});
+      var pv=kind==="contact"?"":pin.value.trim();
+      if(pv){ for(var k2 in S.staff){ var o2=S.staff[k2];
+        if(k2!==id && o2 && o2.pin && String(o2.pin).trim()===pv)
+          return toast("هذا الرقم السري مستخدم لحساب آخر — اختر رقماً مختلفاً",true); } }
+      var body={name:n.value.trim(),title:t.value.trim(),
+        specialty:kind==="contact"?"":sp.value,
+        phone:ph.value.trim(),role:kind==="contact"?"staff":newRole,
+        kind:kind,perms:perms,
+        pin:kind==="contact"?"":pin.value.trim(),createdAt:s?s.createdAt:Date.now()};
       put("staff",id,body);
       closeModal(); toast(isNew?"تمت إضافة "+body.name:"تم حفظ التعديل");
     }}),
@@ -1651,6 +2113,11 @@ function taskMsg(p,t,kind,note){
 }
 function sendTaskMsg(toId,text,title){
   var s=S.staff[toId], phone=waPhone(s&&s.phone);
+  if(!canMessage(toId)){
+    toast("صلاحيتك في الإرسال محصورة بـ"+
+      (msgScope()==="draftsmen"?"الرسامين":"لا أحد")+" — راجع المدير المسؤول",true);
+    return;
+  }
   openModal(modal(title||"إرسال إشعار",[
     el("div",{style:"display:flex;gap:10px;align-items:center"},[
       el("span",{class:"av",text:initials(personName(toId))}),
@@ -1807,6 +2274,14 @@ async function buildProjectFiles(p){
         ["عدد الأدوار المطلوبة",bf.floorsWanted||"—"],
         ["عدد الأدوار المسموح به",bf.floorsAllowed||"—"],
         ["ملف الأوتوكاد",bf.cadName||"—"]]);
+    var bfc=briefClock(bf);
+    if(bfc) bb+=wPar("المدة المحددة للتسليم",{bold:true,size:24,space:220})+
+      wTable([["البند","القيمة"],
+        ["تاريخ إرسال المتطلبات",bf.sentAt?fmtDate(bf.sentAt):"—"],
+        ["مدة تقديم الفكرة المبدئية",(bf.ideaDays||DEF_IDEA_DAYS)+" أيام عمل"],
+        ["موعد تقديم الفكرة",bfc.due?(dayName(bfc.due)+" "+fmtDate(bfc.due)):"—"],
+        ["مدة التعديل بعد الملاحظات",(bf.reviseDays||DEF_REVISE_DAYS)+" يوم عمل"],
+        ["الحالة",bfc.label]]);
     if(pk.length) bb+=wPar("متطلبات العميل",{bold:true,size:24,space:220})+
       pk.map(function(x){ return wPar("• "+x,{size:21}); }).join("");
     bb+=wTable([["البند","القيمة"],
@@ -2362,6 +2837,40 @@ function ReviewsView(){
   return wrap;
 }
 
+/* تذكير المهندس عند تأخر تقديم الفكرة المبدئية */
+var briefRun=false;
+function checkBriefDue(){
+  if(briefRun||!isBoss()) return;
+  var due=briefsLate().filter(function(b){ return b.assignedTo&&!b.lateAlerted; });
+  if(!due.length) return;
+  briefRun=true;
+  due.forEach(function(b){
+    var c=briefClock(b), p=b.projectId?S.projects[b.projectId]:null;
+    put("notes",uid(),{projectId:b.projectId||"",kind:"alert",fromId:meId||"",toId:b.assignedTo,
+      text:"تأخر تقديم الفكرة المبدئية"+(p?" لمشروع «"+p.name+"»":"")+
+        (b.clientName?" — العميل "+b.clientName:"")+".\n"+
+        "المدة المحددة: "+(b.ideaDays||DEF_IDEA_DAYS)+" أيام عمل، والموعد كان "+
+        dayName(c.due)+" "+fmtDate(c.due)+" ("+c.label+").\nالرجاء تقديم الفكرة أو إفادتنا بالسبب.",
+      createdAt:Date.now(),readAt:null});
+    patch("briefs",b.id,{lateAlerted:true});
+  });
+  toast("أُرسل تذكير لـ"+due.length+" فكرة تأخر تقديمها");
+}
+function markIdeaDone(b){
+  var d=inp("idDone",iso(today()),{type:"date"});
+  openModal(modal("تسجيل تقديم الفكرة المبدئية",[
+    el("p",{style:"margin:0;font-size:13.5px;line-height:1.85",
+      text:"سجّل تاريخ تقديم الفكرة المبدئية لتُقفل المدة المحددة ويتوقف التذكير."}),
+    field("تاريخ التقديم",d)
+  ],[
+    el("button",{class:"btn primary",text:"تسجيل",onclick:function(){
+      patch("briefs",b.id,{ideaDoneAt:d.value,lateAlerted:true});
+      closeModal(); toast("سُجّل تقديم الفكرة");
+    }}),
+    el("button",{class:"btn",text:"إلغاء",onclick:closeModal})
+  ]));
+}
+
 /* تنبيه تلقائي عند انتهاء المهلة المقدرة */
 var expiryRun=false;
 function checkExpiry(){
@@ -2809,6 +3318,118 @@ function exportTasksXLSX(){
     saveFile("جدول-الأعمال-"+iso(today())+".xlsx",b,"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
   });
 }
+/* ============ إرسال آخر المستجدات للمدراء (رسالة بلا اسم مرسل) ============ */
+function smsLink(phone,body){
+  var d=waPhone(phone);
+  return "sms:"+(d?"+"+d:"")+"?body="+encodeURIComponent(body);
+}
+function updatesForm(p){
+  var cts=contactList();
+  var ty=sel("upType",UPDATE_TYPES[0],UPDATE_TYPES);
+  var tx=el("textarea",{id:"upText",placeholder:"تفاصيل إضافية (اختياري)…",style:"min-height:80px"});
+  var files=[];
+  projLogs(p.id).forEach(function(L){ (L.images||[]).forEach(function(im){
+    files.push({t:"تطورات "+L.date,im:im}); }); });
+  revsFor(p.id).forEach(function(r){ (r.images||[]).forEach(function(im){
+    files.push({t:"ملاحظات "+r.authority,im:im}); }); });
+  var bf=briefFor(p.id);
+  if(bf){ (bf.sketch||[]).forEach(function(im){ files.push({t:"كروكي الأرض",im:im}); });
+    (bf.attachments||[]).forEach(function(im){ files.push({t:"مرفق",im:im}); }); }
+  var picked={};
+  var fBox=el("div",{class:"reqs"});
+  files.forEach(function(f,i){
+    fBox.appendChild(el("button",{class:"req",type:"button",onclick:function(e){
+      picked[i]=!picked[i];
+      e.currentTarget.className="req"+(picked[i]?" on":"");
+      e.currentTarget.firstChild.textContent=picked[i]?"✓":"";
+      refresh();
+    }},[el("span",{class:"box",text:""}),el("span",{text:f.t+" — "+(f.im.name||"مرفق")})]));
+  });
+  if(!files.length) fBox.appendChild(el("span",{class:"hint",text:"لا توجد مرفقات على هذا المشروع."}));
+
+  var who={};
+  var wBox=el("div",{class:"reqs"});
+  cts.forEach(function(c){
+    who[c.id]=true;
+    wBox.appendChild(el("button",{class:"req on",type:"button",onclick:function(e){
+      who[c.id]=!who[c.id];
+      e.currentTarget.className="req"+(who[c.id]?" on":"");
+      e.currentTarget.firstChild.textContent=who[c.id]?"✓":"";
+      draw();
+    }},[el("span",{class:"box",text:"✓"}),
+        el("span",{text:c.name+(c.phone?" — "+c.phone:" — بلا رقم")})]));
+  });
+  if(!cts.length) wBox.appendChild(el("span",{class:"hint",
+    text:"لم يُضف مدراء بعد — أضفهم من «الفريق» بنوع «مدير»."}));
+
+  var box=el("div",{class:"msgbox"});
+  function compose(){
+    var L=["السلام عليكم ورحمة الله",""];
+    L.push(ty.value);
+    L.push("المشروع: "+p.name);
+    if(p.code) L.push("رقم المشروع: "+p.code);
+    if(tx.value.trim()){ L.push(""); L.push(tx.value.trim()); }
+    var att=files.filter(function(f,i){return picked[i];});
+    if(att.length){
+      L.push(""); L.push("المرفقات:");
+      att.forEach(function(f){
+        L.push("• "+f.t+": "+(f.im.url||("/_blob/"+f.im.id))); });
+    }
+    return L.join("\n");
+  }
+  var links=el("div",{style:"display:flex;gap:7px;flex-wrap:wrap"});
+  function draw(){
+    box.textContent=compose();
+    links.innerHTML="";
+    var sel2=cts.filter(function(c){return who[c.id]&&c.phone;});
+    if(!sel2.length){ links.appendChild(el("span",{class:"pill",
+      text:"اختر جهة واحدة على الأقل لها رقم جوال"})); return; }
+    sel2.forEach(function(c){
+      links.appendChild(el("a",{class:"btn primary",style:"text-decoration:none",
+        href:smsLink(c.phone,compose()),text:"رسالة نصية — "+c.name}));
+      links.appendChild(el("a",{class:"btn",style:"text-decoration:none",target:"_blank",rel:"noopener",
+        href:"https://wa.me/"+waPhone(c.phone)+"?text="+encodeURIComponent(compose()),
+        text:"واتساب — "+c.name}));
+    });
+  }
+  function refresh(){ draw(); }
+  ty.addEventListener("change",refresh);
+  tx.addEventListener("input",refresh);
+  refresh();
+
+  openModal(modal("إرسال آخر المستجدات — "+p.name,[
+    el("div",{class:"msgbox",style:"border-style:solid"},[
+      el("div",{style:"font-size:12.5px;color:var(--ink-3);line-height:1.8",
+        text:"الرسالة تُرسل بلا ذكر اسم المرسل ولا اسم المهندس — تبدأ بالسلام ثم عنوان المستجد واسم المشروع."})
+    ]),
+    el("div",{class:"f-grid"},[
+      el("div",{class:"field full"},[el("label",{text:"عنوان المستجد"}),ty]),
+      el("div",{class:"field full"},[el("label",{text:"تفاصيل (اختياري)"}),tx])
+    ]),
+    el("div",{class:"field full"},[el("label",{text:"المرفقات"}),fBox,
+      el("span",{class:"hint",text:"تُدرج روابط المرفقات في نص الرسالة — ولإرسال الملف نفسه أرفقه يدوياً في واتساب."})]),
+    el("div",{class:"field full"},[el("label",{text:"الجهات المستلمة"}),wBox]),
+    el("div",{class:"field full"},[el("label",{text:"نص الرسالة"}),box]),
+    el("div",{class:"field full"},[el("label",{text:"الإرسال"}),links])
+  ],[
+    el("button",{class:"btn",text:"تسجيل الإرسال في السجل",onclick:function(){
+      var names=cts.filter(function(c){return who[c.id];}).map(function(c){return c.name;});
+      put("logs",uid(),{projectId:p.id,date:iso(today()),stage:p.stage,
+        title:"مستجدات أُرسلت: "+ty.value,
+        text:compose()+"\n\nالجهات: "+(names.join("، ")||"—"),
+        images:[],authorId:meId||"",createdAt:Date.now(),updatedAt:Date.now()});
+      closeModal(); toast("سُجّل إرسال المستجدات");
+    }}),
+    el("button",{class:"btn",text:"نسخ النص",onclick:function(){
+      var t=compose();
+      if(navigator.clipboard&&navigator.clipboard.writeText)
+        navigator.clipboard.writeText(t).then(function(){toast("نُسخ النص");},
+          function(){toast("انسخه يدوياً",true);});
+      else toast("انسخه يدوياً",true); }}),
+    el("button",{class:"btn",text:"إغلاق",onclick:closeModal})
+  ]));
+}
+
 /* ============ أوامر خارجية (بدون إضافة مشروع) ============ */
 function orderList(){
   var a=[]; for(var k in S.orders) a.push(S.orders[k]);
@@ -2823,8 +3444,8 @@ function orderList(){
 }
 function orderForm(o){
   var isNew=!o;
-  var people=pickPeople(null);
-  if(!people.length){ toast("أضف الموظفين أولاً",true); return; }
+  var people=msgPeople(pickPeople(null));
+  if(!people.length){ toast("لا يوجد من تملك صلاحية إرسال الأوامر إليه",true); return; }
   var ty=sel("odType",o?o.type:ORDER_TYPES[0],ORDER_TYPES);
   var pr=inp("odRef",o?o.projectRef:"",{placeholder:"اسم المشروع أو رقمه (اختياري)"});
   var ti=inp("odTitle",o?o.title:"",{placeholder:"وصف الأمر — مثال: طباعة ٣ نسخ من المخططات المعتمدة"});
@@ -2993,8 +3614,32 @@ function briefList(){
   return a;
 }
 function briefFor(pid){ return briefList().filter(function(b){return b.projectId===pid;})[0]||null; }
+/* المدة المحددة لتقديم الفكرة المبدئية والتعديل */
+function briefClock(b){
+  if(!b||!b.showTerms) return null;
+  var days=Number(b.ideaDays)||DEF_IDEA_DAYS;
+  if(!b.sentAt) return {state:"wait",cls:"pause",label:"لم تُرسل للمهندس بعد",days:days};
+  var due=b.ideaDue||addWorkDays(b.sentAt,days);
+  if(b.ideaDoneAt){
+    var lateDone=parseD(b.ideaDoneAt)>parseD(due);
+    return {state:"done",cls:lateDone?"work":"done",due:due,days:days,
+      label:"قُدّمت الفكرة "+fmtDate(b.ideaDoneAt)+(lateDone?" — بعد الموعد":" — في وقتها")};
+  }
+  var left=workDaysLeft(due);
+  var cls = left<0?"late":(left<=1?"work":"done");
+  var label = left<0 ? "تأخر التقديم "+Math.abs(left)+" يوم عمل"
+    : left===0 ? "اليوم آخر موعد لتقديم الفكرة"
+    : "متبقٍ "+left+" يوم عمل من "+days;
+  return {state:left<0?"late":"open",cls:cls,due:due,left:left,days:days,label:label};
+}
+function briefsLate(){
+  return briefList().filter(function(b){
+    var c=briefClock(b); return c&&c.state==="late"; });
+}
 function blankBrief(){
   return {projectId:"",clientName:"",clientPhone:"",landArea:"",buildRatio:"",
+    showTerms:true,ideaDays:DEF_IDEA_DAYS,reviseDays:DEF_REVISE_DAYS,
+    sentAt:"",ideaDue:"",assignedTo:"",ideaDoneAt:"",lateAlerted:false,
     floorsWanted:"",floorsAllowed:"",streetWidth:"",sketch:[],cadName:"",attachments:[],
     picks:{},boysRooms:"",boysBath:BATHOPT[0],distribution:DISTOPT[0],vertical:VERTOPT[0],
     entrance:ENTOPT[0],extra:"",condExtra:"",
@@ -3097,6 +3742,29 @@ function briefForm(b,pid){
   ex.value=b.extra||"";
   var ce=el("textarea",{id:"bfCond",placeholder:"اشتراطات أخرى خاصة بالموقع…",style:"min-height:60px"});
   ce.value=b.condExtra||"";
+  var sh=el("input",{id:"bfShowTerms",type:"checkbox"});
+  sh.checked = b.showTerms===undefined?true:!!b.showTerms;
+  var id1=inp("bfIdeaDays",b.ideaDays||DEF_IDEA_DAYS,{type:"number",min:"1",max:"60"});
+  var rv=inp("bfRevDays",b.reviseDays||DEF_REVISE_DAYS,{type:"number",min:"1",max:"60"});
+  var sa=inp("bfSentAt",b.sentAt||"",{type:"date"});
+  var duePrev=el("div",{style:"font-size:13px;font-weight:600;color:var(--accent)"});
+  function calcDue(){
+    var base=sa.value||iso(today());
+    var d=addWorkDays(base,Number(id1.value)||DEF_IDEA_DAYS);
+    duePrev.textContent="موعد تقديم الفكرة: "+dayName(d)+" "+fmtDate(d)+
+      "   ·   أيام العمل تتخطى الجمعة والسبت";
+  }
+  [id1,sa].forEach(function(x){ x.addEventListener("input",calcDue); });
+  calcDue();
+  var termsBox=el("div",{class:"f-grid"},[
+    el("div",{class:"field"},[el("label",{text:"مدة تقديم الفكرة المبدئية (أيام عمل)"}),id1]),
+    el("div",{class:"field"},[el("label",{text:"مدة التعديل (أيام عمل)"}),rv]),
+    el("div",{class:"field"},[el("label",{text:"تاريخ الإرسال للمهندس"}),sa,
+      el("span",{class:"hint",text:"يُسجَّل تلقائياً عند الإرسال"})]),
+    el("div",{class:"field full"},[duePrev])
+  ]);
+  function syncTerms(){ termsBox.style.display=sh.checked?"":"none"; }
+  sh.addEventListener("change",syncTerms);
 
   openModal(modal(isNew?"تسجيل متطلبات عميل":"تعديل متطلبات "+(b.clientName||"العميل"),[
     el("div",{class:"f-grid"},[
@@ -3129,7 +3797,13 @@ function briefForm(b,pid){
       el("div",{class:"field"},[el("label",{text:"مداخل الأدوار المتكررة"}),en]),
       el("div",{class:"field full"},[el("label",{text:"متطلبات إضافية (إدخال يدوي)"}),ex]),
       el("div",{class:"field full"},[el("label",{text:"اشتراطات أخرى"}),ce,
-        el("span",{class:"hint",text:"الاشتراطات الثابتة مُدرجة تلقائياً في كل مشروع"})])
+        el("span",{class:"hint",text:"الاشتراطات الثابتة مُدرجة تلقائياً في كل مشروع"})]),
+      el("div",{class:"field full"},[
+        el("label",{text:"المدة المحددة للتسليم"}),
+        el("label",{style:"display:flex;gap:8px;align-items:center;cursor:pointer;font-size:13px"},
+          [sh,el("span",{text:"إظهار مدة تقديم الفكرة والتعديل في الصفحة المرسلة للمهندس"})]),
+        termsBox
+      ])
     ])
   ],[
     el("button",{class:"btn primary",text:isNew?"حفظ المتطلبات":"حفظ التعديل",onclick:function(){
@@ -3140,6 +3814,10 @@ function briefForm(b,pid){
         sketch:sketch,cadName:cad.value.trim(),attachments:atts,
         picks:picks,boysRooms:bo.value,boysBath:bb.value,distribution:ds.value,
         vertical:vt.value,entrance:en.value,extra:ex.value.trim(),condExtra:ce.value.trim(),
+        showTerms:sh.checked,ideaDays:Number(id1.value)||DEF_IDEA_DAYS,
+        reviseDays:Number(rv.value)||DEF_REVISE_DAYS,sentAt:sa.value,
+        ideaDue:sa.value?addWorkDays(sa.value,Number(id1.value)||DEF_IDEA_DAYS):"",
+        assignedTo:b.assignedTo||"",ideaDoneAt:b.ideaDoneAt||"",lateAlerted:!!b.lateAlerted,
         cl:b.cl||blankBrief().cl,
         createdAt:b.createdAt||Date.now(),updatedAt:Date.now()};
       put("briefs",id,body);
@@ -3149,6 +3827,7 @@ function briefForm(b,pid){
     !isNew?el("button",{class:"btn danger",style:"margin-inline-start:auto",text:"حذف",
       onclick:function(){ remove("briefs",b.id); closeModal(); toast("حُذفت المتطلبات"); }}):null
   ]));
+  syncTerms();
 }
 
 /* نموذج العميل: الفراغات والمساحات ونظام الإنشاء والتكييف والمناظير */
@@ -3264,6 +3943,25 @@ function briefSheet(b,mode){
     ]));
     if(b.extra){ sheet.appendChild(el("h3",{class:"psub",text:"متطلبات إضافية"}));
       sheet.appendChild(el("p",{class:"ptext",text:b.extra})); }
+    var bc=briefClock(b);
+    if(bc){
+      sheet.appendChild(el("h3",{class:"psub",text:"المدة المحددة للتسليم"}));
+      sheet.appendChild(tbl([
+        ["تاريخ إرسال المتطلبات",b.sentAt?(dayName(b.sentAt)+" "+fmtDate(b.sentAt)):"—"],
+        ["مدة تقديم الفكرة المبدئية",(b.ideaDays||DEF_IDEA_DAYS)+" أيام عمل"],
+        ["موعد تقديم الفكرة",bc.due?(dayName(bc.due)+" "+fmtDate(bc.due)):"—"],
+        ["مدة التعديل بعد الملاحظات",(b.reviseDays||DEF_REVISE_DAYS)+" يوم عمل"],
+        ["الحالة",bc.label]
+      ]));
+      if(bc.due&&!b.ideaDoneAt){
+        var pct=bc.left===null?0:Math.max(0,Math.min(100,
+          Math.round((bc.left/(Number(b.ideaDays)||DEF_IDEA_DAYS))*100)));
+        sheet.appendChild(el("div",{class:"bar c-"+bc.cls,style:"margin-top:6px"},
+          [el("i",{style:"width:"+(bc.cls==="late"?100:pct)+"%"})]));
+      }
+      sheet.appendChild(el("p",{class:"hint",
+        text:"أيام العمل لا تشمل الجمعة والسبت."}));
+    }
   }
 
   var c=b.cl||{};
@@ -3354,6 +4052,15 @@ function briefMsg(b){
     if(c.hvac) L.push("التكييف: "+c.hvac);
     L.push("المناظير: "+(c.ext3d?"خارجي ":"")+(c.int3d?"داخلي":"")||"لا يوجد");
   }
+  var bc=briefClock(b);
+  if(bc){
+    L.push("");
+    L.push("المدة المحددة:");
+    L.push("• مدة تقديم الفكرة المبدئية: "+(b.ideaDays||DEF_IDEA_DAYS)+" أيام عمل");
+    if(bc.due) L.push("• موعد تقديم الفكرة: "+dayName(bc.due)+" "+fmtDate(bc.due));
+    L.push("• مدة التعديل بعد الملاحظات: "+(b.reviseDays||DEF_REVISE_DAYS)+" يوم عمل");
+    L.push("(أيام العمل لا تشمل الجمعة والسبت)");
+  }
   L.push("");
   L.push("الاشتراطات المعتمدة:");
   COND_FIXED.concat(b.condExtra?[b.condExtra]:[]).forEach(function(x){ L.push("• "+x); });
@@ -3362,7 +4069,7 @@ function briefMsg(b){
   return L.join("\n");
 }
 function sendBrief(b){
-  var people=pickPeople(b.projectId?S.projects[b.projectId]:null);
+  var people=msgPeople(pickPeople(b.projectId?S.projects[b.projectId]:null));
   if(!people.length){ toast("أضف الموظفين أولاً",true); return; }
   var wh=sel("sbWho",people[0].id,people.map(function(s){
     return {v:s.id,t:s.name+(s.specialty?" — "+s.specialty:"")}; }));
@@ -3377,16 +4084,37 @@ function sendBrief(b){
       el("span",{class:"pill",text:"لا يوجد رقم جوال لهذا الموظف"}));
   }
   wh.addEventListener("change",draw); draw();
+  function stamp(){
+    if(!b.showTerms) return;
+    var d={assignedTo:wh.value};
+    if(!b.sentAt){ d.sentAt=iso(today());
+      d.ideaDue=addWorkDays(d.sentAt,Number(b.ideaDays)||DEF_IDEA_DAYS); }
+    d.lateAlerted=false;
+    patch("briefs",b.id,d);
+  }
+  var bcNow=briefClock(b);
   openModal(modal("إرسال المتطلبات لبدء العمل",[
     el("div",{class:"field full"},[el("label",{text:"المهندس / الموظف"}),wh]),
+    bcNow?el("div",{class:"gatebox"},[
+      el("b",{text:"المدة المحددة"}),
+      el("span",{class:"hint",text:"تقديم الفكرة "+(b.ideaDays||DEF_IDEA_DAYS)+" أيام عمل · "+
+        "التعديل "+(b.reviseDays||DEF_REVISE_DAYS)+" يوم عمل"+
+        (b.sentAt?" · أُرسلت "+fmtDate(b.sentAt):" · يُسجَّل تاريخ الإرسال الآن")}),
+      el("span",{class:"pill "+bcNow.cls,style:"align-self:flex-start",text:bcNow.label})
+    ]):el("p",{class:"hint",text:"لم تُفعَّل المدة المحددة لهذه المتطلبات (اختيارية من التعديل)."}),
     el("div",{class:"field full"},[el("label",{text:"نص الرسالة"}),box]),
     el("p",{class:"hint",text:"الكروكي والمرفقات تُفتح من صفحة المتطلبات داخل البرنامج، وتُحفظ في مجلد المشروع على الجهاز."})
   ],[
     linkWrap,
     el("button",{class:"btn",text:"تسجيل تنبيه داخل البرنامج",onclick:function(){
+      stamp();
       put("notes",uid(),{projectId:b.projectId||"",kind:"alert",fromId:meId||"",toId:wh.value,
         text:briefMsg(b),createdAt:Date.now(),readAt:null});
       closeModal(); toast("سُجّل التنبيه لـ"+personName(wh.value));
+    }}),
+    el("button",{class:"btn",text:"تسجيل الإرسال وبدء المدة",onclick:function(){
+      stamp(); closeModal();
+      toast(b.showTerms?"سُجّل الإرسال وبدأت المدة المحددة":"سُجّل الإرسال");
     }}),
     el("button",{class:"btn",text:"إغلاق",onclick:closeModal})
   ]));
@@ -3427,6 +4155,8 @@ function BriefsView(){
         ]),
         (b.sketch||[]).length?el("span",{class:"pill accent",text:"كروكي مرفق"}):
           el("span",{class:"pill pause",text:"بلا كروكي"}),
+        (function(){ var c=briefClock(b);
+          return c?el("span",{class:"pill "+c.cls,text:c.label}):null; })(),
         el("span",{class:"pill "+(done?"done":"work"),text:done?"متطلبات العميل مسجّلة":"بانتظار متطلبات العميل"})
       ]),
       el("div",{class:"rev-body"},[
@@ -3444,6 +4174,24 @@ function BriefsView(){
       el("div",{class:"rev-ft"},[
         el("button",{class:"btn sm",text:"صفحة المتطلبات",onclick:function(){briefSheet(b,"team");}}),
         isBoss()?el("button",{class:"btn sm",text:"إرسال لبدء العمل",onclick:function(){sendBrief(b);}}):null,
+        (function(){ var c=briefClock(b);
+          return (c&&c.state!=="done"&&c.state!=="wait")?el("button",{class:"btn sm",
+            style:"background:var(--good-soft);color:var(--good);border-color:var(--good)",
+            text:"تسجيل تقديم الفكرة",onclick:function(){markIdeaDone(b);}}):null; })(),
+        (function(){ var c=briefClock(b);
+          return (c&&c.state==="late"&&b.assignedTo)?el("button",{class:"btn sm danger",
+            text:"تذكير المهندس",onclick:function(){
+              var p=b.projectId?S.projects[b.projectId]:null;
+              sendTaskMsg(b.assignedTo,
+                "السلام عليكم ورحمة الله\n\nتذكير بتقديم الفكرة المبدئية"+
+                (p?" لمشروع "+p.name+(p.code?" — رقم "+p.code:""):"")+
+                (b.clientName?"\nالعميل: "+b.clientName:"")+
+                "\nالمدة المحددة: "+(b.ideaDays||DEF_IDEA_DAYS)+" أيام عمل"+
+                "\nالموعد: "+dayName(c.due)+" "+fmtDate(c.due)+
+                "\nالحالة: "+c.label+
+                "\n\nوشكراً لكم — "+((me()&&me().name)||""),
+                "تذكير بتقديم الفكرة");
+            }}):null; })(),
         isBoss()?el("button",{class:"btn sm",text:"متطلبات العميل الخاصة",onclick:function(){clientForm(b);}}):null,
         p?el("button",{class:"btn ghost sm",text:"المشروع",onclick:function(){detail(p);}}):null,
         el("span",{class:"spacer"}),
@@ -3849,7 +4597,7 @@ function MyDeskView(){
     el("button",{class:"btn primary sm",text:"طباعة الأعمال القائمة",
       onclick:function(){RP.mgr=meId;worksReport();}}),
     el("button",{class:"btn sm",text:"تصدير مشاريعي",onclick:function(){WL.who=meId;workloadReport();}}),
-    isBoss()?el("button",{class:"btn primary sm",text:"+ مشروع باسمي",
+    canAddProject()?el("button",{class:"btn primary sm",text:"+ مشروع باسمي",
       onclick:function(){projForm(null);}}):null
   ]));
 
@@ -3886,7 +4634,7 @@ function MyDeskView(){
     text:isRoot()?"مشاريعي المسجّلة":"المشاريع المسندة إليّ"}));
   if(!mine.length) wrap.appendChild(el("div",{class:"register",style:"margin-top:10px"},[
     el("div",{class:"empty"},[el("h3",{text:"لا توجد مشاريع"}),
-      el("p",{text:isBoss()?"أضف مشروعاً وسيُسجَّل تلقائياً باسمك كمهندس مسؤول."
+      el("p",{text:canAddProject()?"أضف مشروعاً وسيُسجَّل تلقائياً باسمك كمهندس مسؤول."
         :"لم يُسند إليك مشروع بعد — ستظهر هنا فور توزيعها من المدير."})])]));
   else {
     var reg=el("div",{class:"register",style:"margin-top:10px"},[regHead()]);
@@ -3942,6 +4690,11 @@ function MyDeskView(){
 function alertForm(p,preset){
   var asg=S.staff[p.assigneeId];
   if(!asg) { toast("لم يُحدَّد موظف لهذا المشروع",true); return; }
+  if(!canMessage(p.assigneeId)){
+    toast("لا تملك صلاحية إرسال تنبيه لـ"+asg.name+" — صلاحيتك محصورة بـ"+
+      (msgScope()==="draftsmen"?"الرسامين":"لا أحد"),true);
+    return;
+  }
   var stt=statusOf(p);
   var mine=me();
   var noteT=el("textarea",{id:"alNote",placeholder:"اكتب الملاحظة أو المطلوب من الموظف…"});
@@ -4155,6 +4908,9 @@ function loadSample(){
     boysRooms:"3",boysBath:"حمام مستقل لكل غرفة",distribution:"دوران",
     vertical:"سلم ومصعد",entrance:"مدخل خاص لكل دور",
     extra:"مصعد داخلي بجوار السلم، وحوش خلفي مغطى للخدمة.",condExtra:"",
+    showTerms:true,ideaDays:DEF_IDEA_DAYS,reviseDays:DEF_REVISE_DAYS,
+    sentAt:d(-7),ideaDue:addWorkDays(d(-7),DEF_IDEA_DAYS),assignedTo:a,
+    ideaDoneAt:"",lateAlerted:false,
     cl:{spaces:[{name:"مجلس رجال",area:"45"},{name:"مجلس نساء",area:"38"},
       {name:"صالة طعام",area:"30"},{name:"مطبخ",area:"24"},{name:"غرفة نوم رئيسية",area:"36"}],
       structure:"خرساني مسلح",floors:"أرضي + أول + ملحق",hvac:"مخفي (داكت)",
@@ -4183,6 +4939,11 @@ function render(){
 }
 function doRender(){
   var root=$("#root"); if(!root) return;
+  var anyStaff=Object.keys(S.staff).length>0;
+  if(UNLOCKED && MODE!=="loading" && anyStaff && !me()) UNLOCKED=false;
+  var fresh = MODE!=="loading" && MODE!=="revoked" && !anyStaff;
+  if(!UNLOCKED && !fresh){ root.innerHTML=""; showLock(); return; }
+  hideLock();
   var scrollY=window.scrollY;
   root.innerHTML="";
   root.appendChild(Header());
@@ -4193,11 +4954,16 @@ function doRender(){
     return; }
   if(MODE==="local") root.appendChild(el("div",{class:"banner local"},[
     el("b",{text:"وضع محلي."}),
-    el("span",{text:"البيانات محفوظة على هذا المتصفح فقط ولا تصل للموظفين. افتح الصفحة من رابط المشاركة للعمل المشترك."})
+    el("span",{text:MODE_ERR
+      ? ("تعذّر الاتصال بقاعدة البيانات المشتركة ("+MODE_ERR+") — البيانات محفوظة على هذا المتصفح فقط.")
+      : "البيانات محفوظة على هذا المتصفح فقط ولا تصل للموظفين."}),
+    el("span",{class:"spacer"}),
+    el("button",{class:"btn sm",text:"ربط قاعدة البيانات",
+      onclick:function(){ requireRootCode("ربط قاعدة البيانات",dbSetup); }})
   ]));
 
-  if(!staffList().length){ root.appendChild(FirstRun()); return; }
-  if(!me()){ root.appendChild(WhoBar()); return; }
+  if(!anyStaff){ root.appendChild(FirstRun()); return; }
+  if(!me()){ root.innerHTML=""; UNLOCKED=false; showLock(); return; }
 
   var un=myUnread();
   if(un) root.appendChild(el("div",{class:"banner alert"},[
@@ -4207,6 +4973,14 @@ function doRender(){
   ]));
 
   if(V.tab==="staff"&&!rosterVisible()) V.tab="projects";
+  var bl=briefsLate();
+  if(bl.length) root.appendChild(el("div",{class:"banner",
+    style:"background:var(--crit-soft);border-color:var(--crit);color:var(--crit)"},[
+    el("b",{text:bl.length+" فكرة مبدئية تأخر تقديمها عن المدة المحددة."}),
+    el("span",{class:"spacer"}),
+    el("button",{class:"btn sm",text:"عرض المتطلبات",onclick:function(){V.tab="briefs";render();}})
+  ]));
+
   var pr=pendingReviews();
   if(pr.length) root.appendChild(el("div",{class:"banner",
     style:"background:var(--info-soft);border-color:var(--info);color:var(--info)"},[
@@ -4234,6 +5008,7 @@ function doRender(){
   ]));
 
   setTimeout(checkExpiry,0);
+  setTimeout(checkBriefDue,0);
   root.appendChild(Tiles());
   root.appendChild(Tabs());
   if(V.tab==="projects") root.appendChild(ProjectsView());
@@ -4275,11 +5050,13 @@ function Header(){
             el("span",{text:m.name}),
             el("span",{class:"pill",style:"font-size:10.5px;padding:2px 7px",text:roleName(m.role)})])
       ):null,
+      m?el("button",{class:"btn ghost lockbtn",title:"قفل البرنامج — يعود لصفحة الدخول بالرقم السري",
+        onclick:function(){ lockNow(false); }},[el("span",{text:"🔒"}),el("span",{text:"قفل"})]):null,
       el("button",{class:"btn ghost",title:"تبديل الخلفية: فاتحة / غامقة / حسب الجهاز",
         "aria-label":"الخلفية",onclick:cycleTheme,
         text:THEME==="light"?"☀ فاتحة":THEME==="dark"?"🌙 غامقة":"◐ تلقائي"}),
       m?el("button",{class:"btn",text:"حفظ / تصدير",title:"نسخة احتياطية وتصدير",onclick:backupMenu}):null,
-      (m&&isBoss())?el("button",{class:"btn primary",text:"+ مشروع",
+      (m&&canAddProject())?el("button",{class:"btn primary",text:"+ مشروع",
         onclick:function(){projForm(null);}}):null
     ])
   ]);
@@ -4519,6 +5296,8 @@ function Row(p){
       own?el("button",{class:"btn sm",text:"تنبيه",title:"تنبيه الموظف",onclick:function(){alertForm(p);}}):
         (mine?el("button",{class:"btn sm",text:"تحديث",onclick:function(){replyForm(p);}}):null),
       el("button",{class:"btn ghost sm",text:"تفاصيل",onclick:function(){detail(p);}}),
+      contactList().length?el("button",{class:"btn ghost sm",text:"مستجدات",
+        title:"إرسال آخر المستجدات للمدراء",onclick:function(){updatesForm(p);}}):null,
       own?el("button",{class:"btn ghost sm",text:"الفريق",title:"فريق العمل وجدول الأعمال",
         onclick:function(){teamForm(p);}}):null,
       own?el("button",{class:"btn ghost sm",text:"تعديل",title:"تعديل بيانات المشروع",
@@ -4610,6 +5389,8 @@ function detail(p){
       onclick:function(){stateForm(p);}}):null,
     canEdit(p)?el("button",{class:"btn",text:"تعديل",onclick:function(){projForm(p);}}):null,
     canEdit(p)?el("button",{class:"btn",text:"المرحلة النهائية",onclick:function(){finalForm(p);}}):null,
+    contactList().length?el("button",{class:"btn",text:"إرسال المستجدات للمدراء",
+      onclick:function(){updatesForm(p);}}):null,
     canEdit(p)?el("button",{class:"btn",text:"معاينة الملف",onclick:function(){previewProject(p);}}):null,
     canEdit(p)?el("button",{class:"btn",text:"حفظ ملف المشروع",title:"إنشاء مجلد المشروع على جهازك",
       onclick:function(){saveProjectFolder(p);}}):null,
@@ -4653,7 +5434,7 @@ function TimelineView(){
         el("span",{class:"who"},[el("span",{class:"av",text:initials(personName(p.assigneeId))}),
           el("span",[el("b",{text:personName(p.assigneeId)})])]),
         el("button",{class:"btn ghost sm",text:"تفاصيل",onclick:function(){detail(p);}}),
-        isBoss()?el("button",{class:"btn sm",text:"تنبيه",onclick:function(){alertForm(p);}}):null
+        canEdit(p)?el("button",{class:"btn sm",text:"تنبيه",onclick:function(){alertForm(p);}}):null
       ]));
     });
     day.appendChild(items);
@@ -4756,6 +5537,45 @@ function StaffView(){
     ]));
   });
   wrap.appendChild(g);
+
+  /* المدراء — يستقبلون المستجدات فقط */
+  var cts=contactList();
+  wrap.appendChild(el("div",{class:"grp-hd",style:"margin-top:24px"},[
+    el("b",{text:"المدراء — يستقبلون آخر المستجدات فقط"}),
+    el("span",{class:"pill",text:cts.length+" جهة"}),
+    el("span",{class:"spacer"}),
+    canManageStaff()?el("button",{class:"btn sm",text:"+ إضافة مدير",onclick:function(){
+      staffForm(null); }}):null
+  ]));
+  if(!cts.length) wrap.appendChild(el("p",{class:"hint",
+    text:"لم يُضف أحد — يُضاف من «+ إضافة موظف» باختيار نوع العضو «مدير»، ويُسجَّل له رقم الجوال فقط."}));
+  else {
+    var cg=el("div",{class:"staff-grid"});
+    cts.forEach(function(s){
+      var ph=waPhone(s.phone);
+      cg.appendChild(el("div",{class:"scard"},[
+        el("div",{class:"top"},[
+          el("span",{class:"av mgr",text:initials(s.name)}),
+          el("div",{style:"flex:1;min-width:0"},[
+            el("div",{class:"nm",text:s.name}),
+            el("div",{class:"ttl"},[el("span",{class:"pill accent",
+              style:"font-size:10.5px;padding:2px 7px",text:"مدير — مستجدات فقط"}),
+              el("span",{text:" "+(s.title||"")})])
+          ]),
+          canManageStaff()?el("button",{class:"btn ghost sm",text:"تعديل",
+            onclick:function(){staffForm(s);}}):null
+        ]),
+        el("div",{style:"font-size:12px;color:var(--ink-3)",class:"num",
+          text:s.phone||"لا يوجد رقم — أضفه ليستقبل الرسائل"}),
+        ph?el("div",{style:"display:flex;gap:6px;flex-wrap:wrap"},[
+          el("a",{class:"btn sm",style:"text-decoration:none",href:"sms:+"+ph,text:"رسالة نصية"}),
+          el("a",{class:"btn sm",style:"text-decoration:none",target:"_blank",rel:"noopener",
+            href:"https://wa.me/"+ph,text:"واتساب"})
+        ]):null
+      ]));
+    });
+    wrap.appendChild(cg);
+  }
   return wrap;
 }
 
