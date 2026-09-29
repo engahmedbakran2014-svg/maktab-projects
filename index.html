@@ -2,9 +2,12 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-2bxpCqjRpdsQtuYfK3dDL3ZMIoRihxT9RwXI22egnPU=' 'sha256-uMUkCsD/MXZKHJWpCIUc1pYrvGeVsCtD5hQ30dOgQVU=' 'sha256-Z+Mx846y0xKM2QrxiJdKpA5UmNI5O9oNrpfjq/eIcF8=' https://www.gstatic.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com wss://*.firebaseio.com https://*.firebaseapp.com https://www.gstatic.com; frame-src https://*.firebaseapp.com; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="برنامج إدارة مشاريع المكتب الهندسي — ترتيب المشاريع والمهام والموافقات المبدئية">
 <meta name="theme-color" content="#0F6E64">
+<script>if(window.top!==window.self){document.documentElement.style.display="none";try{window.top.location=window.self.location.href;}catch(e){}}</script>
 <style>
   html,body{margin:0;padding:0}
   body{font:14px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;background:#EDF0F2;color:#16232E}
@@ -626,6 +629,8 @@ function codeOk(kind,v){
   var c=(S.meta&&S.meta.config)||{};
   var saved=kind==="admin"?c.adminCode:c.rootCode;
   if(saved && v===String(saved).trim()) return true;
+  var hs=kind==="admin"?c.adminHash:c.rootHash;
+  if(hs && codeHash(v)===hs) return true;
   for(var k in S.staff){ var x=S.staff[k];
     if(x&&x.role==="root"&&x.pin&&String(x.pin).trim()===v) return true; }
   return false;
@@ -817,6 +822,7 @@ function put(coll,id,data,quiet){
   render();
   if(!quiet) audit(old?"تعديل":"إضافة",coll,id,labelOf(coll,id,data),
     old?diffFields(old,data):"");
+  if(DB&&MODE_FB&&coll==="staff") return fbSaveStaff(id,data).catch(fbErr);
   if(DB){ return DB.collection(coll).doc(id).set(data).catch(dbErr); }
   saveLocal(); return Promise.resolve();
 }
@@ -827,6 +833,7 @@ function patch(coll,id,data,quiet){
 function remove(coll,id,quiet){
   if(!quiet) audit("حذف",coll,id,labelOf(coll,id),"");
   delete S[coll][id]; render();
+  if(DB&&MODE_FB&&coll==="staff") return fbRemoveStaff(id).catch(fbErr);
   if(DB){ return DB.collection(coll).doc(id).delete().catch(dbErr); }
   saveLocal(); return Promise.resolve();
 }
@@ -834,7 +841,7 @@ function dbErr(e){
   var c=e&&e.code;
   var msg = c==="quota_exceeded" ? "امتلأت مساحة قاعدة البيانات — احذف مشاريع أو ملاحظات قديمة."
         : c==="resource_exhausted" ? "عدد كبير من العمليات في وقت واحد — انتظر لحظة وأعد المحاولة."
-        : c==="invalid_argument" ? "لا تملك صلاحية هذا التعديل أو أن البيانات غير صحيحة."
+        : (c==="invalid_argument"||c==="permission-denied") ? "لا تملك صلاحية هذا التعديل أو أن البيانات غير صحيحة."
         : "تعذّر حفظ التغيير على الخادم — تحقق من الاتصال وأعد المحاولة.";
   toast(msg,true);
 }
@@ -842,15 +849,181 @@ function watch(coll){
   return DB.collection(coll).onSnapshot(function(snap){
     var m={};
     snap.docs.forEach(function(d){ m[d.id]=Object.assign({},d.data(),{id:d.id}); });
+    if(MODE_FB&&coll==="staff"){ overlaySecrets(m); if(MODE==="loading") MODE="shared"; }
     S[coll]=m; render();
   }, function(e){
     if(e&&e.code==="revoked"){ MODE="revoked"; render(); }
+    if(MODE_FB&&e&&e.code==="permission-denied"&&coll==="staff"){ lockNow(false); }
   });
 }
+/* ============ الحماية: حسابات حقيقية بالرمز الشخصي (نسخة GitHub / Firebase) ============
+   • كل رمز شخصي = حساب دخول مستقل على خوادم Google (Firebase Authentication).
+   • الرموز لا تُخزَّن في بيانات الموظفين؛ تُحفظ في مجموعة «secrets» لا يقرؤها إلا المسؤول الرئيسي.
+   • قواعد الخادم (firestore.rules) ترفض أي قراءة أو تعديل من غير أعضاء الفريق المسجّلين،
+     وتمنع الموظف من تعديل الفريق أو الصلاحيات. */
+var SECRETS={}, SEC_SUB=null, CODE_SALT="maktab-hk|v1|";
+function sha256hex(str){
+  function R(n,x){ return (x>>>n)|(x<<(32-n)); }
+  var K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
+    0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
+    0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
+    0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
+    0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
+    0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
+    0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
+    0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
+  var b=unescape(encodeURIComponent(String(str))), bytes=[], i;
+  for(i=0;i<b.length;i++) bytes.push(b.charCodeAt(i));
+  var l=bytes.length*8; bytes.push(0x80);
+  while(bytes.length%64!==56) bytes.push(0);
+  for(i=7;i>=0;i--) bytes.push(i>=4?0:(l>>>(i*8))&255);
+  var H=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19], W=new Array(64);
+  for(var o=0;o<bytes.length;o+=64){
+    for(i=0;i<16;i++) W[i]=(bytes[o+i*4]<<24)|(bytes[o+i*4+1]<<16)|(bytes[o+i*4+2]<<8)|bytes[o+i*4+3];
+    for(i=16;i<64;i++){ var s0=R(7,W[i-15])^R(18,W[i-15])^(W[i-15]>>>3), s1=R(17,W[i-2])^R(19,W[i-2])^(W[i-2]>>>10);
+      W[i]=(W[i-16]+s0+W[i-7]+s1)|0; }
+    var a=H[0],bb=H[1],c=H[2],d=H[3],e=H[4],f=H[5],g=H[6],h=H[7];
+    for(i=0;i<64;i++){
+      var t1=(h+(R(6,e)^R(11,e)^R(25,e))+((e&f)^(~e&g))+K[i]+W[i])|0;
+      var t2=((R(2,a)^R(13,a)^R(22,a))+((a&bb)^(a&c)^(bb&c)))|0;
+      h=g; g=f; f=e; e=(d+t1)|0; d=c; c=bb; bb=a; a=(t1+t2)|0; }
+    H[0]=(H[0]+a)|0; H[1]=(H[1]+bb)|0; H[2]=(H[2]+c)|0; H[3]=(H[3]+d)|0;
+    H[4]=(H[4]+e)|0; H[5]=(H[5]+f)|0; H[6]=(H[6]+g)|0; H[7]=(H[7]+h)|0;
+  }
+  return H.map(function(x){ return ("00000000"+(x>>>0).toString(16)).slice(-8); }).join("");
+}
+function codeHash(v){ return sha256hex(CODE_SALT+String(v||"").trim()); }
+function codeEmail(v){ return "u"+codeHash(v).slice(0,32)+"@maktab-projects.app"; }
+function codePw(v){ return "Mq#"+String(v||"").trim()+"#hk26"; }
+function overlaySecrets(m){
+  for(var k in m){ var sc=SECRETS[k]; if(sc&&sc.pin) m[k].pin=sc.pin; else delete m[k].pin; }
+}
+function fbErr(e){
+  var c=(e&&e.code)||"";
+  if(/permission/.test(c)) return toast("لا تملك صلاحية هذا التعديل",true);
+  if(e&&e.msg) return toast(e.msg,true);
+  dbErr(e);
+}
+async function fbSignOut(){ try{ await window.firebase.auth().signOut(); }catch(e){} }
+async function fbStaffOf(uid){
+  var d=await DB.collection("users").doc(uid).get();
+  var x=d.exists?d.data():null;
+  if(!x||!x.staffId) throw {msg:"هذا الرمز غير مفعّل — راجع المدير المسؤول",bad:true};
+  return x.staffId;
+}
+function fbStart(){
+  subs.forEach(function(u){ try{u();}catch(e){} }); subs=[];
+  MODE="loading";
+  subs=[watch("staff"),watch("projects"),watch("notes"),watch("reviews"),
+        watch("logs"),watch("orders"),watch("briefs"),watch("meta")];
+  fbWatchSecrets();
+}
+/* الرموز السرية — للمسؤول الرئيسي فقط (قواعد الخادم ترفض غيره) */
+function fbWatchSecrets(){
+  if(SEC_SUB){ try{SEC_SUB();}catch(e){} SEC_SUB=null; }
+  SEC_SUB=DB.collection("secrets").onSnapshot(function(snap){
+    var m={}; snap.docs.forEach(function(d){ m[d.id]=d.data(); });
+    SECRETS=m; overlaySecrets(S.staff); render();
+  },function(){ SECRETS={}; });
+}
+function fbStop(){
+  subs.forEach(function(u){ try{u();}catch(e){} }); subs=[];
+  if(SEC_SUB){ try{SEC_SUB();}catch(e){} SEC_SUB=null; }
+  SECRETS={};
+  for(var k in S) S[k]={};
+  MODE="auth";
+}
+/* تطبيق ثانوي لإنشاء حسابات الموظفين دون الخروج من حساب المدير */
+function provAuth(){
+  var a; try{ a=window.firebase.app("prov"); }catch(e){ a=window.firebase.initializeApp(fbCfg(),"prov"); }
+  var au=a.auth();
+  try{ au.setPersistence(window.firebase.auth.Auth.Persistence.NONE); }catch(e){}
+  return au;
+}
+async function provisionCode(v){
+  var au=provAuth(), em=codeEmail(v), pw=codePw(v), cred;
+  try{ cred=await au.createUserWithEmailAndPassword(em,pw); }
+  catch(e){
+    if(e&&e.code==="auth/email-already-in-use") cred=await au.signInWithEmailAndPassword(em,pw);
+    else throw e;
+  }
+  var id=cred.user.uid; try{ await au.signOut(); }catch(e){}
+  return id;
+}
+async function fbSaveStaff(id,data){
+  var pin=String(data.pin||"").trim(), clean=Object.assign({},data);
+  delete clean.pin; delete clean.id;
+  await DB.collection("staff").doc(id).set(clean);
+  var sec=SECRETS[id]||{};
+  if(pin && pin!==sec.pin){
+    var nu=await provisionCode(pin);
+    var ex=await DB.collection("users").doc(nu).get().catch(function(){ return null; });
+    var owner=ex&&ex.exists?(ex.data()||{}).staffId:null;
+    if(owner && owner!==id) throw {msg:"هذا الرقم السري مستخدم لحساب آخر — اختر رقماً مختلفاً"};
+    await DB.collection("users").doc(nu).set({staffId:id});
+    if(sec.uid && sec.uid!==nu) await DB.collection("users").doc(sec.uid).delete().catch(function(){});
+    await DB.collection("secrets").doc(id).set({pin:pin,uid:nu,at:Date.now()});
+  } else if(!pin && sec.uid){
+    await DB.collection("users").doc(sec.uid).delete().catch(function(){});
+    await DB.collection("secrets").doc(id).delete().catch(function(){});
+  }
+}
+async function fbRemoveStaff(id){
+  var sec=SECRETS[id]||{};
+  if(sec.uid) await DB.collection("users").doc(sec.uid).delete().catch(function(){});
+  await DB.collection("secrets").doc(id).delete().catch(function(){});
+  await DB.collection("staff").doc(id).delete();
+}
+/* تحويل لمرة واحدة: ينقل الرموز القديمة (المكشوفة في بيانات الموظفين) إلى حسابات محمية.
+   يعمل فقط قبل تفعيل القواعد الصارمة، وعند دخول المسؤول الرئيسي برمزه. */
+async function legacyMigrate(v){
+  var auth=window.firebase.auth();
+  try{ await auth.signInAnonymously(); }catch(e){ return false; }
+  try{
+    var snap=await DB.collection("staff").get(), all=[], hit=null;
+    snap.forEach(function(d){ var x=Object.assign({},d.data(),{id:d.id}); all.push(x);
+      if(x.pin&&String(x.pin).trim()===v) hit=x; });
+    if(!hit||hit.role!=="root") return false;
+    for(var i=0;i<all.length;i++){ var x=all[i], pn=String(x.pin||"").trim();
+      if(!pn||x.kind==="contact") continue;
+      var nu=await provisionCode(pn);
+      await DB.collection("users").doc(nu).set({staffId:x.id});
+      await DB.collection("secrets").doc(x.id).set({pin:pn,uid:nu,at:Date.now()});
+      await DB.collection("staff").doc(x.id).update({pin:window.firebase.firestore.FieldValue.delete()});
+    }
+    var mc=await DB.collection("meta").doc("config").get(), c=mc.exists?(mc.data()||{}):{};
+    var up={}, del=window.firebase.firestore.FieldValue.delete();
+    if(c.adminCode){ up.adminHash=codeHash(c.adminCode); up.adminCode=del; }
+    if(c.rootCode){ up.rootHash=codeHash(c.rootCode); up.rootCode=del; }
+    if(Object.keys(up).length) await DB.collection("meta").doc("config").set(up,{merge:true});
+    return true;
+  } finally { try{ await auth.signOut(); }catch(e){} }
+}
+async function fbLogin(v){
+  var auth=window.firebase.auth(), cred;
+  try{ cred=await auth.signInWithEmailAndPassword(codeEmail(v),codePw(v)); }
+  catch(e){
+    var c=(e&&e.code)||"";
+    if(c==="auth/too-many-requests") throw {msg:"محاولات كثيرة — أُوقف الدخول مؤقتاً من الخادم، حاول بعد قليل"};
+    if(c==="auth/network-request-failed") throw {msg:"لا يوجد اتصال بالإنترنت"};
+    if(/invalid-credential|invalid-login|user-not-found|wrong-password|invalid-email|operation-not-allowed/.test(c)){
+      var ok=false; try{ ok=await legacyMigrate(v); }catch(e2){ ok=false; }
+      if(ok) return fbLogin(v);
+      throw {msg:"الرقم السري غير صحيح",bad:true};
+    }
+    throw {msg:"تعذّر الدخول ("+c+")"};
+  }
+  try{ return await fbStaffOf(cred.user.uid); }
+  catch(e){ await fbSignOut(); throw (e&&e.msg)?e:{msg:"هذا الرمز غير مفعّل — راجع المدير المسؤول",bad:true}; }
+}
+
 /* ---- تشغيل خارج claude.ai (مثل GitHub Pages) عبر Firebase اختياري ---- */
+/* بصمات التحقق (SRI) لمكتبات الشبكة — تُملأ في نسخة GitHub فيرفض المتصفح أي ملف معدَّل */
+var SRI_MAP={"https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js":"sha384-AQ3POAMqIhwS81FrUH95ekxqBZHeP5tG2JfEL3+7GuTtfRLWnrRh32UxwzM+//A9","https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js":"sha384-TnlRYaR4JYz/lpaGuaiU61PjNberSA4vjLjtF+oRC/IkohkJqnWxw5EmDSOt1vA1","https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js":"sha384-qn4Jh88HhJA8dplNQyGjOh9OGI4izVhrfj/qIFgaKcdgOE06pXqIKGlsCILZcLAC","https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js":"sha384-6I0gWsz4FIAr30c0TxIxJnPQuJiZ1FfILdZrgJdjxTH3R8dgPGTvexbyqTvReV6Z","https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js":"sha384-3zSEDfvllQohrq0PHL1fOXJuC/jSOO34H46t6UQfobFOmxE5BpjjaIJY5F2/bMnU"};
 function loadScript(src){
   return new Promise(function(res,rej){
     var s=document.createElement("script"); s.src=src; s.async=true;
+    if(SRI_MAP[src]){ s.integrity=SRI_MAP[src]; s.crossOrigin="anonymous"; }
     s.onload=res; s.onerror=function(){rej(new Error("load "+src));};
     document.head.appendChild(s);
   });
@@ -875,12 +1048,11 @@ async function initFirebase(cfg){
     try{ await loadScript("https://www.gstatic.com/firebasejs/"+FBV+"/firebase-storage-compat.js"); }catch(e){}
     window.firebase.initializeApp(cfg);
   }
-  /* قواعد الحماية تشترط تسجيل دخول — دخول مجهول تلقائي لكل جهاز */
-  await new Promise(function(res,rej){
+  /* لا دخول مجهول: كل شخص يدخل بحساب حقيقي مرتبط برمزه الشخصي، وقواعد الخادم تمنع غيرهم */
+  await new Promise(function(res){
     var auth=window.firebase.auth();
-    var off=auth.onAuthStateChanged(function(u){ if(u){ off(); res(u); } });
-    auth.signInAnonymously().catch(function(e){ off(); rej(e); });
-    setTimeout(function(){ off(); rej(new Error("auth timeout")); },20000);
+    var off=auth.onAuthStateChanged(function(){ off(); res(); });
+    setTimeout(function(){ res(); },15000);
   });
   return true;
 }
@@ -905,13 +1077,19 @@ async function initStore(){
   if(cfg&&cfg.apiKey){
     try{
       await initFirebase(cfg);
-      DB=window.firebase.firestore(); MODE="shared"; MODE_FB=true;
-      subs=[watch("staff"),watch("projects"),watch("notes"),watch("reviews"),
-            watch("logs"),watch("orders"),watch("briefs"),watch("meta")];
+      DB=window.firebase.firestore(); MODE_FB=true; MODE="auth";
       ASSETS=fbAssets();
+      var cu=window.firebase.auth().currentUser;
+      if(cu && !cu.isAnonymous && UNLOCKED){
+        try{ var sid=await fbStaffOf(cu.uid); meId=sid; fbStart(); }
+        catch(e){ UNLOCKED=false; await fbSignOut(); }
+      } else { UNLOCKED=false; if(cu) await fbSignOut(); }
       render(); return;
     }catch(e){
       MODE_ERR=(e&&e.code)||(e&&e.message)||"خطأ";
+      if(!onClaude()){ MODE="auth"; UNLOCKED=false;
+        LOCK_MSG="تعذّر الاتصال بقاعدة بيانات المكتب — تحقق من الإنترنت ثم أعد فتح الصفحة";
+        render(); return; }
       toast("تعذّر الاتصال بقاعدة البيانات المشتركة — سيعمل البرنامج محلياً",true);
     }
   }
@@ -961,7 +1139,7 @@ function requireRootCode(title,cb){
     if(codeOk("root",i.value)){ ROOT_UNLOCKED=true; closeModal(); cb(); }
     else toast("الرقم السري غير صحيح",true);
   }
-  i.addEventListener("keydown",function(e){ if(e.key==="Enter") go(); });
+  i.addEventListener("keydown",function(e){ if(e.key==="Enter"){ e.preventDefault(); go(); } });
   openModal(modal(title||"النظام الرئيسي",[
     el("p",{style:"margin:0;font-size:13px;color:var(--ink-2);line-height:1.75",
       text:"هذا الإجراء يحتاج الرقم السري للنظام الرئيسي."}),
@@ -1055,6 +1233,7 @@ function lockNow(idle){
   try{ localStorage.removeItem(LS_ACT); }catch(e){}
   closeModal();
   LOCK_MSG = idle ? "أُقفل النظام تلقائياً بعد 10 دقائق من عدم النشاط" : "تم قفل البرنامج";
+  if(MODE_FB){ fbStop(); fbSignOut(); }
   render();
 }
 function lockBuild(){
@@ -1283,6 +1462,8 @@ function lockSubmit(){
   if(!v) return lockErr("أدخل الرقم السري");
   if(MODE==="loading") return lockErr("جارٍ الاتصال بقاعدة البيانات — حاول بعد لحظة");
   if(Date.now()<FAIL_UNTIL) return lockErr("محاولات كثيرة — انتظر "+Math.ceil((FAIL_UNTIL-Date.now())/1000)+" ثانية");
+  if(MODE_FB) return lockSubmitFb(v);
+  if(fbCfg() && !onClaude()) return lockErr("تعذّر الاتصال بقاعدة البيانات — أعد فتح الصفحة");
   var all=[]; for(var k in S.staff) if(!isContact(S.staff[k])) all.push(S.staff[k]);
   var hit=all.filter(function(x){ return x.pin && String(x.pin).trim()===v; });
   if(!hit.length){
@@ -1291,11 +1472,7 @@ function lockSubmit(){
     if(!/^0+$/.test(ROOT_CODE) && v===ROOT_CODE && roots.length && !roots.some(function(x){ return x.pin&&String(x.pin).trim(); })) hit=[roots[0]];
   }
   if(hit.length>1) return lockErr("هذا الرمز مسجّل لأكثر من حساب — راجع المدير المسؤول");
-  if(!hit.length){
-    FAILS++;
-    if(FAILS>=5){ FAILS=0; FAIL_UNTIL=Date.now()+30000; return lockErr("5 محاولات خاطئة — انتظر 30 ثانية"); }
-    return lockErr("الرقم السري غير صحيح");
-  }
+  if(!hit.length) return lockFail();
   FAILS=0;
   var who=hit[0];
   meId=who.id; try{ localStorage.setItem(LS_ID,who.id); }catch(e){}
@@ -1304,6 +1481,34 @@ function lockSubmit(){
   V.tab = who.role==="staff" ? "desk" : "projects";
   render();
   toast("أهلاً "+who.name);
+}
+
+var LOGIN_BUSY=false;
+function lockFail(){
+  FAILS++;
+  if(FAILS>=5){ var w=30*Math.pow(2,Math.min(4,Math.floor((FAILS-5)/5)));
+    FAIL_UNTIL=Date.now()+w*1000; return lockErr(FAILS+" محاولات خاطئة — انتظر "+w+" ثانية"); }
+  lockErr("الرقم السري غير صحيح");
+}
+function lockSubmitFb(v){
+  if(LOGIN_BUSY) return;
+  LOGIN_BUSY=true; LOCK.err.style.color="var(--ink-3)"; LOCK.err.textContent="جارٍ التحقق…";
+  fbLogin(v).then(function(sid){
+    LOGIN_BUSY=false; LOCK.err.style.color=""; LOCK.err.textContent="";
+    FAILS=0; meId=sid; try{ localStorage.setItem(LS_ID,sid); }catch(e){}
+    ROOT_UNLOCKED=false; ADMIN_OPEN=false;
+    UNLOCKED=true; markActive(true);
+    fbStart();
+    V.tab="projects";
+    var once=setInterval(function(){ var w=S.staff[sid]; if(w||!UNLOCKED){ clearInterval(once);
+      if(w){ if(w.role==="staff"){ V.tab="desk"; render(); } toast("أهلاً "+w.name); } } },300);
+    setTimeout(function(){ clearInterval(once); },15000);
+    render();
+  },function(e){
+    LOGIN_BUSY=false; LOCK.err.style.color="";
+    if(e&&e.bad) return lockFail();
+    lockErr((e&&e.msg)||"تعذّر الدخول");
+  });
 }
 
 /* ============ derived ============ */
@@ -1447,7 +1652,7 @@ function openModal(node){
   var mask=el("div",{class:"mask",onclick:function(e){ if(e.target===mask) closeModal(); }},[node]);
   root.appendChild(mask);
   document.addEventListener("keydown",escClose);
-  var f=node.querySelector("input,select,textarea,button"); if(f) f.focus();
+  var f=node.querySelector(".m-bd input,.m-bd select,.m-bd textarea")||node.querySelector(".m-ft button,input,select,textarea,button"); if(f) f.focus();
 }
 function escClose(e){ if(e.key==="Escape") closeModal(); }
 function closeModal(){ $("#modal-root").innerHTML=""; document.removeEventListener("keydown",escClose); }
@@ -1476,6 +1681,7 @@ function sel(id,val,opts){
 
 /* ============ identity picker ============ */
 function askWhoAmI(showAll){
+  if(MODE_FB){ lockNow(false); return; }
   var list=staffList();
   if(!list.length){ return firstSetup(); }
   var admin = isRoot();
@@ -1505,6 +1711,7 @@ function askWhoAmI(showAll){
 }
 /* دخول الموظف برمزه الشخصي — لا تظهر له أسماء الآخرين */
 function askOwnCode(){
+  if(MODE_FB){ lockNow(false); return; }
   var i=inp("ownCode","",{type:"password",maxlength:"24",placeholder:"••••••",
     autocomplete:"off",spellcheck:"false",dir:"ltr"});
   i.style.direction="ltr"; i.style.textAlign="left";
@@ -1517,7 +1724,7 @@ function askOwnCode(){
     if(hit.length>1){ toast("هذا الرمز مكرر — راجع المدير المسؤول",true); return; }
     toast("الرمز غير صحيح",true);
   }
-  i.addEventListener("keydown",function(e){ if(e.key==="Enter") go(); });
+  i.addEventListener("keydown",function(e){ if(e.key==="Enter"){ e.preventDefault(); go(); } });
   openModal(modal("الدخول إلى حسابك",[
     el("p",{style:"margin:0;font-size:13px;color:var(--ink-2);line-height:1.8",
       text:"أدخل رمز الدخول الذي أرسله لك المهندس المسؤول، فيفتح البرنامج على مشاريعك ومهامك أنت فقط."}),
@@ -1535,6 +1742,7 @@ function rootLogin(){
 
 /* ===== لوحة الدخول بالرقم السري: تحويل القائمة وتغيير المدير المسؤول ===== */
 function adminGate(){
+  if(MODE_FB){ lockNow(false); return; }
   requireRootCode("الدخول بالرقم السري",adminPanelRoot);
 }
 /* ===== ربط هذا الجهاز بقاعدة البيانات المشتركة ===== */
@@ -1754,7 +1962,7 @@ function askPin(s){
     if(i.value.trim()===String(s.pin).trim()){ setMe(s.id); toast("أهلاً "+s.name); }
     else toast("الرمز السري غير صحيح",true);
   }
-  i.addEventListener("keydown",function(e){ if(e.key==="Enter") go(); });
+  i.addEventListener("keydown",function(e){ if(e.key==="Enter"){ e.preventDefault(); go(); } });
   openModal(modal("رمز الدخول — "+s.name,[
     el("div",{style:"display:flex;gap:10px;align-items:center"},[
       el("span",{class:"av"+(s.role!=="staff"?" mgr":""),text:initials(s.name)}),
@@ -1874,6 +2082,7 @@ function staffFormOpen(s){
                              msgScope:(kind==="contact"?"none":sc.value)}
                           : ((s&&s.perms)||{staff:false,projects:false,msgScope:"all"});
       var pv=kind==="contact"?"":pin.value.trim();
+      if(pv && MODE_FB && pv.length<6) return toast("الرقم السري يجب ألا يقل عن 6 خانات (حروف وأرقام)",true);
       if(pv){ for(var k2 in S.staff){ var o2=S.staff[k2];
         if(k2!==id && o2 && o2.pin && String(o2.pin).trim()===pv)
           return toast("هذا الرقم السري مستخدم لحساب آخر — اختر رقماً مختلفاً",true); } }
@@ -4391,7 +4600,7 @@ function askCode(){
     if(codeOk("admin",i.value)){ ADMIN_OPEN=true; closeModal(); adminPanel(); }
     else toast("الرمز غير صحيح",true);
   }
-  i.addEventListener("keydown",function(e){ if(e.key==="Enter") go(); });
+  i.addEventListener("keydown",function(e){ if(e.key==="Enter"){ e.preventDefault(); go(); } });
   openModal(modal("النظام الداخلي",[
     el("p",{style:"margin:0;font-size:13px;color:var(--ink-2);line-height:1.75",
       text:"أدخل الرمز السري لفتح سجل التعديلات الداخلي."}),
@@ -5120,6 +5329,7 @@ function doRender(){
   var anyStaff=Object.keys(S.staff).length>0;
   if(UNLOCKED && MODE!=="loading" && anyStaff && !me()) UNLOCKED=false;
   if(needsLink()){ root.innerHTML=""; UNLOCKED=false; showLock(); return; }
+  if(MODE==="auth"){ root.innerHTML=""; UNLOCKED=false; showLock(); return; }
   var fresh = MODE!=="loading" && MODE!=="revoked" && !anyStaff;
   if(!UNLOCKED && !fresh){ root.innerHTML=""; showLock(); return; }
   hideLock();

@@ -1,0 +1,104 @@
+rules_version = '2';
+// قواعد حماية قاعدة بيانات «إدارة مشاريع المكتب»
+// • لا يقرأ أو يكتب إلا عضو في الفريق دخل بحسابه الشخصي (الرقم السري) — الدخول المجهول مرفوض.
+// • إدارة الفريق والصلاحيات والإعدادات للمسؤول الرئيسي، وللمهندس المسؤول المخوّل على الموظفين فقط.
+// • الرموز السرية (secrets) لا يقرؤها إلا المسؤول الرئيسي.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null
+        && request.auth.token.firebase.sign_in_provider == 'password';
+    }
+    function userDoc() {
+      return /databases/$(database)/documents/users/$(request.auth.uid);
+    }
+    function member() {
+      return signedIn() && exists(userDoc());
+    }
+    function meStaff() {
+      return get(/databases/$(database)/documents/staff/$(get(userDoc()).data.staffId)).data;
+    }
+    function isRoot() {
+      return member() && meStaff().role == 'root';
+    }
+    function isBoss() {
+      return member() && (meStaff().role == 'root' || meStaff().role == 'manager');
+    }
+    function canStaffAdmin() {
+      return member() && meStaff().role == 'manager'
+        && meStaff().get('perms', {}).get('staff', false) == true;
+    }
+    function canProjects() {
+      return isBoss() || (member() && meStaff().get('perms', {}).get('projects', false) == true);
+    }
+    function staffRoleOf(id) {
+      return get(/databases/$(database)/documents/staff/$(id)).data.role;
+    }
+    function staffExists(id) {
+      return exists(/databases/$(database)/documents/staff/$(id));
+    }
+    function noPin() {
+      return !('pin' in request.resource.data);
+    }
+
+    // الفريق: قراءة للأعضاء، والتعديل للمسؤول الرئيسي (والمهندس المسؤول المخوّل على الموظفين فقط)
+    match /staff/{id} {
+      allow read: if member();
+      allow create: if noPin() && (isRoot()
+        || (canStaffAdmin() && request.resource.data.role == 'staff'));
+      allow update: if noPin() && (isRoot()
+        || (canStaffAdmin() && resource.data.role == 'staff' && request.resource.data.role == 'staff'
+            && request.resource.data.get('perms', {}) == resource.data.get('perms', {})));
+      allow delete: if isRoot() || (canStaffAdmin() && resource.data.role == 'staff');
+    }
+
+    // ربط الحساب بالموظف: كل شخص يقرأ ربطه فقط
+    match /users/{uid} {
+      allow read: if (signedIn() && request.auth.uid == uid) || isRoot() || canStaffAdmin();
+      allow create, update: if isRoot()
+        || (canStaffAdmin() && request.resource.data.keys().hasOnly(['staffId'])
+            && staffExists(request.resource.data.staffId)
+            && staffRoleOf(request.resource.data.staffId) == 'staff');
+      allow delete: if isRoot() || canStaffAdmin();
+    }
+
+    // الرموز السرية
+    match /secrets/{id} {
+      allow read, write: if isRoot();
+      allow create, update: if canStaffAdmin() && staffExists(id) && staffRoleOf(id) == 'staff';
+    }
+
+    // المشاريع
+    match /projects/{id} {
+      allow read: if member();
+      allow create, delete: if canProjects();
+      allow update: if member();
+    }
+
+    // الملاحظات والتنبيهات والمعاملات والسجلات والأوامر ومتطلبات العملاء
+    match /notes/{id}   { allow read, write: if member(); }
+    match /reviews/{id} { allow read, write: if member(); }
+    match /logs/{id}    { allow read, write: if member(); }
+    match /orders/{id}  { allow read, write: if member(); }
+    match /briefs/{id}  { allow read, write: if member(); }
+
+    // الإعدادات
+    match /meta/{id} {
+      allow read: if member();
+      allow write: if isRoot();
+    }
+
+    // سجل التعديلات الداخلي: الإضافة للأعضاء، والحذف للمسؤول الرئيسي فقط
+    match /audit/{day} {
+      allow read: if member();
+      allow create, update: if member();
+      allow delete: if isRoot();
+    }
+
+    // أي شيء آخر مرفوض
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
