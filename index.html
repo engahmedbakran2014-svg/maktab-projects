@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-2bxpCqjRpdsQtuYfK3dDL3ZMIoRihxT9RwXI22egnPU=' 'sha256-uMUkCsD/MXZKHJWpCIUc1pYrvGeVsCtD5hQ30dOgQVU=' 'sha256-PhBegPDbBcqi+0+wWdk4S2/99tkko4MqLLFsVnPZsdI=' https://www.gstatic.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com wss://*.firebaseio.com https://*.firebaseapp.com https://www.gstatic.com; frame-src https://*.firebaseapp.com; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-2bxpCqjRpdsQtuYfK3dDL3ZMIoRihxT9RwXI22egnPU=' 'sha256-uMUkCsD/MXZKHJWpCIUc1pYrvGeVsCtD5hQ30dOgQVU=' 'sha256-phS1B+m+ldbE9Ez6i/EyrFzR9O6mPHF7/jCU+pZUeIc=' https://www.gstatic.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com wss://*.firebaseio.com https://*.firebaseapp.com https://www.gstatic.com; frame-src https://*.firebaseapp.com; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="برنامج إدارة مشاريع المكتب الهندسي — ترتيب المشاريع والمهام والموافقات المبدئية">
@@ -622,6 +622,177 @@ body:has(.lock:not(.gone)) .mask{z-index:86}
   .wfstep .ring-l small{max-width:90px}
 }
 @media print{ .wf-cb{border-color:#999} }
+/* ---------- أداء الفريق وملف الموظف ---------- */
+:root{--sc-l:38%}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){--sc-l:62%} }
+:root[data-theme="dark"]{--sc-l:62%}
+.pf{display:flex;flex-direction:column;gap:14px}
+.pf-hd{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;
+  background:var(--surface);border:1px solid var(--line-soft);border-radius:14px;padding:14px 16px;box-shadow:var(--shadow)}
+.pf-ttl h2{margin:0;font-family:var(--f-disp);font-size:19px}
+.pf-tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.pf-seg{display:inline-flex;background:var(--surface-3);border-radius:10px;padding:3px;gap:2px;align-self:flex-start}
+.pf-sb{border:0;background:none;font:inherit;font-size:12.5px;font-weight:600;color:var(--ink-2);padding:6px 12px;border-radius:8px;cursor:pointer;transition:.18s}
+.pf-sb.on{background:var(--surface);color:var(--accent);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.pf-nav{display:inline-flex;align-items:center;gap:6px}
+.pf-nav b{font-size:13px;min-width:150px;text-align:center}
+.pf-chk{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;color:var(--ink-2);cursor:pointer}
+.pf-chk input{width:auto}
+.pf-lead{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}
+.pf-lc{display:flex;align-items:center;gap:12px;text-align:right;font:inherit;color:inherit;cursor:pointer;
+  background:linear-gradient(135deg,var(--accent-soft),var(--surface) 70%);border:1px solid var(--line-soft);
+  border-radius:14px;padding:12px 14px;transition:transform .2s,box-shadow .2s}
+.pf-lc:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.pf-lc.team,.pf-lc.empty-l{background:var(--surface);cursor:default}
+.pf-lc.team:hover,.pf-lc.empty-l:hover{transform:none;box-shadow:none}
+.pf-cup{font-size:26px;filter:drop-shadow(0 2px 3px rgba(0,0,0,.15))}
+.pf-lc-t{display:flex;flex-direction:column;flex:1;min-width:0}
+.pf-lc-t small{font-size:11.5px;color:var(--ink-3);font-weight:600}
+.pf-lc-t b{font-size:15px}
+.pf-lc-v{font-family:var(--f-num);font-size:24px}
+.pf-legend{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:11.5px;color:var(--ink-3)}
+.pf-grad{display:inline-block;width:120px;height:8px;border-radius:5px;
+  background:linear-gradient(to left,hsl(0 68% var(--sc-l)),hsl(28 68% var(--sc-l)),hsl(62 68% var(--sc-l)),hsl(125 68% var(--sc-l)))}
+.pf-lg-sep{width:1px;height:14px;background:var(--line)}
+.pf-lg-k{display:inline-flex;align-items:center;gap:4px}
+.pf-k{display:inline-flex;width:15px;height:15px}
+.pf-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.pf-grid.det{grid-template-columns:repeat(auto-fill,minmax(310px,1fr))}
+.pf-card{display:flex;flex-direction:column;gap:10px;text-align:right;font:inherit;color:inherit;cursor:pointer;
+  background:var(--surface);border:1px solid var(--line-soft);border-radius:16px;padding:14px;box-shadow:var(--shadow);
+  transition:transform .22s cubic-bezier(.2,.8,.2,1),box-shadow .22s,border-color .22s;
+  animation:pfIn .5s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i,0)*60ms)}
+.pf-card:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:0 14px 30px -18px rgba(15,110,100,.55)}
+.pf-card:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.pf-card.top{border-color:color-mix(in oklab,var(--accent) 45%,var(--line-soft))}
+.pf-card.sel{transform:scale(.97);border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+.pf-ch{display:flex;align-items:center;gap:10px}
+.pf-cn{display:flex;flex-direction:column;flex:1;min-width:0}
+.pf-cn b{font-size:14.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pf-cn small{font-size:11.5px;color:var(--ink-3)}
+.pf-rk{font-family:var(--f-num);font-weight:700;font-size:12px;padding:3px 8px;border-radius:8px;background:var(--surface-3);color:var(--ink-2)}
+.pf-rk.first{background:linear-gradient(135deg,#E9C46A,#C9973A);color:#fff}
+.pf-cb{display:flex;align-items:center;gap:14px}
+.pf-cs{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;flex:1}
+.pf-cs>div{display:flex;flex-direction:column}
+.pf-cs b{font-family:var(--f-num);font-size:16px}
+.pf-cs small{font-size:11px;color:var(--ink-3)}
+.pf-cs.row{display:flex;flex-wrap:wrap;gap:6px}
+.pf-cs.row>div{flex:1 1 70px;background:var(--surface-2);border-radius:10px;padding:7px 9px;border:1px solid var(--line-soft)}
+.pf-cs.row.wide>div{flex-basis:120px}
+.pf-bdg{display:flex;gap:5px;flex-wrap:wrap}
+.pf-bdg .pill{font-size:10.5px;padding:2px 8px}
+.pf-bdg:empty{display:none}
+.pf-cf{display:flex;justify-content:space-between;font-size:11px;color:var(--ink-3);border-top:1px dashed var(--line-soft);padding-top:8px}
+.pf-go{color:var(--accent);font-weight:600;transition:transform .2s}
+.pf-card:hover .pf-go{transform:translateX(-4px)}
+.pf-donut{position:relative;display:inline-grid;place-items:center;flex:none}
+.pf-donut svg{position:absolute;inset:0}
+circle.pf-arc{animation:pfGrow 1s cubic-bezier(.2,.8,.2,1) both}
+.pf-dc{position:relative;display:flex;flex-direction:column;align-items:center;line-height:1.1}
+.pf-dc b{font-family:var(--f-num);font-weight:700}
+.pf-dc small{font-size:10.5px;color:var(--ink-3);margin-top:3px}
+.pf-bars{display:flex;flex-direction:column;gap:7px;flex:1;min-width:0}
+.pf-bars.wide{gap:10px}
+.pf-bar small{font-size:11px;color:var(--ink-3)}
+.pf-bl{display:flex;justify-content:space-between;gap:8px;font-size:12px;color:var(--ink-2)}
+.pf-bl b{font-family:var(--f-num)}
+.pf-bt{height:7px;border-radius:5px;background:var(--surface-3);overflow:hidden;margin-top:3px}
+.pf-bt i{display:block;height:100%;border-radius:5px;animation:pfBar .9s cubic-bezier(.2,.8,.2,1) both;transform-origin:right}
+.pf-note{margin:0;font-size:11.5px;line-height:1.8}
+.pf.still .pf-card,.pf.still circle.pf-arc,.pf.still .pf-bt i{animation:none}
+@keyframes pfIn{from{opacity:0;transform:translateY(12px) scale(.98)}}
+@keyframes pfGrow{from{stroke-dasharray:0 360}}
+@keyframes pfBar{from{transform:scaleX(0)}}
+@keyframes pfPop{from{opacity:0;transform:translateY(18px) scale(.97)}}
+.modal.pf-pop{animation:pfPop .32s cubic-bezier(.2,.8,.2,1) both}
+.pf-det{display:flex;flex-direction:column;gap:14px}
+.pf-dh{display:flex;gap:18px;align-items:center;flex-wrap:wrap;background:linear-gradient(135deg,var(--accent-soft),transparent 70%);
+  border-radius:14px;padding:14px}
+.pf-dhi{display:flex;flex-direction:column;gap:8px;flex:1;min-width:220px}
+.pf-dn{display:flex;gap:10px;align-items:center}
+.pf-dn b{font-size:17px;font-family:var(--f-disp)}
+.pf-dn small{display:block;font-size:12px;color:var(--ink-3)}
+.pf-dn .av,.av.big{width:44px;height:44px;font-size:16px;border-radius:12px}
+.pf-dl{display:flex;gap:12px;flex-wrap:wrap;font-size:12.5px;color:var(--ink-2)}
+.pf-dl span{display:inline-flex;align-items:center;gap:5px}
+.pf-dl b{font-family:var(--f-num)}
+.pf-pl{display:flex;flex-direction:column;gap:6px}
+.pf-pli{display:flex;align-items:center;gap:10px;text-align:right;font:inherit;color:inherit;cursor:pointer;
+  background:var(--surface-2);border:1px solid var(--line-soft);border-radius:11px;padding:6px 10px;transition:.15s}
+.pf-pli:hover{border-color:var(--accent)}
+.pf-plt{display:flex;flex-direction:column;flex:1;min-width:0}
+.pf-plt b{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pf-plt small{font-size:11.5px;color:var(--ink-3)}
+.pf-ev{display:grid;grid-template-columns:1fr 1fr;gap:12px 18px;border:1px solid var(--line-soft);border-radius:14px;padding:14px;background:var(--surface-2)}
+.pf-evh{grid-column:1/-1;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:baseline}
+.pf-ev>div:last-child{grid-column:1/-1}
+.pf-sl{display:flex;flex-direction:column;gap:4px}
+.pf-sv{font-family:var(--f-num);font-size:15px}
+.pf-sl input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:8px;border-radius:5px;padding:0;border:0;
+  background:linear-gradient(to left,var(--c,var(--accent)) var(--v,50%),var(--surface-3) var(--v,50%));direction:rtl}
+.pf-sl input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--surface);
+  border:3px solid var(--c,var(--accent));box-shadow:0 1px 4px rgba(0,0,0,.25);cursor:pointer}
+.pf-sl input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--surface);border:3px solid var(--c,var(--accent))}
+.pf-pick{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:6px}
+.pf-pick.row{display:flex;flex-wrap:wrap}
+.pf-pi{display:flex;align-items:center;gap:8px;border:1px solid var(--line-soft);border-radius:10px;padding:7px 9px;cursor:pointer;background:var(--surface);transition:.15s}
+.pf-pi.on{border-color:var(--accent);background:var(--accent-soft)}
+.pf-pi input{width:auto}
+.pf-pi.sm{padding:4px 9px;font-size:12.5px}
+.pf-pin{display:flex;flex-direction:column}
+.pf-pin small{font-size:11px;color:var(--ink-3)}
+.pf-file{display:flex;flex-direction:column;gap:12px}
+.pf-fh{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.pf-fhi{display:flex;flex-direction:column;flex:1;min-width:180px}
+.pf-fhi b{font-size:16px;font-family:var(--f-disp)}
+.pf-fhi small{font-size:12px;color:var(--ink-3)}
+.pf-fh .pf-cs.row{flex:1 1 100%}
+.pf-en{border:1px solid var(--line-soft);border-radius:12px;padding:10px 12px;background:var(--surface);animation:pfIn .35s both}
+.pf-enh{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.pf-enh .spacer{flex:1}
+.pf-enh b{font-size:13.5px}
+.pf-ent{margin:6px 0 2px;font-size:13px;white-space:pre-wrap;color:var(--ink-2);line-height:1.8}
+.pf-ths{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.pf-th{width:92px;height:72px;object-fit:cover;border-radius:9px;border:1px solid var(--line);cursor:zoom-in;background:var(--surface-3);transition:transform .15s}
+.pf-th:hover{transform:scale(1.04)}
+.pf-th.big{width:220px;height:auto;max-height:260px;object-fit:contain}
+.pf-th.miss{opacity:.4}
+.pf-thw{position:relative;display:inline-block}
+.pf-thx{position:absolute;top:-6px;left:-6px;width:22px;height:22px;border-radius:50%;border:0;background:var(--crit);color:#fff;font-size:11px;cursor:pointer;padding:0}
+.pf-fold{border:1px solid var(--line-soft);border-radius:13px;overflow:hidden;background:var(--surface-2)}
+.pf-foldh{display:flex;align-items:center;gap:10px;padding:9px 12px}
+.pf-foldb{display:flex;flex-direction:column;gap:6px;padding:0 10px 10px}
+.pf-lb{position:fixed;inset:0;z-index:9999;background:rgba(10,16,20,.86);display:grid;place-items:center;padding:20px;cursor:zoom-out;animation:pfPop .25s both}
+.pf-lb img{max-width:96vw;max-height:88vh;border-radius:10px;box-shadow:0 20px 50px rgba(0,0,0,.5)}
+.pf-lbx{position:absolute;top:14px;left:16px;color:#fff;font-size:22px}
+.pf-tc{font-family:var(--f-num);font-weight:700}
+.pf-tc.big{font-size:14px}
+.pf-plead{display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;background:var(--accent-soft);border-radius:10px;padding:8px 12px}
+.pf-pcards{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.pf-pc{display:flex;gap:12px;align-items:center;border:1px solid var(--line-soft);border-radius:12px;padding:8px 10px;page-break-inside:avoid}
+.pf-pct{display:flex;flex-direction:column;gap:2px;font-size:11.5px;color:var(--ink-2);min-width:0}
+.pf-pct b{font-size:13px;color:var(--ink)}
+.pf-pnote{color:var(--ink-3)}
+@media (max-width:620px){
+  .pf-hd{padding:12px}
+  .pf-nav b{min-width:0;font-size:12px}
+  .pf-ev{grid-template-columns:1fr}
+  .pf-pcards{grid-template-columns:1fr}
+  .pf-grid,.pf-grid.det{grid-template-columns:1fr}
+  .pf-dh{justify-content:center}
+}
+@media (prefers-reduced-motion: reduce){
+  .pf-card,circle.pf-arc,.pf-bt i,.modal.pf-pop,.pf-en,.pf-lb{animation:none!important}
+  .pf-card,.pf-lc{transition:none}
+}
+@media print{
+  :root{--sc-l:38%}
+  #toast,.toast{display:none!important}
+  .pf-card,circle.pf-arc,.pf-bt i,.pf-en{animation:none!important}
+  .pf-pcards{grid-template-columns:repeat(2,1fr)}
+  .pf-th.big{max-height:220px}
+}
 @media print{ .lock{display:none!important} body.wm::before{display:none!important} }
 @media (max-width:900px){ .row .acts{justify-content:flex-start} }
 
@@ -812,7 +983,7 @@ function waPhone(raw){
 
 /* ============ store (shared db, local fallback) ============ */
 var DB=null, MODE="loading", MODE_FB=false, MODE_ERR="";
-var S={staff:{},projects:{},notes:{},reviews:{},logs:{},orders:{},briefs:{},meta:{}};
+var S={staff:{},projects:{},notes:{},reviews:{},logs:{},orders:{},briefs:{},meta:{},perf:{}};
 var AUDIT={};
 var ASSETS=null;
 var subs=[];
@@ -821,7 +992,7 @@ function loadLocal(){
   try{ var raw=localStorage.getItem(LS_DATA); if(raw){ var o=JSON.parse(raw);
     S.staff=o.staff||{}; S.projects=o.projects||{}; S.notes=o.notes||{};
     S.reviews=o.reviews||{}; S.logs=o.logs||{}; S.orders=o.orders||{};
-    S.briefs=o.briefs||{}; S.meta=o.meta||{}; AUDIT=o.audit||{}; } }catch(e){}
+    S.briefs=o.briefs||{}; S.meta=o.meta||{}; S.perf=o.perf||{}; AUDIT=o.audit||{}; } }catch(e){}
 }
 function saveLocal(){
   try{ localStorage.setItem(LS_DATA,JSON.stringify(Object.assign({},S,{audit:AUDIT}))); }catch(e){}
@@ -975,12 +1146,15 @@ function fbStart(){
   MODE="loading";
   subs=[watch("staff"),watch("projects"),watch("notes"),watch("reviews"),
         watch("logs"),watch("orders"),watch("briefs"),watch("meta")];
-  fbWatchSecrets();
+  fbWatchSecrets(); pfWatch();
 }
 /* الرموز السرية — للمسؤول الرئيسي فقط (قواعد الخادم ترفض غيره) */
 function fbWatchSecrets(){
   if(SEC_SUB){ try{SEC_SUB();}catch(e){} SEC_SUB=null; }
-  SEC_SUB=DB.collection("secrets").onSnapshot(function(snap){
+  /* ملفات الأداء والصور محفوظة في نفس المجموعة المحمية بأسماء تبدأ بـ «~» — لا تُحمَّل هنا */
+  var q=DB.collection("secrets");
+  try{ q=q.where(window.firebase.firestore.FieldPath.documentId(),"<","~"); }catch(e){}
+  SEC_SUB=q.onSnapshot(function(snap){
     var m={}; snap.docs.forEach(function(d){ m[d.id]=d.data(); });
     SECRETS=m; overlaySecrets(S.staff); render();
   },function(){ SECRETS={}; });
@@ -988,6 +1162,7 @@ function fbWatchSecrets(){
 function fbStop(){
   subs.forEach(function(u){ try{u();}catch(e){} }); subs=[];
   if(SEC_SUB){ try{SEC_SUB();}catch(e){} SEC_SUB=null; }
+  pfStop(); PH_CACHE={};
   SECRETS={};
   for(var k in S) S[k]={};
   MODE="auth";
@@ -1156,7 +1331,7 @@ async function initStore(){
   try{ db = window.claude && window.claude.use ? await window.claude.use("db") : null; }catch(e){ db=null; }
   if(db){ DB=db; MODE="shared";
     subs=[watch("staff"),watch("projects"),watch("notes"),watch("reviews"),
-          watch("logs"),watch("orders"),watch("briefs"),watch("meta")]; }
+          watch("logs"),watch("orders"),watch("briefs"),watch("meta")]; pfWatch(); }
   else { MODE="local"; loadLocal(); }
   render();
   try{ ASSETS = window.claude&&window.claude.use ? await window.claude.use("assets") : null; }
@@ -4094,6 +4269,837 @@ function wfWorkRecord(sid){
   var md=$("#modal-root .modal"); if(md) md.style.maxWidth="900px";
 }
 
+/* ============ أداء الفريق وملف الموظف — للمسؤول الرئيسي فقط ============
+   • المؤشرات تُحسب من مهام المراحل والأفكار المبدئية (أسبوعياً أو شهرياً):
+     نسبة الإنجاز، والالتزام بالوقت، والجودة، وفهم المتطلبات، وعدد المشاريع والتعديلات.
+   • تقييم المدير (0–100) لكل موظف في كل فترة: الوقت، جودة الإخراج، جودة الفكرة، فهم المتطلبات.
+   • ملف لكل موظف: سجل بالتاريخ لكل مشروع مع صور، يُطبع ويُحفظ على الجهاز.
+   • في نسخة الجوال تُحفظ هذه البيانات في مجموعة «secrets» التي لا يقرؤها إلا المسؤول الرئيسي. */
+var PF_SUB=null, PH_CACHE={};
+var PV={per:"month",off:0,view:"pct",proj:true,lastKey:""};
+try{ var _pv=JSON.parse(localStorage.getItem("mirqab.pv")||"null");
+  if(_pv){ PV.per=_pv.per==="week"?"week":"month"; PV.view=_pv.view==="det"?"det":"pct"; PV.proj=_pv.proj!==false; } }catch(e){}
+function pvSave(){ try{ localStorage.setItem("mirqab.pv",JSON.stringify({per:PV.per,view:PV.view,proj:PV.proj})); }catch(e){} }
+var PF_TYPES=["ملاحظة","تعديل","إنجاز","إشادة","تنبيه"];
+var PF_TYPE_CLS={"ملاحظة":"","تعديل":"work","إنجاز":"done","إشادة":"accent","تنبيه":"late"};
+
+function pfColl(){ return MODE_FB?"secrets":"perf"; }
+function pfDocId(k){ return MODE_FB?"~pf_"+k:k; }
+function pfWatch(){
+  if(PF_SUB){ try{PF_SUB();}catch(e){} PF_SUB=null; }
+  if(!DB) return;
+  try{
+    var q;
+    if(MODE_FB){
+      var fp=window.firebase.firestore.FieldPath.documentId();
+      q=DB.collection("secrets").where(fp,">=","~pf_").where(fp,"<","~pf`");
+    } else q=DB.collection("perf");
+    PF_SUB=q.onSnapshot(function(snap){
+      var m={};
+      snap.docs.forEach(function(d){ var k=MODE_FB?d.id.slice(4):d.id; m[k]=d.data(); });
+      S.perf=m; render();
+    },function(){ S.perf={}; });
+  }catch(e){ S.perf={}; }
+}
+function pfStop(){ if(PF_SUB){ try{PF_SUB();}catch(e){} PF_SUB=null; } }
+function pfDoc(sid){ return JSON.parse(JSON.stringify(S.perf[sid]||{sid:sid})); }
+function pfSave(k,data){
+  data=Object.assign({},data,{upd:Date.now()});
+  S.perf[k]=data; render();
+  if(DB) return DB.collection(pfColl()).doc(pfDocId(k)).set(data).catch(function(e){ (MODE_FB?fbErr:dbErr)(e); });
+  saveLocal(); return Promise.resolve();
+}
+function pfCfg(){ return S.perf._cfg||{}; }
+
+/* ---------- الصور: تُصغَّر على الجهاز قبل الحفظ ---------- */
+function pfCompress(file,max,q){
+  return new Promise(function(res,rej){
+    var u=URL.createObjectURL(file), im=new Image();
+    im.onload=function(){
+      var s=Math.min(1,max/Math.max(im.naturalWidth||1,im.naturalHeight||1));
+      var c=document.createElement("canvas");
+      c.width=Math.max(1,Math.round(im.naturalWidth*s)); c.height=Math.max(1,Math.round(im.naturalHeight*s));
+      var x=c.getContext("2d"); x.fillStyle="#fff"; x.fillRect(0,0,c.width,c.height);
+      x.drawImage(im,0,0,c.width,c.height);
+      URL.revokeObjectURL(u);
+      res(c.toDataURL("image/jpeg",q));
+    };
+    im.onerror=function(){ URL.revokeObjectURL(u); rej({msg:"تعذّر قراءة الصورة"}); };
+    im.src=u;
+  });
+}
+function pfBlob(d){
+  var p=d.split(","), mime=(p[0].match(/:(.*?);/)||[])[1]||"image/jpeg", b=atob(p[1]), a=new Uint8Array(b.length);
+  for(var i=0;i<b.length;i++) a[i]=b.charCodeAt(i);
+  return new Blob([a],{type:mime});
+}
+async function pfPhotoSave(file,sid){
+  if(!/^image\//.test(file.type||"")) throw {msg:"«"+(file.name||"الملف")+"» ليس صورة"};
+  var id=uid();
+  if(MODE_FB){
+    var d=await pfCompress(file,1600,.8);
+    if(d.length>880000) d=await pfCompress(file,1280,.7);
+    if(d.length>880000) d=await pfCompress(file,1000,.6);
+    await DB.collection("secrets").doc("~ph_"+id).set({kind:"ph",sid:sid,d:d,at:Date.now()});
+    PH_CACHE[id]=d; return {t:"d",id:id};
+  }
+  if(ASSETS){
+    var d2=await pfCompress(file,2000,.85);
+    var r=await ASSETS.upload(pfBlob(d2));
+    return {t:"a",id:r.id,url:r.url};
+  }
+  var d3=await pfCompress(file,900,.65);
+  return {t:"i",id:id,d:d3};
+}
+function pfPhotoUrl(ref){
+  if(!ref) return Promise.resolve("");
+  if(ref.t==="a") return Promise.resolve(ref.url||("/_blob/"+ref.id));
+  if(ref.t==="i") return Promise.resolve(ref.d||"");
+  if(PH_CACHE[ref.id]) return Promise.resolve(PH_CACHE[ref.id]);
+  if(!DB) return Promise.resolve("");
+  return DB.collection("secrets").doc("~ph_"+ref.id).get().then(function(s){
+    var d=s.exists?(s.data()||{}).d||"":""; PH_CACHE[ref.id]=d; return d; }).catch(function(){ return ""; });
+}
+function pfPhotoDataUrl(ref){
+  return pfPhotoUrl(ref).then(function(u){
+    if(!u||/^data:/.test(u)) return u;
+    return fetch(u).then(function(r){ return r.blob(); }).then(function(b){
+      return new Promise(function(res){ var fr=new FileReader(); fr.onload=function(){res(fr.result);};
+        fr.onerror=function(){res(u);}; fr.readAsDataURL(b); }); }).catch(function(){ return u; });
+  });
+}
+function pfPhotoDel(ref){
+  if(!ref) return;
+  if(ref.t==="d"&&DB&&MODE_FB) DB.collection("secrets").doc("~ph_"+ref.id).delete().catch(function(){});
+  if(ref.t==="a"&&ASSETS) try{ ASSETS["delete"](ref.id); }catch(e){}
+  delete PH_CACHE[ref.id];
+}
+function pfThumb(ref,big){
+  var im=el("img",{class:"pf-th"+(big?" big":""),alt:"صورة مرفقة",loading:"lazy"});
+  im.setAttribute("data-ref",JSON.stringify({t:ref.t,id:ref.id}));
+  pfPhotoUrl(ref).then(function(u){ if(u) im.src=u; else im.classList.add("miss"); });
+  im.addEventListener("click",function(e){ e.stopPropagation(); pfLightbox(ref); });
+  return im;
+}
+function pfLightbox(ref){
+  var lb=el("div",{class:"pf-lb noprint",title:"إغلاق",onclick:function(){ lb.remove(); }},[
+    el("img",{alt:"صورة مرفقة"}), el("span",{class:"pf-lbx",text:"✕"})]);
+  pfPhotoUrl(ref).then(function(u){ lb.querySelector("img").src=u; });
+  document.body.appendChild(lb);
+}
+
+/* ---------- الفترة: أسبوعية (الأحد–السبت) أو شهرية ---------- */
+function pfRange(per,off){
+  var t=today(), f, e;
+  if(per==="week"){ f=new Date(t); f.setDate(t.getDate()-t.getDay()+7*off); e=new Date(f); e.setDate(f.getDate()+6); }
+  else { f=new Date(t.getFullYear(),t.getMonth()+off,1); e=new Date(t.getFullYear(),t.getMonth()+off+1,0); }
+  var end=new Date(e); end.setHours(23,59,59,999);
+  var label=per==="week"
+    ? ("أسبوع "+f.getDate()+" "+MONTHS[f.getMonth()]+" – "+e.getDate()+" "+MONTHS[e.getMonth()]+" "+e.getFullYear())
+    : ("شهر "+MONTHS[f.getMonth()]+" "+f.getFullYear());
+  return {per:per,off:off,from:f.getTime(),to:end.getTime(),fromIso:iso(f),toIso:iso(e),
+    key:(per==="week"?"w":"m")+iso(f),label:label};
+}
+function pfEval(sid,R){
+  var ev=((S.perf[sid]||{}).ev)||{};
+  if(ev[R.key]) return {e:ev[R.key],own:true};
+  var best=null;
+  for(var k in ev){ var x=ev[k]; if(x&&x.to&&x.to<=R.toIso&&(!best||x.to>best.to||(x.to===best.to&&(x.at||0)>(best.at||0)))) best=x; }
+  return {e:best,own:false};
+}
+function avgN(a){
+  a=a.filter(function(v){ return v!==null&&v!==undefined&&v!==""&&!isNaN(v); }).map(Number);
+  return a.length?Math.round(a.reduce(function(s,v){return s+v;},0)/a.length):null;
+}
+/* مؤشرات الموظف في الفترة */
+function pfMetrics(sid,R){
+  var items=wfItemsOf(sid);
+  var doneIn=items.filter(function(x){ return x.done&&x.it.at&&x.it.at>=R.from&&x.it.at<=R.to; });
+  var pend=items.filter(function(x){
+    if(x.done||x.locked||wfPaused(x.p)||wsOf(x.p)==="مكتمل"||!x.it.due) return false;
+    var d=parseD(x.it.due); return !!d&&d.getTime()<=R.to; });
+  var bDone=0,bOn=0,bPend=0,bList=[];
+  for(var k in S.briefs){
+    var b=S.briefs[k]; if(!b||b.assignedTo!==sid||!b.sentAt) continue;
+    var due=b.ideaDue||addWorkDays(b.sentAt,Number(b.ideaDays)||DEF_IDEA_DAYS);
+    if(b.ideaDoneAt){ var dd=parseD(b.ideaDoneAt); var t=dd?dd.getTime():0;
+      if(t>=R.from&&t<=R.to){ bDone++; var ok=b.ideaDoneAt<=due; if(ok) bOn++; bList.push({b:b,due:due,ok:ok}); } }
+    else { var du=parseD(due); if(du&&du.getTime()<=R.to) bPend++; }
+  }
+  var dn=doneIn.length+bDone, tot=dn+pend.length+bPend;
+  var comp=tot?Math.round(100*dn/tot):null;
+  var wd=doneIn.filter(function(x){ return !!x.it.due; });
+  var onN=wd.filter(function(x){ return iso(new Date(x.it.at))<=x.it.due; }).length+bOn, onD=wd.length+bDone;
+  var onAuto=onD?Math.round(100*onN/onD):null;
+  var E=pfEval(sid,R), e=E.e||{};
+  var time=avgN([onAuto,e.time]);
+  var qual=avgN([e.qual,e.idea]);
+  var req=(e.req===undefined||e.req===null||e.req==="")?null:Number(e.req);
+  var log=((S.perf[sid]||{}).log)||[];
+  var revLog=log.filter(function(l){ return l.type==="تعديل"&&l.date>=R.fromIso&&l.date<=R.toIso; }).length;
+  var revs=(E.own&&e.revs!==undefined&&e.revs!==null&&e.revs!=="")?Number(e.revs):revLog;
+  var act={}, sub={};
+  allProjects().forEach(function(p){ if(p.assigneeId===sid&&wsOf(p)!=="مكتمل") act[p.id]=1; });
+  items.forEach(function(x){ if(!x.done&&wsOf(x.p)!=="مكتمل") act[x.p.id]=1; });
+  doneIn.forEach(function(x){ sub[x.p.id]=1; });
+  bList.forEach(function(x){ if(x.b.projectId) sub[x.b.projectId]=1; });
+  return {comp:comp,onAuto:onAuto,time:time,qual:qual,req:req,etime:e.time,outq:e.qual,idea:e.idea,
+    revs:revs,revLog:revLog,ev:E,note:e.note||"",done:dn,tot:tot,pend:pend.length+bPend,
+    late:items.filter(function(x){return x.late;}).length,projs:Object.keys(act).length,sub:Object.keys(sub).length,
+    doneIn:doneIn,bList:bList,overall:avgN([comp,time,qual,req]),allDone:tot>0&&dn===tot};
+}
+/* الموظفون المختارون لصفحة الإدارة */
+function pfAllStaff(){
+  var a=[]; for(var k in S.staff){ var s=S.staff[k]; if(s&&s.role!=="root"&&!isContact(s)) a.push(s); }
+  a.sort(function(x,y){ return String(x.name||"").localeCompare(String(y.name||""),"ar"); });
+  return a;
+}
+function pfRoster(){
+  var sel=pfCfg().sel, all=pfAllStaff();
+  if(!Array.isArray(sel)) return all;
+  return all.filter(function(s){ return sel.indexOf(s.id)>=0; });
+}
+function pfRanked(list,R){
+  var rows=list.map(function(s){ return {s:s,m:pfMetrics(s.id,R)}; });
+  rows.sort(function(a,b){
+    var x=a.m.overall===null?-1:a.m.overall, y=b.m.overall===null?-1:b.m.overall;
+    return (y-x)||((b.m.comp||0)-(a.m.comp||0))||(b.m.done-a.m.done); });
+  rows.forEach(function(r,i){ r.rank=r.m.overall===null?null:i+1; });
+  return rows;
+}
+function pfLeaders(rows){
+  var ov=rows.filter(function(r){return r.m.overall!==null;})[0]||null;
+  var cp=rows.filter(function(r){return r.m.comp!==null&&r.m.done>0;}).slice()
+    .sort(function(a,b){ return (b.m.comp-a.m.comp)||(b.m.done-a.m.done); })[0]||null;
+  return {ov:ov,cp:cp};
+}
+
+/* ---------- الألوان من الأحمر إلى الأخضر ---------- */
+function scCol(v){
+  if(v===null||v===undefined||isNaN(v)) return "var(--pause)";
+  /* منحنى يجعل النسب المنخفضة أقرب للأحمر والعالية للأخضر */
+  var h=Math.round(125*Math.pow(Math.max(0,Math.min(100,Number(v)))/100,1.5));
+  return "hsl("+h+" 68% var(--sc-l))";
+}
+function scWord(v){
+  if(v===null||v===undefined) return "لا توجد بيانات";
+  return v>=90?"ممتاز":v>=75?"جيد جداً":v>=60?"جيد":v>=45?"مقبول":"ضعيف";
+}
+function pctTxt(v){ return (v===null||v===undefined)?"—":v+"%"; }
+/* الدائرة التحليلية: ثلاثة أقسام (الإنجاز · الوقت · الجودة) والتقييم العام في الوسط */
+var PF_SEGS=[{k:"comp",t:"الإنجاز"},{k:"time",t:"الوقت"},{k:"qual",t:"الجودة"}];
+function pfDonut(m,size,center){
+  var sw=size<80?8:size<130?12:16, r=size/2-sw/2-2, c=size/2, gap=size<80?6:4, seg=120-gap;
+  var h='<svg viewBox="0 0 '+size+' '+size+'" width="'+size+'" height="'+size+'" aria-hidden="true">';
+  PF_SEGS.forEach(function(s,i){
+    var v=m[s.k], rot=(-90+i*120+gap/2).toFixed(1);
+    var L=v===null||v===undefined?0:seg*Math.max(0,Math.min(100,v))/100;
+    h+='<circle cx="'+c+'" cy="'+c+'" r="'+r+'" fill="none" pathLength="360" style="stroke:var(--surface-3)" stroke-width="'+sw+
+      '" stroke-dasharray="'+seg+' 360" transform="rotate('+rot+' '+c+' '+c+')"/>';
+    if(L>0) h+='<circle class="pf-arc" cx="'+c+'" cy="'+c+'" r="'+r+'" fill="none" pathLength="360" style="stroke:'+scCol(v)+
+      ';animation-delay:'+(i*140)+'ms" stroke-width="'+sw+'" stroke-dasharray="'+L.toFixed(1)+' 360" transform="rotate('+rot+' '+c+' '+c+')"/>';
+  });
+  h+='</svg>';
+  var cv=center==="comp"?m.comp:m.overall;
+  var n=el("span",{class:"pf-donut",style:"width:"+size+"px;height:"+size+"px",
+    title:PF_SEGS.map(function(s){return s.t+": "+pctTxt(m[s.k]);}).join(" · ")+" · التقييم العام: "+pctTxt(m.overall)});
+  n.innerHTML=h;
+  n.appendChild(el("span",{class:"pf-dc"},[
+    el("b",{style:"color:"+scCol(cv)+";font-size:"+Math.max(12,Math.round(size/4.6))+"px","data-n":cv===null?null:String(cv),text:pctTxt(cv)}),
+    size>=90?el("small",{text:center==="comp"?"الإنجاز":"التقييم العام"}):null]));
+  return n;
+}
+function pfBar(label,v,sub){
+  return el("div",{class:"pf-bar"},[
+    el("div",{class:"pf-bl"},[el("span",{text:label}),
+      el("b",{style:"color:"+scCol(v),text:pctTxt(v)})]),
+    el("div",{class:"pf-bt"},[el("i",{style:"width:"+(v||0)+"%;background:"+scCol(v)})]),
+    sub?el("small",{text:sub}):null]);
+}
+function pfLegend(){
+  return el("div",{class:"pf-legend"},[
+    el("span",{text:"ضعيف"}),el("i",{class:"pf-grad"}),el("span",{text:"ممتاز"}),
+    el("span",{class:"pf-lg-sep"}),
+    el("span",{class:"pf-lg-k"},[pfKey(0),"الإنجاز"]),
+    el("span",{class:"pf-lg-k"},[pfKey(1),"الوقت"]),
+    el("span",{class:"pf-lg-k"},[pfKey(2),"الجودة"])]);
+}
+/* رمز صغير يبيّن موضع القسم في الدائرة */
+function pfKey(i){
+  var n=el("span",{class:"pf-k"}), h='<svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true">';
+  for(var j=0;j<3;j++) h+='<circle cx="8" cy="8" r="5.5" fill="none" pathLength="360" stroke-width="3.2" style="stroke:'+(j===i?"var(--ink-2)":"var(--surface-3)")+
+    '" stroke-dasharray="110 360" transform="rotate('+(-90+j*120+5)+' 8 8)"/>';
+  n.innerHTML=h+'</svg>'; return n;
+}
+/* عدّاد الأرقام عند الظهور */
+function pfCountUp(root){
+  if(!root) return;
+  try{ if(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches) return; }catch(e){}
+  root.querySelectorAll("[data-n]").forEach(function(b){
+    var to=Number(b.getAttribute("data-n")); if(isNaN(to)) return;
+    var t0=null, dur=900;
+    function step(ts){ if(!t0) t0=ts; var k=Math.min(1,(ts-t0)/dur), e=1-Math.pow(1-k,3);
+      b.textContent=Math.round(to*e)+"%"; if(k<1) requestAnimationFrame(step); }
+    b.textContent="0%"; requestAnimationFrame(step);
+  });
+}
+
+/* ---------- صفحة «أداء الفريق» ---------- */
+function PerfView(){
+  var wrap=el("div",{class:"pf"});
+  if(!isRoot()){ wrap.appendChild(el("div",{class:"empty",text:"هذه الصفحة للمسؤول الرئيسي فقط."})); return wrap; }
+  var R=pfRange(PV.per,PV.off);
+  var akey=R.key+"|"+PV.view+"|"+PV.proj;
+  var anim=PV.lastKey!==akey; PV.lastKey=akey;
+  if(!anim) wrap.classList.add("still");
+  function segBtn(on,txt,fn){ return el("button",{class:"pf-sb"+(on?" on":""),"aria-pressed":on?"true":"false",text:txt,onclick:fn}); }
+  wrap.appendChild(el("div",{class:"pf-hd"},[
+    el("div",{class:"pf-ttl"},[el("h2",{text:"أداء الفريق"}),
+      el("span",{class:"hint",text:"صفحة خاصة بالمسؤول الرئيسي — لا تظهر لأي موظف."})]),
+    el("div",{class:"pf-tools"},[
+      el("div",{class:"pf-seg"},[
+        segBtn(PV.per==="week","أسبوعي",function(){PV.per="week";PV.off=0;pvSave();render();}),
+        segBtn(PV.per==="month","شهري",function(){PV.per="month";PV.off=0;pvSave();render();})]),
+      el("div",{class:"pf-nav"},[
+        el("button",{class:"btn sm",title:"الفترة السابقة",text:"›",onclick:function(){PV.off--;render();}}),
+        el("b",{text:R.label}),
+        el("button",{class:"btn sm",title:"الفترة التالية",text:"‹",disabled:PV.off>=0?"disabled":null,onclick:function(){PV.off++;render();}})]),
+      el("div",{class:"pf-seg"},[
+        segBtn(PV.view==="pct","نسبة الإنجاز",function(){PV.view="pct";pvSave();render();}),
+        segBtn(PV.view==="det","التفاصيل",function(){PV.view="det";pvSave();render();})]),
+      el("label",{class:"pf-chk"},[el("input",{type:"checkbox",checked:PV.proj?"checked":null,
+        onchange:function(e){PV.proj=e.target.checked;pvSave();render();}}),el("span",{text:"عدد المشاريع"})]),
+      el("button",{class:"btn sm",text:"اختيار الموظفين",onclick:pfPickStaff}),
+      el("button",{class:"btn sm primary",text:"طباعة للإدارة",onclick:function(){pfPrintMgmt(R);}})
+    ])
+  ]));
+  var list=pfRoster();
+  if(!list.length){
+    wrap.appendChild(el("div",{class:"empty"},[el("h3",{text:"لم يُختر أي موظف"}),
+      el("p",{text:"اختر الموظفين الذين تريد متابعة أدائهم في هذه الصفحة."}),
+      el("button",{class:"btn primary",text:"اختيار الموظفين",onclick:pfPickStaff})]));
+    return wrap;
+  }
+  var rows=pfRanked(list,R), L=pfLeaders(rows);
+  /* الأول */
+  var lead=el("div",{class:"pf-lead"});
+  function leadCard(r,t,val,sub){
+    if(!r) return el("div",{class:"pf-lc empty-l"},[el("span",{class:"pf-cup",text:"🏆"}),
+      el("div",[el("small",{text:t}),el("b",{text:"لا توجد بيانات كافية في هذه الفترة"})])]);
+    return el("button",{class:"pf-lc",onclick:function(){pfDetail(r.s.id);}},[
+      el("span",{class:"pf-cup",text:"🏆"}),
+      el("div",{class:"pf-lc-t"},[el("small",{text:t}),el("b",{text:r.s.name}),el("span",{class:"hint",text:sub})]),
+      el("b",{class:"pf-lc-v",style:"color:"+scCol(val),"data-n":String(val),text:val+"%"})]);
+  }
+  lead.appendChild(leadCard(L.ov,"الأول في الأداء العام",L.ov&&L.ov.m.overall,
+    L.ov?("الإنجاز "+pctTxt(L.ov.m.comp)+" · الوقت "+pctTxt(L.ov.m.time)+" · الجودة "+pctTxt(L.ov.m.qual)):""));
+  lead.appendChild(leadCard(L.cp,"الأول في تحقيق المهام",L.cp&&L.cp.m.comp,
+    L.cp?(L.cp.m.done+" مهمة منجزة من "+L.cp.m.tot):""));
+  var tot=rows.reduce(function(a,r){ a.d+=r.m.done; a.t+=r.m.tot; a.l+=r.m.late; return a; },{d:0,t:0,l:0});
+  var teamPct=tot.t?Math.round(100*tot.d/tot.t):null;
+  lead.appendChild(el("div",{class:"pf-lc team"},[
+    el("div",{class:"pf-lc-t"},[el("small",{text:"إنجاز الفريق في الفترة"}),
+      el("b",{text:tot.d+" من "+tot.t+" مهمة"}),
+      el("span",{class:"hint",text:tot.l?tot.l+" مهمة متأخرة حالياً":"لا توجد مهام متأخرة"})]),
+    el("b",{class:"pf-lc-v",style:"color:"+scCol(teamPct),"data-n":teamPct===null?null:String(teamPct),text:pctTxt(teamPct)})]));
+  wrap.appendChild(lead);
+  wrap.appendChild(pfLegend());
+  /* البطاقات */
+  var g=el("div",{class:"pf-grid"+(PV.view==="det"?" det":"")});
+  rows.forEach(function(r,i){
+    var s=r.s, m=r.m;
+    var top=(L.ov&&L.ov.s.id===s.id), topc=(L.cp&&L.cp.s.id===s.id);
+    var head=el("div",{class:"pf-ch"},[
+      el("span",{class:"av"+(s.role!=="staff"?" mgr":""),text:initials(s.name)}),
+      el("div",{class:"pf-cn"},[el("b",{text:s.name}),el("small",{text:s.specialty||s.title||roleName(s.role)})]),
+      r.rank?el("span",{class:"pf-rk"+(r.rank===1?" first":""),title:"الترتيب في التقييم العام",text:"#"+r.rank}):null]);
+    var badges=el("div",{class:"pf-bdg"},[
+      m.allDone?el("span",{class:"pill done",text:"✓ أنجز كل مهامه"}):null,
+      top?el("span",{class:"pill accent",text:"🏆 الأول"}):null,
+      (topc&&!top)?el("span",{class:"pill accent",text:"🏆 الأول في المهام"}):null,
+      m.late?el("span",{class:"pill late",text:m.late+" متأخرة"}):null]);
+    var body;
+    if(PV.view==="pct"){
+      body=el("div",{class:"pf-cb"},[
+        pfDonut(m,104,"comp"),
+        el("div",{class:"pf-cs"},[
+          el("div",[el("b",{text:m.done+" / "+m.tot}),el("small",{text:"مهام الفترة"})]),
+          PV.proj?el("div",[el("b",{text:String(m.projs)}),el("small",{text:"مشاريع قائمة"})]):null,
+          PV.proj?el("div",[el("b",{text:String(m.sub)}),el("small",{text:"مشاريع قُدّمت"})]):null,
+          el("div",[el("b",{style:"color:"+scCol(m.overall),text:pctTxt(m.overall)}),el("small",{text:"التقييم العام"})])
+        ])]);
+    } else {
+      body=el("div",{class:"pf-cb"},[
+        pfDonut(m,120,"overall"),
+        el("div",{class:"pf-bars"},[
+          pfBar("الإنجاز",m.comp), pfBar("الوقت",m.time), pfBar("الجودة",m.qual), pfBar("فهم المتطلبات",m.req)])]);
+      body=el("div",[body,el("div",{class:"pf-cs row"},[
+        PV.proj?el("div",[el("b",{text:String(m.projs)}),el("small",{text:"مشاريع قائمة"})]):null,
+        PV.proj?el("div",[el("b",{text:String(m.sub)}),el("small",{text:"قُدّمت"})]):null,
+        el("div",[el("b",{text:String(m.revs)}),el("small",{text:"تعديلات"})]),
+        el("div",[el("b",{text:m.done+"/"+m.tot}),el("small",{text:"مهام"})])])]);
+    }
+    g.appendChild(el("button",{class:"pf-card"+(top?" top":""),style:"--i:"+i,title:"عرض تفاصيل "+s.name,
+      onclick:function(e){ var c=e.currentTarget; c.classList.add("sel"); setTimeout(function(){pfDetail(s.id);},170); }},
+      [head,body,badges,
+       el("div",{class:"pf-cf"},[el("span",{text:m.ev.e?(m.ev.own?"مُقيَّم لهذه الفترة":"من تقييم سابق"):"لم يُقيَّم بعد"}),
+         el("span",{class:"pf-go",text:"التفاصيل ←"})])]));
+  });
+  wrap.appendChild(g);
+  wrap.appendChild(el("p",{class:"hint pf-note",text:
+    "الإنجاز = المهام المنجزة في الفترة ÷ (المنجزة + المستحقة غير المنجزة)، ويشمل مهام المراحل والأفكار المبدئية. "+
+    "الوقت = متوسط الالتزام الفعلي بالمواعيد وتقييمك. الجودة = متوسط جودة الإخراج وجودة الفكرة. "+
+    "التقييم العام = متوسط الإنجاز والوقت والجودة وفهم المتطلبات. المشاريع المتوقفة لا تُحتسب عليه."}));
+  if(anim) setTimeout(function(){ pfCountUp(wrap); },30);
+  return wrap;
+}
+function pfPickStaff(){
+  var all=pfAllStaff(), cur=pfCfg().sel, box=el("div",{class:"pf-pick"});
+  var chosen={}; all.forEach(function(s){ chosen[s.id]=!Array.isArray(cur)||cur.indexOf(s.id)>=0; });
+  function draw(){
+    box.innerHTML="";
+    all.forEach(function(s){
+      box.appendChild(el("label",{class:"pf-pi"+(chosen[s.id]?" on":"")},[
+        el("input",{type:"checkbox",checked:chosen[s.id]?"checked":null,onchange:function(e){chosen[s.id]=e.target.checked;draw();}}),
+        el("span",{class:"av"+(s.role!=="staff"?" mgr":""),text:initials(s.name)}),
+        el("span",{class:"pf-pin"},[el("b",{text:s.name}),el("small",{text:roleName(s.role)+(s.specialty?" · "+s.specialty:"")})])]));
+    });
+    if(!all.length) box.appendChild(el("p",{class:"hint",text:"لا يوجد موظفون مضافون بعد."}));
+  }
+  draw();
+  openModal(modal("اختيار الموظفين لصفحة الإدارة",[
+    el("p",{class:"hint",style:"margin:0",text:"الموظفون المختارون فقط يظهرون في صفحة «أداء الفريق» وفي طباعة الإدارة."}),
+    el("div",{style:"display:flex;gap:6px"},[
+      el("button",{class:"btn sm",text:"تحديد الكل",onclick:function(){all.forEach(function(s){chosen[s.id]=true;});draw();}}),
+      el("button",{class:"btn sm",text:"إلغاء الكل",onclick:function(){all.forEach(function(s){chosen[s.id]=false;});draw();}})]),
+    box
+  ],[
+    el("button",{class:"btn primary",text:"حفظ",onclick:function(){
+      var c=Object.assign({},pfCfg(),{sel:all.filter(function(s){return chosen[s.id];}).map(function(s){return s.id;})});
+      pfSave("_cfg",c); closeModal(); toast("تم حفظ قائمة الموظفين"); }}),
+    el("button",{class:"btn",text:"إلغاء",onclick:closeModal})
+  ]));
+}
+
+/* ---------- تفاصيل الموظف + تقييم المدير ---------- */
+var PD={tab:"pct"};
+function pfDetail(sid,tab){
+  var s=S.staff[sid]; if(!s||!isRoot()) return;
+  if(tab) PD.tab=tab;
+  var R=pfRange(PV.per,PV.off), rows=pfRanked(pfRoster().some(function(x){return x.id===sid;})?pfRoster():[s],R);
+  var me_=rows.filter(function(r){return r.s.id===sid;})[0]||{m:pfMetrics(sid,R),rank:null}, m=me_.m;
+  var body=el("div",{class:"pf-det"});
+  body.appendChild(el("div",{class:"pf-dh"},[
+    pfDonut(m,150,"overall"),
+    el("div",{class:"pf-dhi"},[
+      el("div",{class:"pf-dn"},[el("span",{class:"av"+(s.role!=="staff"?" mgr":""),text:initials(s.name)}),
+        el("div",[el("b",{text:s.name}),el("small",{text:(s.specialty||s.title||roleName(s.role))+" · "+R.label})])]),
+      el("div",{class:"pf-bdg"},[
+        me_.rank?el("span",{class:"pill "+(me_.rank===1?"accent":""),text:(me_.rank===1?"🏆 ":"")+"الترتيب "+me_.rank+" من "+rows.length}):null,
+        el("span",{class:"pill",style:"color:"+scCol(m.overall),text:scWord(m.overall)}),
+        m.allDone?el("span",{class:"pill done",text:"✓ أنجز كل مهام الفترة"}):null,
+        m.late?el("span",{class:"pill late",text:m.late+" مهمة متأخرة"}):null]),
+      el("div",{class:"pf-dl"},PF_SEGS.map(function(q,i){
+        return el("span",[pfKey(i),q.t+" ",el("b",{style:"color:"+scCol(m[q.k]),text:pctTxt(m[q.k])})]); }))
+    ])]));
+  var tabs=el("div",{class:"pf-seg noprint"},[
+    el("button",{class:"pf-sb"+(PD.tab==="pct"?" on":""),text:"نسبة الإنجاز",onclick:function(){pfDetail(sid,"pct");}}),
+    el("button",{class:"pf-sb"+(PD.tab==="det"?" on":""),text:"التفاصيل والتقييم",onclick:function(){pfDetail(sid,"det");}})]);
+  body.appendChild(tabs);
+  if(PD.tab==="pct"){
+    body.appendChild(el("div",{class:"pf-cs row wide"},[
+      el("div",[el("b",{style:"color:"+scCol(m.comp),"data-n":m.comp===null?null:String(m.comp),text:pctTxt(m.comp)}),el("small",{text:"نسبة الإنجاز"})]),
+      el("div",[el("b",{text:m.done+" / "+m.tot}),el("small",{text:"المهام المنجزة"})]),
+      el("div",[el("b",{text:String(m.projs)}),el("small",{text:"مشاريع قائمة عليه"})]),
+      el("div",[el("b",{text:String(m.sub)}),el("small",{text:"مشاريع قُدّمت في الفترة"})]),
+      el("div",[el("b",{text:String(m.revs)}),el("small",{text:"عدد التعديلات"})])]));
+    var ps=allProjects().filter(function(p){ return p.assigneeId===sid||wfPersonPct(p,sid)!==null; });
+    var pl=el("div",{class:"pf-pl"});
+    ps.forEach(function(p){
+      var pc=wfPersonPct(p,sid), its=wfItemsOf(sid).filter(function(x){return x.p.id===p.id;});
+      var dn=its.filter(function(x){return x.done;}).length, lt=its.filter(function(x){return x.late;}).length;
+      var v=pc===null?wfTotal(p):pc;
+      pl.appendChild(el("button",{class:"pf-pli",onclick:function(){wfOpen(p,wfCurStage(p)||"concept");}},[
+        pfMiniRing(v,wfPaused(p)),
+        el("div",{class:"pf-plt"},[el("b",{text:p.name}),
+          el("small",{text:(p.code?p.code+" · ":"")+(wfPaused(p)?"متوقف — الوقت موقوف":its.length?(dn+" من "+its.length+" مهمة"):"المهندس القائم على المشروع")})]),
+        lt?el("span",{class:"pill late",text:lt+" متأخرة"}):(v===100?el("span",{class:"pill done",text:"✓ منجز"}):null)]));
+    });
+    if(!ps.length) pl.appendChild(el("p",{class:"hint",text:"لا توجد مشاريع مسندة لهذا الموظف."}));
+    body.appendChild(el("h3",{class:"psub",text:"المشاريع — نسبة إنجازه في كل مشروع"}));
+    body.appendChild(pl);
+    if(m.doneIn.length||m.bList.length){
+      body.appendChild(el("h3",{class:"psub",text:"ما أنجزه في الفترة"}));
+      body.appendChild(el("table",{class:"psheet"},[
+        el("thead",[el("tr",[el("th",{text:"المشروع"}),el("th",{text:"المهمة"}),el("th",{text:"الموعد"}),el("th",{text:"أُنجزت"}),el("th",{text:"الالتزام"})])]),
+        el("tbody",m.doneIn.map(function(x){
+          var dAt=iso(new Date(x.it.at)), ok=!x.it.due||dAt<=x.it.due;
+          return el("tr",{class:"st-done"},[el("td",{text:x.p.name}),el("td",{text:x.d.t}),
+            el("td",{text:x.it.due?fmtDate(x.it.due):"—"}),el("td",{text:fmtDate(dAt)}),
+            el("td",{class:ok?"":"warncell",text:ok?"في موعدها":"بعد الموعد"})]);
+        }).concat(m.bList.map(function(x){
+          var p=S.projects[x.b.projectId];
+          return el("tr",{class:"st-done"},[el("td",{text:p?p.name:(x.b.clientName||"متطلبات عميل")}),el("td",{text:"تقديم الفكرة المبدئية"}),
+            el("td",{text:fmtDate(x.due)}),el("td",{text:fmtDate(x.b.ideaDoneAt)}),
+            el("td",{class:x.ok?"":"warncell",text:x.ok?"في موعدها":"بعد الموعد"})]);
+        })))]));
+    }
+  } else {
+    body.appendChild(el("div",{class:"pf-bars wide"},[
+      pfBar("نسبة الإنجاز",m.comp,m.done+" من "+m.tot+" مهمة مستحقة في الفترة"),
+      pfBar("الالتزام بالوقت — الفعلي",m.onAuto,"من مواعيد المهام المنجزة"),
+      pfBar("الالتزام بالوقت — تقييمك",m.etime),
+      pfBar("جودة الإخراج",m.outq),
+      pfBar("جودة تقديم الفكرة",m.idea),
+      pfBar("استقبال وفهم المتطلبات وتحقيقها",m.req)]));
+    /* نموذج التقييم */
+    var E=pfEval(sid,R), e=E.own?E.e:(E.e||{});
+    function slider(key,label,hint){
+      var v=(e&&e[key]!==undefined&&e[key]!==null&&e[key]!=="")?Number(e[key]):75;
+      var out=el("b",{class:"pf-sv",style:"color:"+scCol(v),text:v+"%"});
+      var r=el("input",{type:"range",min:"0",max:"100",step:"5",value:String(v),id:"pfe_"+key,"aria-label":label});
+      r.style.setProperty("--c",scCol(v)); r.style.setProperty("--v",v+"%");
+      r.addEventListener("input",function(){ var x=Number(r.value); out.textContent=x+"%"; out.style.color=scCol(x);
+        r.style.setProperty("--c",scCol(x)); r.style.setProperty("--v",x+"%"); });
+      return el("div",{class:"pf-sl"},[el("div",{class:"pf-bl"},[el("span",{text:label}),out]),r,hint?el("small",{class:"hint",text:hint}):null]);
+    }
+    var revs=inp("pfe_revs",E.own&&e.revs!==undefined?e.revs:m.revLog,{type:"number",min:"0",max:"99",style:"max-width:110px"});
+    var note=el("textarea",{id:"pfe_note",placeholder:"ملاحظتك على أداء الموظف في هذه الفترة…",style:"min-height:70px"});
+    note.value=E.own?(e.note||""):"";
+    body.appendChild(el("div",{class:"pf-ev"},[
+      el("div",{class:"pf-evh"},[el("b",{text:"تقييمك — "+R.label}),
+        el("span",{class:"hint",text:E.own?("آخر حفظ "+fmtDate(iso(new Date(e.at||Date.now())))):E.e?"القيم الحالية من تقييم سابق — احفظ لاعتمادها لهذه الفترة":"لم يُقيَّم في هذه الفترة"})]),
+      slider("time","تقديم المشروع في الوقت المحدد"),
+      slider("qual","جودة الإخراج"),
+      slider("idea","جودة تقديم الفكرة"),
+      slider("req","استقبال وفهم المتطلبات وتحقيقها","حدّدها بحسب المجهود المبذول"),
+      field("عدد التعديلات في الفترة",revs,"المسجّل في ملفه: "+m.revLog+" تعديل"),
+      field("ملاحظة",note,null,true),
+      el("div",[el("button",{class:"btn primary",text:"حفظ التقييم",onclick:function(){
+        var d=pfDoc(sid); d.ev=d.ev||{};
+        d.ev[R.key]={per:R.per,from:R.fromIso,to:R.toIso,label:R.label,at:Date.now(),
+          time:Number($("#pfe_time").value),qual:Number($("#pfe_qual").value),idea:Number($("#pfe_idea").value),
+          req:Number($("#pfe_req").value),revs:Math.max(0,Number(revs.value)||0),note:note.value.trim()};
+        pfSave(sid,d); toast("تم حفظ تقييم "+s.name); pfDetail(sid,"det"); }})])
+    ]));
+  }
+  openModal(modal("أداء "+s.name,[body],[
+    el("button",{class:"btn primary",text:"ملف الموظف",onclick:function(){pfFile(sid);}}),
+    el("button",{class:"btn",text:"طباعة التقرير",onclick:function(){pfPrintMgmt(R,[sid]);}}),
+    el("button",{class:"btn",text:"إغلاق",onclick:closeModal})
+  ]));
+  var md=$("#modal-root .modal"); if(md){ md.style.maxWidth="820px"; md.classList.add("pf-pop"); }
+  setTimeout(function(){ pfCountUp(body); },40);
+}
+function pfMiniRing(v,paused){
+  var n=ring(v,40,paused?"pause":v===100?"done":"work");
+  if(!paused){ var cs=n.querySelectorAll("circle"); if(cs[1]) cs[1].setAttribute("style","stroke:"+scCol(v)); }
+  return n;
+}
+
+/* ---------- طباعة للإدارة ---------- */
+function pfSheetRows(ids,R,opt){
+  var list=pfAllStaff().filter(function(s){return ids.indexOf(s.id)>=0;});
+  var rows=pfRanked(list,R), L=pfLeaders(rows);
+  var sheet=el("div",{class:"printsheet pf-print"});
+  sheet.appendChild(el("div",{class:"psheet-hd"},[
+    el("b",{text:"تقرير أداء الفريق — "+R.label}),
+    el("span",{text:OFFICE+" · من "+fmtDate(R.fromIso)+" إلى "+fmtDate(R.toIso)+" · أُعدّ في "+fmtDate(iso(today()))})]));
+  if(L.ov||L.cp) sheet.appendChild(el("div",{class:"pf-plead"},[
+    L.ov?el("span",[el("b",{text:"🏆 الأول في الأداء العام: "}),L.ov.s.name+" ("+L.ov.m.overall+"%)"]):null,
+    L.cp?el("span",[el("b",{text:"🏆 الأول في تحقيق المهام: "}),L.cp.s.name+" ("+L.cp.m.comp+"% — "+L.cp.m.done+" مهمة)"]):null]));
+  var head=["#","الموظف"];
+  if(opt.proj) head.push("مشاريع قائمة","مشاريع قُدّمت");
+  head.push("المهام","الإنجاز","الوقت","الجودة","فهم المتطلبات","التعديلات","التقييم العام");
+  sheet.appendChild(el("table",{class:"psheet pf-pt"},[
+    el("thead",[el("tr",head.map(function(h){return el("th",{text:h});}))]),
+    el("tbody",rows.map(function(r){
+      var m=r.m, c=[el("td",{text:r.rank?String(r.rank):"—"}),el("td",[el("b",{text:r.s.name}),el("br"),el("small",{text:r.s.specialty||roleName(r.s.role)})])];
+      if(opt.proj) c.push(el("td",{text:String(m.projs)}),el("td",{text:String(m.sub)}));
+      function sc(v){ return el("td",{class:"pf-tc",style:"color:"+scCol(v),text:pctTxt(v)}); }
+      c.push(el("td",{text:m.done+" / "+m.tot}),sc(m.comp),sc(m.time),sc(m.qual),sc(m.req),el("td",{text:String(m.revs)}),
+        el("td",{class:"pf-tc big",style:"color:"+scCol(m.overall),text:pctTxt(m.overall)}));
+      return el("tr",c);
+    }))]));
+  if(opt.cards){
+    var cg=el("div",{class:"pf-pcards"});
+    rows.forEach(function(r){
+      var m=r.m;
+      cg.appendChild(el("div",{class:"pf-pc"},[
+        pfDonut(m,96,"overall"),
+        el("div",{class:"pf-pct"},[el("b",{text:(r.rank?"#"+r.rank+" ":"")+r.s.name}),
+          el("span",{text:"الإنجاز "+pctTxt(m.comp)+" · الوقت "+pctTxt(m.time)+" · الجودة "+pctTxt(m.qual)}),
+          el("span",{text:"فهم المتطلبات "+pctTxt(m.req)+" · التعديلات "+m.revs+(opt.proj?" · مشاريع "+m.projs:"")}),
+          (opt.notes&&m.note)?el("span",{class:"pf-pnote",text:"ملاحظة: "+m.note}):null])]));
+    });
+    sheet.appendChild(cg);
+  }
+  sheet.appendChild(el("p",{class:"hint",style:"font-size:11px",text:
+    "الإنجاز: المنجز ÷ المستحق في الفترة · الوقت: الالتزام الفعلي بالمواعيد مع تقييم المسؤول · الجودة: جودة الإخراج وجودة الفكرة · الألوان من الأحمر (ضعيف) إلى الأخضر (ممتاز)."}));
+  sheet.appendChild(el("div",{class:"signrow"},[
+    el("span",{text:"المسؤول الرئيسي: ................................"}),
+    el("span",{text:"الإدارة: ................................"}),
+    el("span",{text:"التاريخ: "+fmtDate(iso(today()))})]));
+  return sheet;
+}
+function pfPrintMgmt(R,only){
+  if(!isRoot()) return;
+  var all=pfAllStaff(), def=only||pfRoster().map(function(s){return s.id;});
+  var chosen={}; all.forEach(function(s){ chosen[s.id]=def.indexOf(s.id)>=0; });
+  var opt={proj:PV.proj,cards:true,notes:false}, per=R.per, off=R.off;
+  var host=el("div"), picks=el("div",{class:"pf-pick row noprint"});
+  function draw(){
+    var RR=pfRange(per,off);
+    picks.innerHTML="";
+    all.forEach(function(s){ picks.appendChild(el("label",{class:"pf-pi sm"+(chosen[s.id]?" on":"")},[
+      el("input",{type:"checkbox",checked:chosen[s.id]?"checked":null,onchange:function(e){chosen[s.id]=e.target.checked;draw();}}),
+      el("span",{text:s.name})])); });
+    host.innerHTML="";
+    var ids=all.filter(function(s){return chosen[s.id];}).map(function(s){return s.id;});
+    if(!ids.length){ host.appendChild(el("p",{class:"hint",text:"اختر موظفاً واحداً على الأقل."})); return; }
+    host.appendChild(pfSheetRows(ids,RR,opt));
+  }
+  function ck(k,t){ return el("label",[el("input",{type:"checkbox",checked:opt[k]?"checked":null,onchange:function(e){opt[k]=e.target.checked;draw();}}),el("span",{text:t})]); }
+  var ps=sel("pfpPer",per,[{v:"week",t:"أسبوعي"},{v:"month",t:"شهري"}]);
+  ps.addEventListener("change",function(){ per=ps.value; off=0; draw(); });
+  draw();
+  openModal(modal("طباعة تقرير الأداء للإدارة",[
+    el("div",{class:"rpopts noprint"},[el("label",[el("span",{text:"الفترة"}),ps]),
+      el("button",{class:"btn sm",text:"السابقة ›",onclick:function(){off--;draw();}}),
+      el("button",{class:"btn sm",text:"‹ التالية",onclick:function(){ if(off<0){off++;draw();} }}),
+      ck("proj","عدد المشاريع"),ck("cards","الدوائر التحليلية"),ck("notes","ملاحظات التقييم")]),
+    el("div",{class:"noprint",style:"font-size:12px;color:var(--ink-3);font-weight:600"},["الموظفون في التقرير:"]),
+    picks, host
+  ],[
+    el("button",{class:"btn primary",text:"طباعة / حفظ PDF",onclick:function(){window.print();}}),
+    el("button",{class:"btn",text:"إغلاق",onclick:closeModal})
+  ]));
+  var md=$("#modal-root .modal"); if(md) md.style.maxWidth="980px";
+}
+
+/* ---------- ملف الموظف: سجل بالتاريخ لكل مشروع مع الصور ---------- */
+var PFF={tab:"log"};
+function pfProjectsOf(sid){
+  var log=((S.perf[sid]||{}).log)||[], ids={};
+  allProjects().forEach(function(p){ if(p.assigneeId===sid||wfPersonPct(p,sid)!==null) ids[p.id]=1; });
+  log.forEach(function(l){ if(l.pid&&S.projects[l.pid]) ids[l.pid]=1; });
+  return Object.keys(ids).map(function(k){return S.projects[k];}).filter(Boolean)
+    .sort(function(a,b){ return String(a.name||"").localeCompare(String(b.name||""),"ar"); });
+}
+function pfEntryCard(sid,l){
+  var p=l.pid?S.projects[l.pid]:null, delArm=false;
+  var delBtn=el("button",{class:"btn ghost sm",text:"حذف",onclick:function(){
+    if(!delArm){ delArm=true; delBtn.textContent="تأكيد الحذف"; delBtn.classList.add("danger");
+      setTimeout(function(){ delArm=false; delBtn.textContent="حذف"; delBtn.classList.remove("danger"); },3500); return; }
+    var d=pfDoc(sid); d.log=(d.log||[]).filter(function(x){return x.id!==l.id;});
+    (l.ph||[]).forEach(pfPhotoDel); pfSave(sid,d); toast("حُذف السجل"); pfFile(sid); }});
+  return el("div",{class:"pf-en"},[
+    el("div",{class:"pf-enh"},[
+      el("span",{class:"pill "+(PF_TYPE_CLS[l.type]||""),text:l.type||"ملاحظة"}),
+      el("b",{text:l.title||"—"}),
+      el("span",{class:"hint",text:fmtDate(l.date)+(p?" · "+p.name:"")}),
+      el("span",{class:"spacer"}),
+      el("span",{class:"noprint",style:"display:flex;gap:4px"},[
+        el("button",{class:"btn ghost sm",text:"تعديل",onclick:function(){pfEntryForm(sid,l);}}), delBtn])]),
+    l.text?el("p",{class:"pf-ent",text:l.text}):null,
+    (l.ph&&l.ph.length)?el("div",{class:"pf-ths"},l.ph.map(function(r){return pfThumb(r);})):null]);
+}
+function pfFile(sid,tab){
+  var s=S.staff[sid]; if(!s||!isRoot()) return;
+  if(tab) PFF.tab=tab;
+  var d=S.perf[sid]||{}, log=(d.log||[]).slice().sort(function(a,b){ return String(b.date).localeCompare(String(a.date))||(b.at||0)-(a.at||0); });
+  var items=wfItemsOf(sid), done=items.filter(function(x){return x.done;}).length;
+  var evs=Object.keys(d.ev||{}).map(function(k){return d.ev[k];}).sort(function(a,b){ return String(b.to).localeCompare(String(a.to)); });
+  var body=el("div",{class:"pf-file"});
+  body.appendChild(el("div",{class:"pf-fh"},[
+    el("span",{class:"av big"+(s.role!=="staff"?" mgr":""),text:initials(s.name)}),
+    el("div",{class:"pf-fhi"},[el("b",{text:"ملف الموظف — "+s.name}),
+      el("small",{text:roleName(s.role)+(s.specialty?" · "+s.specialty:"")+(s.phone?" · "+s.phone:"")})]),
+    el("div",{class:"pf-cs row"},[
+      el("div",[el("b",{text:String(pfProjectsOf(sid).length)}),el("small",{text:"مشاريع"})]),
+      el("div",[el("b",{text:done+"/"+items.length}),el("small",{text:"مهام منجزة"})]),
+      el("div",[el("b",{text:String(log.length)}),el("small",{text:"سجلات"})]),
+      el("div",[el("b",{style:"color:"+scCol(evs[0]?avgN([evs[0].time,evs[0].qual,evs[0].idea,evs[0].req]):null),
+        text:evs[0]?avgN([evs[0].time,evs[0].qual,evs[0].idea,evs[0].req])+"%":"—"}),el("small",{text:"آخر تقييم"})])])]));
+  body.appendChild(el("div",{class:"pf-seg noprint"},[
+    el("button",{class:"pf-sb"+(PFF.tab==="log"?" on":""),text:"السجل",onclick:function(){pfFile(sid,"log");}}),
+    el("button",{class:"pf-sb"+(PFF.tab==="proj"?" on":""),text:"المشاريع",onclick:function(){pfFile(sid,"proj");}}),
+    el("button",{class:"pf-sb"+(PFF.tab==="ev"?" on":""),text:"التقييمات",onclick:function(){pfFile(sid,"ev");}})]));
+  if(PFF.tab==="log"){
+    body.appendChild(el("div",[el("button",{class:"btn sm primary noprint",text:"+ إضافة سجل",onclick:function(){pfEntryForm(sid,null);}})]));
+    if(!log.length) body.appendChild(el("p",{class:"hint",text:"لا توجد سجلات بعد — أضف ملاحظة أو تعديلاً أو إنجازاً مع الصور، واربطه بالمشروع."}));
+    log.forEach(function(l){ body.appendChild(pfEntryCard(sid,l)); });
+  } else if(PFF.tab==="proj"){
+    var ps=pfProjectsOf(sid);
+    if(!ps.length) body.appendChild(el("p",{class:"hint",text:"لا توجد مشاريع مرتبطة بهذا الموظف."}));
+    ps.forEach(function(p){
+      var pc=wfPersonPct(p,sid), v=pc===null?wfTotal(p):pc;
+      var pl=log.filter(function(l){return l.pid===p.id;});
+      var its=items.filter(function(x){return x.p.id===p.id;});
+      body.appendChild(el("div",{class:"pf-fold"},[
+        el("div",{class:"pf-foldh"},[pfMiniRing(v,wfPaused(p)),
+          el("div",{class:"pf-plt"},[el("b",{text:"📁 "+p.name+(p.code?" ("+p.code+")":"")}),
+            el("small",{text:(its.length?its.filter(function(x){return x.done;}).length+" من "+its.length+" مهمة · ":"")+wsOf(p)+" · "+pl.length+" سجل"})]),
+          el("button",{class:"btn sm noprint",text:"+ سجل للمشروع",onclick:function(){pfEntryForm(sid,null,p.id);}})]),
+        pl.length?el("div",{class:"pf-foldb"},pl.map(function(l){return pfEntryCard(sid,l);})):null]));
+    });
+  } else {
+    if(!evs.length) body.appendChild(el("p",{class:"hint",text:"لا توجد تقييمات محفوظة بعد — قيّمه من صفحة «أداء الفريق»."}));
+    else body.appendChild(el("table",{class:"psheet"},[
+      el("thead",[el("tr",["الفترة","الوقت","الإخراج","الفكرة","المتطلبات","التعديلات","ملاحظة"].map(function(h){return el("th",{text:h});}))]),
+      el("tbody",evs.map(function(e){
+        function sc(v){ return el("td",{class:"pf-tc",style:"color:"+scCol(v),text:pctTxt(v)}); }
+        return el("tr",[el("td",{text:e.label||e.from}),sc(e.time),sc(e.qual),sc(e.idea),sc(e.req),el("td",{text:String(e.revs||0)}),el("td",{text:e.note||""})]);
+      }))]));
+  }
+  openModal(modal("ملف "+s.name,[body],[
+    el("button",{class:"btn primary",text:"حفظ الملف على الجهاز",onclick:function(){pfExport(sid);}}),
+    el("button",{class:"btn",text:"طباعة الملف",onclick:function(){pfPrintFile(sid);}}),
+    el("button",{class:"btn",text:"الأداء",onclick:function(){pfDetail(sid);}}),
+    el("button",{class:"btn",text:"إغلاق",onclick:closeModal})
+  ]));
+  var md=$("#modal-root .modal"); if(md){ md.style.maxWidth="860px"; md.classList.add("pf-pop"); }
+}
+function pfEntryForm(sid,L,pid){
+  var s=S.staff[sid]; if(!s) return;
+  var isNew=!L; L=L||{};
+  var dt=inp("pfDate",L.date||iso(today()),{type:"date"});
+  var ty=sel("pfType",L.type||"ملاحظة",PF_TYPES);
+  var mine=pfProjectsOf(sid), others=allProjects().filter(function(p){return mine.indexOf(p)<0;})
+    .sort(function(a,b){ return String(a.name||"").localeCompare(String(b.name||""),"ar"); });
+  var pr=sel("pfProj",L.pid||pid||"",[{v:"",t:"— عام (غير مرتبط بمشروع) —"}]
+    .concat(mine.map(function(p){return {v:p.id,t:p.name+(p.code?" ("+p.code+")":"")};}))
+    .concat(others.map(function(p){return {v:p.id,t:"· "+p.name+(p.code?" ("+p.code+")":"")};})));
+  var ti=inp("pfTitle",L.title||"",{placeholder:"عنوان مختصر — مثال: تعديل الواجهة بعد ملاحظات المالك",maxlength:"140"});
+  var tx=el("textarea",{id:"pfText",placeholder:"التفاصيل…",style:"min-height:100px"}); tx.value=L.text||"";
+  var keep=(L.ph||[]).slice(), added=[], removed=[];
+  var th=el("div",{class:"pf-ths"});
+  function drawTh(){
+    th.innerHTML="";
+    keep.forEach(function(r,i){ th.appendChild(el("span",{class:"pf-thw"},[pfThumb(r),
+      el("button",{class:"pf-thx",title:"إزالة الصورة",text:"✕",onclick:function(){ removed.push(r); keep.splice(i,1); drawTh(); }})])); });
+    added.forEach(function(f,i){ var u=URL.createObjectURL(f);
+      th.appendChild(el("span",{class:"pf-thw"},[el("img",{class:"pf-th",src:u,alt:f.name}),
+        el("button",{class:"pf-thx",title:"إزالة الصورة",text:"✕",onclick:function(){ added.splice(i,1); drawTh(); }})])); });
+  }
+  var fi=el("input",{type:"file",accept:"image/*",multiple:"multiple",style:"display:none"});
+  fi.addEventListener("change",function(){ Array.prototype.forEach.call(fi.files||[],function(f){ added.push(f); }); fi.value=""; drawTh(); });
+  drawTh();
+  var busy=false;
+  openModal(modal((isNew?"سجل جديد":"تعديل سجل")+" — "+s.name,[
+    el("div",{class:"f-grid"},[field("التاريخ",dt),field("النوع",ty),field("المشروع",pr,null,true),field("العنوان",ti,null,true)]),
+    field("التفاصيل",tx,null,true),
+    el("div",{class:"field full"},[el("label",{text:"الصور المرفقة"}),
+      el("label",{class:"upload-lbl"},[fi,el("span",{text:"＋ إرفاق صور"})]),
+      el("span",{class:"hint",text:"تُصغَّر الصور تلقائياً قبل الحفظ، وتُحفظ في ملف الموظف."}),th])
+  ],[
+    el("button",{class:"btn primary",text:"حفظ",onclick:async function(e){
+      if(busy) return; if(!ti.value.trim()&&!tx.value.trim()&&!added.length&&!keep.length){ toast("اكتب عنواناً أو تفاصيل",true); return; }
+      busy=true; var b=e.currentTarget; b.disabled=true;
+      var refs=keep.slice();
+      try{
+        for(var i=0;i<added.length;i++){ b.textContent="جارٍ رفع الصور "+(i+1)+" / "+added.length+"…"; refs.push(await pfPhotoSave(added[i],sid)); }
+      }catch(err){ busy=false; b.disabled=false; b.textContent="حفظ"; toast((err&&err.msg)||"تعذّر حفظ الصورة",true); return; }
+      removed.forEach(pfPhotoDel);
+      var d=pfDoc(sid); d.log=d.log||[];
+      var ent={id:L.id||uid(),date:dt.value||iso(today()),type:ty.value,pid:pr.value||"",title:ti.value.trim(),
+        text:tx.value.trim(),ph:refs,at:L.at||Date.now(),by:meId};
+      var ix=-1; d.log.forEach(function(x,j){ if(x.id===ent.id) ix=j; });
+      if(ix>=0) d.log[ix]=ent; else d.log.push(ent);
+      await pfSave(sid,d);
+      toast(isNew?"أُضيف السجل إلى ملف "+s.name:"تم حفظ التعديل");
+      pfFile(sid,pid?"proj":null);
+    }}),
+    el("button",{class:"btn",text:"إلغاء",onclick:function(){ pfFile(sid); }})
+  ]));
+}
+/* ورقة الملف الكاملة — للطباعة والحفظ على الجهاز */
+function pfFileSheet(sid){
+  var s=S.staff[sid], d=S.perf[sid]||{};
+  var log=(d.log||[]).slice().sort(function(a,b){ return String(b.date).localeCompare(String(a.date)); });
+  var items=wfItemsOf(sid), R=pfRange("month",0), m=pfMetrics(sid,R);
+  var sheet=el("div",{class:"printsheet pf-print"});
+  sheet.appendChild(el("div",{class:"psheet-hd"},[el("b",{text:"ملف الموظف — "+s.name}),
+    el("span",{text:OFFICE+" · "+roleName(s.role)+(s.specialty?" · "+s.specialty:"")+" · حُفظ في "+fmtDate(iso(today()))})]));
+  sheet.appendChild(el("table",{class:"psheet"},[el("tbody",[
+    el("tr",[el("th",{text:"الجوال"}),el("td",{text:s.phone||"—"})]),
+    el("tr",[el("th",{text:"مهام المراحل المنجزة (الكل)"}),el("td",{text:items.filter(function(x){return x.done;}).length+" من "+items.length})]),
+    el("tr",[el("th",{text:"مؤشرات "+R.label}),el("td",{text:"الإنجاز "+pctTxt(m.comp)+" · الوقت "+pctTxt(m.time)+" · الجودة "+pctTxt(m.qual)+" · فهم المتطلبات "+pctTxt(m.req)+" · التقييم العام "+pctTxt(m.overall)})])
+  ])]));
+  var ps=pfProjectsOf(sid);
+  sheet.appendChild(el("h3",{class:"psub",text:"المشاريع"}));
+  sheet.appendChild(el("table",{class:"psheet"},[
+    el("thead",[el("tr",["المشروع","الرقم","حالة العمل","مهامه","إنجازه"].map(function(h){return el("th",{text:h});}))]),
+    el("tbody",ps.map(function(p){ var its=items.filter(function(x){return x.p.id===p.id;}), pc=wfPersonPct(p,sid);
+      return el("tr",[el("td",{text:p.name}),el("td",{text:p.code||"—"}),el("td",{text:wsOf(p)}),
+        el("td",{text:its.length?its.filter(function(x){return x.done;}).length+" من "+its.length:"—"}),
+        el("td",{class:"pf-tc",style:"color:"+scCol(pc===null?wfTotal(p):pc),text:(pc===null?wfTotal(p):pc)+"%"})]); }))]));
+  var groups=[{p:null,t:"سجلات عامة"}].concat(ps.map(function(p){return {p:p,t:"📁 "+p.name};}));
+  groups.forEach(function(g){
+    var gl=log.filter(function(l){ return g.p?l.pid===g.p.id:!(l.pid&&S.projects[l.pid]); });
+    if(!gl.length) return;
+    sheet.appendChild(el("h3",{class:"psub",text:g.t+" — "+gl.length+" سجل"}));
+    gl.forEach(function(l){
+      sheet.appendChild(el("div",{class:"pf-en"},[
+        el("div",{class:"pf-enh"},[el("span",{class:"pill "+(PF_TYPE_CLS[l.type]||""),text:l.type||"ملاحظة"}),
+          el("b",{text:l.title||"—"}),el("span",{class:"hint",text:fmtDate(l.date)})]),
+        l.text?el("p",{class:"pf-ent",text:l.text}):null,
+        (l.ph&&l.ph.length)?el("div",{class:"pf-ths"},l.ph.map(function(r){return pfThumb(r,true);})):null]));
+    });
+  });
+  var evs=Object.keys(d.ev||{}).map(function(k){return d.ev[k];}).sort(function(a,b){ return String(b.to).localeCompare(String(a.to)); });
+  if(evs.length){
+    sheet.appendChild(el("h3",{class:"psub",text:"تقييمات المسؤول"}));
+    sheet.appendChild(el("table",{class:"psheet"},[
+      el("thead",[el("tr",["الفترة","الوقت","الإخراج","الفكرة","المتطلبات","التعديلات","ملاحظة"].map(function(h){return el("th",{text:h});}))]),
+      el("tbody",evs.map(function(e){ return el("tr",[el("td",{text:e.label||e.from}),el("td",{text:pctTxt(e.time)}),el("td",{text:pctTxt(e.qual)}),
+        el("td",{text:pctTxt(e.idea)}),el("td",{text:pctTxt(e.req)}),el("td",{text:String(e.revs||0)}),el("td",{text:e.note||""})]); }))]));
+  }
+  sheet.appendChild(el("div",{class:"signrow"},[
+    el("span",{text:"الموظف: ................................"}),
+    el("span",{text:"المسؤول الرئيسي: ................................"}),
+    el("span",{text:"التاريخ: "+fmtDate(iso(today()))})]));
+  return sheet;
+}
+function pfPrintFile(sid){
+  var s=S.staff[sid]; if(!s) return;
+  openModal(modal("طباعة ملف "+s.name,[pfFileSheet(sid)],[
+    el("button",{class:"btn primary",text:"طباعة / حفظ PDF",onclick:function(){window.print();}}),
+    el("button",{class:"btn",text:"رجوع",onclick:function(){pfFile(sid);}})]));
+  var md=$("#modal-root .modal"); if(md) md.style.maxWidth="900px";
+}
+/* حفظ الملف على الجهاز: صفحة HTML واحدة تُفتح بدون إنترنت، والصور مضمّنة فيها */
+async function pfExport(sid){
+  var s=S.staff[sid]; if(!s) return;
+  toast("جارٍ تجهيز الملف…");
+  var sheet=pfFileSheet(sid);
+  var ims=sheet.querySelectorAll("img[data-ref]");
+  for(var i=0;i<ims.length;i++){
+    try{ var ref=JSON.parse(ims[i].getAttribute("data-ref"));
+      var full=null; ((S.perf[sid]||{}).log||[]).forEach(function(l){ (l.ph||[]).forEach(function(r){ if(r.id===ref.id) full=r; }); });
+      var u=await pfPhotoDataUrl(full||ref); if(u) ims[i].setAttribute("src",u);
+      ims[i].removeAttribute("loading"); ims[i].removeAttribute("data-ref"); }catch(e){}
+  }
+  sheet.querySelectorAll("[style]").forEach(function(n){
+    n.setAttribute("style",n.getAttribute("style").replace(/var\(--sc-l\)/g,"40%").replace(/var\(--pause\)/g,"#6C7B84")); });
+  var css="body{font:14px/1.7 'Segoe UI',Tahoma,sans-serif;color:#16232E;background:#fff;margin:0;padding:24px;direction:rtl}"+
+    ".printsheet{max-width:900px;margin:auto}.psheet-hd{display:flex;flex-direction:column;gap:2px;border-bottom:3px solid #0F6E64;padding-bottom:10px;margin-bottom:14px}"+
+    ".psheet-hd b{font-size:20px}.psheet-hd span{color:#485B66;font-size:12.5px}"+
+    "table{width:100%;border-collapse:collapse;margin:6px 0 14px;font-size:13px}th,td{border:1px solid #D4DCE0;padding:6px 8px;text-align:right;vertical-align:top}"+
+    "th{background:#F5F8F9}.psub{font-size:15px;margin:18px 0 6px;border-bottom:2px solid #0F6E64;padding-bottom:3px}"+
+    ".pf-en{border:1px solid #E4EAEC;border-radius:10px;padding:10px 12px;margin:8px 0;page-break-inside:avoid}"+
+    ".pf-enh{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.hint{color:#7A8C96;font-size:12px}.pf-ent{margin:6px 0;white-space:pre-wrap}"+
+    ".pill{font-size:11px;font-weight:600;padding:2px 9px;border-radius:20px;background:#EAEFF1}.pill.work{background:#FAE8D3;color:#B25E0C}"+
+    ".pill.done{background:#D9EEE2;color:#25714A}.pill.accent{background:#DBEAE7;color:#0F6E64}.pill.late{background:#F7DFDB;color:#B0352A}"+
+    ".pf-ths{display:flex;gap:8px;flex-wrap:wrap}.pf-th{max-width:100%;width:260px;border-radius:8px;border:1px solid #D4DCE0}"+
+    ".pf-tc{font-weight:700}.signrow{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:30px;font-size:13px}"+
+    "@media print{body{padding:0}}";
+  var html='<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'+
+    '<title>ملف الموظف — '+String(s.name).replace(/[<>&"]/g,"")+'</title><style>'+css+'</style></head><body>'+sheet.outerHTML+'</body></html>';
+  var fn="ملف-"+String(s.name).replace(/[\\\/:*?"<>|\s]+/g,"-")+"-"+iso(today())+".html";
+  await saveFile(fn,html,"text/html;charset=utf-8");
+}
+
 /* ============ سجل التطورات (ملاحظات + تاريخ) ============ */
 function logForm(p,L){
   var isNew=!L;
@@ -6007,6 +7013,7 @@ function doRender(){
     ]));
   }
   if(V.tab==="staff"&&!rosterVisible()) V.tab="projects";
+  if(V.tab==="perf"&&!isRoot()) V.tab="projects";
   var bl=briefsLate();
   if(bl.length) root.appendChild(el("div",{class:"banner",
     style:"background:var(--crit-soft);border-color:var(--crit);color:var(--crit)"},[
@@ -6053,6 +7060,7 @@ function doRender(){
   else if(V.tab==="final") root.appendChild(FinalView());
   else if(V.tab==="timeline") root.appendChild(TimelineView());
   else if(V.tab==="notes") root.appendChild(NotesView());
+  else if(V.tab==="perf") root.appendChild(PerfView());
   else root.appendChild(StaffView());
   root.appendChild(Foot());
   window.scrollTo(0,scrollY);
@@ -6150,7 +7158,8 @@ function Tabs(){
     tb("final","المرحلة النهائية"),
     tb("timeline","الجدول الزمني"),
     tb("notes","الملاحظات والتنبيهات",un),
-    rosterVisible()?tb("staff","الفريق"):null
+    rosterVisible()?tb("staff","الفريق"):null,
+    isRoot()?tb("perf","أداء الفريق"):null
   ]);
 }
 
@@ -6575,6 +7584,8 @@ function StaffView(){
       el("div",{style:"display:flex;gap:6px;flex-wrap:wrap"},[
         el("button",{class:"btn sm",text:"مشاريعه",onclick:function(){V.who=s.id;V.tab="projects";V.filter="all";render();}}),
         el("button",{class:"btn sm",text:"سجل الإنجاز",onclick:function(){wfWorkRecord(s.id);}}),
+        (isRoot()&&s.role!=="root")?el("button",{class:"btn sm",text:"الأداء",onclick:function(){pfDetail(s.id);}}):null,
+        (isRoot()&&s.role!=="root")?el("button",{class:"btn sm",text:"ملف الموظف",onclick:function(){pfFile(s.id);}}):null,
         (isBoss()&&s.id!==meId)?el("button",{class:"btn sm",text:"إرسال رابط الدخول",
           onclick:function(){sendInvite(s);}}):null,
         ph?el("a",{class:"btn sm",style:"text-decoration:none",href:"https://wa.me/"+ph,target:"_blank",rel:"noopener",text:"واتساب"}):null
