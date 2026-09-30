@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-2bxpCqjRpdsQtuYfK3dDL3ZMIoRihxT9RwXI22egnPU=' 'sha256-uMUkCsD/MXZKHJWpCIUc1pYrvGeVsCtD5hQ30dOgQVU=' 'sha256-phS1B+m+ldbE9Ez6i/EyrFzR9O6mPHF7/jCU+pZUeIc=' https://www.gstatic.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com wss://*.firebaseio.com https://*.firebaseapp.com https://www.gstatic.com; frame-src https://*.firebaseapp.com; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-2bxpCqjRpdsQtuYfK3dDL3ZMIoRihxT9RwXI22egnPU=' 'sha256-uMUkCsD/MXZKHJWpCIUc1pYrvGeVsCtD5hQ30dOgQVU=' 'sha256-xfPXEu46rVBJE3J4qac9lMCIj+tu2z1nA3fh0047Kec=' https://www.gstatic.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com wss://*.firebaseio.com https://*.firebaseapp.com https://www.gstatic.com; frame-src https://*.firebaseapp.com; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="برنامج إدارة مشاريع المكتب الهندسي — ترتيب المشاريع والمهام والموافقات المبدئية">
@@ -622,6 +622,50 @@ body:has(.lock:not(.gone)) .mask{z-index:86}
   .wfstep .ring-l small{max-width:90px}
 }
 @media print{ .wf-cb{border-color:#999} }
+/* ---------- لوحة مدة المشروع ---------- */
+.wt{display:flex;flex-direction:column;gap:12px}
+.wt-tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px}
+.wt-t{display:flex;flex-direction:column;gap:3px;background:var(--surface-2);border:1px solid var(--line-soft);border-radius:12px;padding:10px 12px}
+.wt-t small{font-size:11.5px;color:var(--ink-3);font-weight:600}
+.wt-t b{font-family:var(--f-disp);font-size:17px}
+.wt-t span{font-size:11.5px;color:var(--ink-2)}
+.wt-t.good b{color:var(--good)}
+.wt-t.pz b{color:var(--pause)}
+.wt-t.late b{color:var(--crit)}
+.wt-t.off{background:linear-gradient(135deg,var(--accent-soft),var(--surface-2));border-color:color-mix(in oklab,var(--accent) 35%,var(--line-soft))}
+.wt-t.off .btn{align-self:flex-start;margin-top:3px}
+.wt-barw{display:flex;flex-direction:column;gap:5px}
+.wt-bar{position:relative;height:22px;border-radius:8px;background:var(--surface-3);overflow:hidden}
+.wt-bar i{position:absolute;top:0;bottom:0}
+.wt-seg{opacity:.9}
+.wt-seg.s-pre,.wt-dot.s-pre{background:var(--warn)}
+.wt-seg.s-pre{top:15px!important;opacity:.8}
+.wt-seg.s-concept,.wt-dot.s-concept{background:var(--info)}
+.wt-seg.s-prelim,.wt-dot.s-prelim{background:var(--accent)}
+.wt-seg.s-exec,.wt-dot.s-exec{background:var(--work)}
+.wt-pz,.wt-dot.pz{background:repeating-linear-gradient(135deg,var(--pause) 0 4px,var(--pause-soft) 4px 8px)}
+.wt-pz{opacity:.95}
+.wt-ax{display:flex;justify-content:space-between;font-size:11px;color:var(--ink-3)}
+.wt-lg{display:flex;gap:12px;flex-wrap:wrap;font-size:11.5px;color:var(--ink-2)}
+.wt-lg span{display:inline-flex;align-items:center;gap:5px}
+.wt-dot{display:inline-block;width:12px;height:12px;border-radius:3px}
+.wt-h{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.wt-h .psub{margin:0}
+.wt-cats{display:flex;gap:6px;flex-wrap:wrap}
+.okcell{color:var(--good);font-weight:600}
+.wt-mini{display:flex;align-items:center;gap:10px;flex-wrap:wrap;text-align:right;font:inherit;color:inherit;cursor:pointer;margin-top:8px;
+  background:var(--surface-2);border:1px dashed var(--line);border-radius:11px;padding:7px 11px;font-size:12.5px;transition:.15s}
+.wt-mini:hover{border-color:var(--accent);border-style:solid}
+.wt-mini b{font-family:var(--f-num);font-size:12.5px}
+.wt-mini small{color:var(--ink-3)}
+.wt-mini .pill{font-size:10.5px;padding:2px 8px}
+.wt-pzt b{color:var(--pause)}
+.wt-go{margin-inline-start:auto;color:var(--accent);font-weight:600;font-size:12px}
+.wt-est{display:flex;flex-direction:column;gap:8px}
+.wt-er{display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;border:1px solid var(--line-soft);border-radius:10px;padding:8px 10px;background:var(--surface-2)}
+.wt-er b{font-size:13px}
+@media (max-width:560px){ .wt-er{grid-template-columns:1fr auto} .wt-er .hint{grid-column:1/-1} }
+@media print{ .wt-bar{-webkit-print-color-adjust:exact;print-color-adjust:exact} .wt-mini{display:none} }
 /* ---------- أداء الفريق وملف الموظف ---------- */
 :root{--sc-l:38%}
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){--sc-l:62%} }
@@ -2357,7 +2401,9 @@ function projForm(p){
   var rs=el("textarea",{id:"pjReason",placeholder:"مثال: بانتظار موافقة المالك / تعديل الصك / إيقاف من البلدية",
     style:"min-height:60px"});
   rs.value=p?(p.pauseReason||""):"";
+  var pcs=pauseCatSel("pjCat",p&&p.pauseCat);
   var rsField=el("div",{class:"field full"},[
+    el("label",{text:"نوع التوقف"}), pcs,
     el("label",{text:"سبب التوقف"}), rs,
     el("span",{class:"hint",text:"مطلوب عند اختيار «متوقف» — يبقى المشروع باللون الرمادي حتى يُذكر السبب"})
   ]);
@@ -2365,6 +2411,16 @@ function projForm(p){
   ws.addEventListener("change",syncWS);
   var sd=inp("pjStart",p?p.startDate:iso(today()),{type:"date"});
   var dd=inp("pjDue",p?p.dueDate:"",{type:"date"});
+  /* بداية العمل: مشروع متعاقد، أو تقديم فكرة جديدة / دراسة فكرة قبل التعاقد */
+  var canPre=isNew||!wfBegun(p);
+  var bg=sel("pjBegin",(p&&wfPre(p))?"pre":"contract",[
+    {v:"contract",t:"مشروع متعاقد — يبدأ العمل بأمر البدء"},
+    {v:"pre",t:"تقديم فكرة جديدة — دراسة فكرة قبل التعاقد"}]);
+  if(!canPre) bg.disabled=true;
+  var ddHint=el("span",{class:"hint"});
+  var ddField=el("div",{class:"field"},[el("label",{text:"موعد التسليم للمهام",for:"pjDue"}),dd,ddHint]);
+  function syncBg(){ ddHint.textContent=bg.value==="pre"?"اختياري الآن — يُحدَّد عند اعتماد الفكرة بحسب المشروع":"يُحسب تأخير المهام من هذا التاريخ"; }
+  bg.addEventListener("change",syncBg); syncBg();
   var asg=sel("pjAsg",p?p.assigneeId:(people[0]&&people[0].id),opts);
   var mgrOpts=isBoss()?opts.slice():opts.filter(function(o){return o.v===meId;});
   var mg=sel("pjMgr",isBoss()?(p?p.managerId:(meId||(people[0]&&people[0].id))):meId,mgrOpts);
@@ -2385,8 +2441,9 @@ function projForm(p){
       field("المالك / العميل",cl),
       field("نوع المشروع",ty),
       field("الأولوية",pr),
+      field("بداية العمل",bg,canPre?"الدراسة قبل التعاقد تفتح مرحلة الفكرة فوراً، ويبدأ احتساب مدة المشروع":"بدأ احتساب مدة هذا المشروع",true),
       field("تاريخ البدء",sd),
-      field("تاريخ التسليم",dd,"يُحسب التأخير من هذا التاريخ"),
+      ddField,
       field("الموظف القائم على المشروع",asg),
       field("المهندس المسؤول",mg,isBoss()?"صاحب الصلاحية على تعديل المشروع":"يُسجَّل المشروع باسمك كمهندس مسؤول"),
       pinField,
@@ -2398,18 +2455,33 @@ function projForm(p){
   ],[
     el("button",{class:"btn primary",text:isNew?"إضافة المشروع":"حفظ التعديل",onclick:function(){
       if(!n.value.trim()) return toast("اكتب اسم المشروع",true);
-      if(!dd.value) return toast("حدّد تاريخ التسليم",true);
-      var stage=st.value, state=ws.value;
+      var state=ws.value;
+      if(!dd.value&&bg.value!=="pre"&&!(p&&wfBegun(p)&&!p.dueDate)) return toast("حدّد موعد التسليم",true);
+      if(state==="متوقف"&&!rs.value.trim()) return toast("اكتب سبب التوقف",true);
+      var stage=st.value;
       if(state==="مكتمل") stage="مكتمل";
       else if(stage==="مكتمل") stage=STAGE_KEYS[STAGE_KEYS.length-2];
       var id=isNew?uid():p.id;
-      var body={name:n.value.trim(),code:code.value.trim(),client:cl.value.trim(),type:ty.value,
+      /* نحافظ على بقية بيانات المشروع (المراحل، التوقفات، الفريق…) عند التعديل */
+      var cur=p?JSON.parse(JSON.stringify(S.projects[p.id]||p)):{};
+      delete cur.id;
+      var body=Object.assign(cur,{name:n.value.trim(),code:code.value.trim(),client:cl.value.trim(),type:ty.value,
         stage:stage,priority:pr.value,startDate:sd.value,dueDate:dd.value,
         assigneeId:asg.value,managerId:isBoss()?mg.value:(p?p.managerId:meId),desc:ds.value.trim(),
         pinned:pin.checked,
         workState:state,pauseReason:state==="متوقف"?rs.value.trim():"",
+        pauseCat:state==="متوقف"?pcs.value:(cur.pauseCat||""),
         createdAt:p?p.createdAt:Date.now(),updatedAt:Date.now(),
-        completedAt:state==="مكتمل"?((p&&p.completedAt)||Date.now()):null};
+        completedAt:state==="مكتمل"?((p&&p.completedAt)||Date.now()):null});
+      if(canPre&&bg.value==="pre"&&!(body.wf&&body.wf.pre&&body.wf.pre.at)){
+        body.wf=body.wf||{}; body.wf.pre={at:Date.now(),by:meId||""}; }
+      if(canPre&&bg.value==="contract"&&body.wf&&body.wf.pre) delete body.wf.pre;
+      var was=p?wsOf(p):"";
+      if(state==="متوقف"&&was!=="متوقف"){ body.pausedAt=Date.now(); body.pauseStage=p?(wfCurStage(p)||""):""; }
+      if(p&&was==="متوقف"&&state!=="متوقف"){
+        var tmp={}; wfResumeShift(p,tmp);
+        if(tmp.wf) body.wf=tmp.wf; body.pausedAt=null; body.pauseCat=""; body.pauseStage="";
+        if(tmp.dueDate&&dd.value===p.dueDate) body.dueDate=tmp.dueDate; }
       put("projects",id,body);
       closeModal(); toast(isNew?"تم حفظ المشروع في السجل":"تم حفظ التعديل");
     }}),
@@ -2454,7 +2526,9 @@ function stateForm(p,preset){
   var picked=cur;
   var rs=el("textarea",{id:"wsReason",placeholder:"مثال: بانتظار موافقة المالك على المخطط الابتدائي"});
   rs.value=p.pauseReason||"";
+  var pc=pauseCatSel("wsCat",p.pauseCat);
   var rsField=el("div",{class:"field full"},[
+    el("label",{text:"نوع التوقف"}), pc,
     el("label",{text:"سبب التوقف (مطلوب)"}), rs,
     el("span",{class:"hint",text:"يبقى المشروع رمادياً في القائمة حتى يُستكمل السبب"})
   ]);
@@ -2479,8 +2553,9 @@ function stateForm(p,preset){
       if(picked==="متوقف"&&!rs.value.trim()) return toast("اكتب سبب التوقف أولاً",true);
       var d={workState:picked,updatedAt:Date.now(),
         pauseReason:picked==="متوقف"?rs.value.trim():""};
+      if(picked==="متوقف") d.pauseCat=pc.value;
       /* إيقاف الوقت أثناء التوقف، وتمديد المواعيد عند الاستئناف */
-      if(picked==="متوقف"&&wsOf(p)!=="متوقف") d.pausedAt=Date.now();
+      if(picked==="متوقف"&&wsOf(p)!=="متوقف"){ d.pausedAt=Date.now(); d.pauseStage=wfBegun(p)&&!wfStarted(p)&&wfStageDone(p,"concept")?"pre":(wfCurStage(p)||""); }
       if(picked!=="متوقف"&&wsOf(p)==="متوقف") wfResumeShift(p,d);
       if(picked==="مكتمل"){ d.stage="مكتمل"; d.completedAt=p.completedAt||Date.now(); }
       else { d.completedAt=null; if(p.stage==="مكتمل") d.stage=STAGE_KEYS[STAGE_KEYS.length-2]; }
@@ -3803,14 +3878,15 @@ function wfTotal(p){
 /* فتح المراحل: الفكرة بعد أمر البدء، الابتدائي بعد اكتمال الفكرة واعتماد المالك،
    التنفيذي بعد اعتماد الابتدائي والموافقة المبدئية من الجهة */
 function wfLock(p,st){
-  if(!wfStarted(p)) return "بانتظار أمر البدء بالعمل من المسؤول الرئيسي";
-  if(st==="concept") return "";
+  if(st==="concept") return wfBegun(p)?"":"بانتظار أمر البدء بالعمل من المسؤول الرئيسي (أو بدء دراسة فكرة قبل التعاقد)";
+  if(!wfStarted(p)) return st==="prelim"&&wfPre(p)?"تُفتح بعد التعاقد وإصدار أمر البدء من المسؤول الرئيسي":"بانتظار أمر البدء بالعمل من المسؤول الرئيسي";
   if(st==="prelim") return wfStageDone(p,"concept")?"":"تُفتح بعد إنجاز الفكرة واعتماد المالك للمقترح";
   var ok=wfDone(p,{k:"p_ownok"})&&wfDone(p,{k:"p_auth",auto:"review"});
   return ok?"":"تُفتح بعد اعتماد المالك للابتدائي والموافقة المبدئية من الجهة الرسمية";
 }
 function wfCurStage(p){
-  if(!wfStarted(p)) return null;
+  if(!wfBegun(p)) return null;
+  if(!wfStarted(p)) return "concept";
   for(var i=0;i<WF_STAGES.length;i++){ var k=WF_STAGES[i].k; if(!wfStageDone(p,k)) return k; }
   return "exec";
 }
@@ -3893,7 +3969,7 @@ function WfBar(p,compact){
   if(!compact) bar.appendChild(el("button",{class:"wfstep total",title:"نسبة إنجاز المشروع",
     onclick:function(){wfOpen(p,wfCurStage(p)||"concept");}},
     [ring(wfTotal(p),58,wfPaused(p)?"pause":wfTotal(p)===100?"done":"work","الإنجاز الكلي",
-      wfStarted(p)?(wfPaused(p)?"متوقف — الوقت موقوف":"مرحلة "+(WF_STAGES.filter(function(s){return s.k===wfCurStage(p);})[0]||{}).s):"لم يصدر أمر البدء")]));
+      wfBegun(p)?(wfPaused(p)?"متوقف — الوقت موقوف":(!wfStarted(p)?"دراسة فكرة — قبل التعاقد":"مرحلة "+(WF_STAGES.filter(function(s){return s.k===wfCurStage(p);})[0]||{}).s)):"لم يصدر أمر البدء")]));
   WF_STAGES.forEach(function(s){
     var cls=wfStageCls(p,s.k), lk=wfLock(p,s.k);
     var a=wfApplicable(p,s.k), dn=a.filter(function(d){return wfDone(p,d);}).length;
@@ -3920,9 +3996,10 @@ function wfOpen(p,st){
         [ring(wfPct(p,s.k),50,wfStageCls(p,s.k),s.ic+" "+s.s,wfLock(p,s.k)?"مقفلة":dn+" / "+a.length)]));
     });
     body.appendChild(tabs);
+    body.appendChild(WtMini(p));
     if(wfPaused(p)) body.appendChild(el("div",{class:"banner",style:"margin:0;background:var(--pause-soft);color:var(--pause);border-color:var(--pause)"},[
       el("b",{text:"المشروع متوقف — الوقت موقوف."}),
-      el("span",{text:"السبب: "+(p.pauseReason||"لم يُسجَّل")+" · لا تظهر مهامه ضمن المتأخرة، وتُمدَّد المواعيد تلقائياً عند الاستئناف."})]));
+      el("span",{text:"السبب: "+(p.pauseCat?p.pauseCat+" — ":"")+(p.pauseReason||"لم يُسجَّل")+" · لا تظهر مهامه ضمن المتأخرة، وتُمدَّد المواعيد تلقائياً عند الاستئناف."})]));
     if(st==="concept") body.appendChild(WfStartBox(p,draw));
     body.appendChild(WfStageBox(p,st,draw));
   }
@@ -3942,6 +4019,10 @@ function WfStartBox(p,redraw){
     el("b",{text:"متطلبات بدء العمل"}),
     wfStarted(p)?el("span",{class:"pill done",text:"صدر أمر البدء "+fmtDate(iso(new Date(w.go.at)))}):
       el("span",{class:"pill pause",text:"لم يصدر أمر البدء"}),
+    wfPre(p)?el("span",{class:"pill work",text:"دراسة فكرة قبل التعاقد منذ "+fmtDate(iso(new Date(w.pre.at)))}):
+      ((!wfStarted(p)&&canEdit(p))?el("button",{class:"btn sm",text:"💡 بدء دراسة فكرة قبل التعاقد",
+        title:"تفتح مرحلة الفكرة قبل التعاقد، ويبدأ احتساب مدة المشروع",
+        onclick:function(){ wtStartPre(p); setTimeout(redraw,60); }}):null),
     el("span",{class:"spacer",style:"flex:1"}),
     rootNow?null:el("span",{class:"hint",text:"أمر البدء من صلاحية المسؤول الرئيسي فقط"})
   ]));
@@ -3997,6 +4078,8 @@ function WfStageBox(p,st,redraw){
     var sd=inp("wfSd"+p.id+st,(w.sdue||{})[st]||"",{type:"date"});
     sd.addEventListener("change",function(){ wfPatch(p,function(x){x.sdue=x.sdue||{}; x.sdue[st]=sd.value;},"حُدّد موعد إنهاء المرحلة"); });
     opts.appendChild(el("label",[el("span",{text:"موعد إنهاء المرحلة"}),sd]));
+    var ev=(w.est&&w.est[st])?Number(w.est[st]):null;
+    opts.appendChild(el("button",{class:"btn sm",text:"⏱ المدة المقدّرة: "+(ev?fmtDur(ev):"لم تُحدَّد"),onclick:function(){wtEstForm(p,{after:function(){wfOpen(S.projects[p.id]||p,st);}});}}));
     box.appendChild(opts);
   } else if(st==="prelim"&&w.ptype){
     box.appendChild(el("span",{class:"pill accent",style:"align-self:flex-start",text:w.ptype}));
@@ -4081,7 +4164,9 @@ function wfChoose(p,redraw){
     el("button",{class:"btn primary",text:"اعتماد",onclick:function(){
       wfSetItem(p,"c_own",{done:true,at:Date.now(),by:meId||"",chosen:s.value});
       audit("اعتماد المالك","projects",p.id,p.name,s.value);
-      toast("اعتُمد "+s.value); wfOpen(p,"concept"); }}),
+      toast("اعتُمد "+s.value);
+      if(canEdit(p)) wtEstForm(S.projects[p.id]||p,{due:true,after:function(){ wfOpen(S.projects[p.id]||p,"concept"); }});
+      else wfOpen(p,"concept"); }}),
     el("button",{class:"btn",text:"رجوع",onclick:function(){wfOpen(p,"concept");}})
   ]));
 }
@@ -4104,8 +4189,9 @@ function wfResumeShift(p,d){
     if(w.sdue) Object.keys(w.sdue).forEach(function(k){ w.sdue[k]=sh(w.sdue[k]); });
     if(p.dueDate) d.dueDate=sh(p.dueDate);
   }
-  w.pauses=(w.pauses||[]).concat([{from:p.pausedAt,to:Date.now(),days:days,reason:p.pauseReason||""}]);
-  d.wf=w; d.pausedAt=null;
+  w.pauses=(w.pauses||[]).concat([{from:p.pausedAt,to:Date.now(),days:days,reason:p.pauseReason||"",
+    cat:p.pauseCat||"",stage:p.pauseStage||""}]);
+  d.wf=w; d.pausedAt=null; d.pauseCat=""; d.pauseStage="";
 }
 /* قسم «مهامي في المراحل» لصفحة أعمالي */
 function WfMine(sid){
@@ -4168,7 +4254,9 @@ function wfPrint(p,which){
       " · الإنجاز الكلي "+wfTotal(p)+"%"})]));
   var w=wfOf(p);
   sheet.appendChild(el("table",{class:"psheet"},[el("tbody",[
+    wfPre(p)?el("tr",[el("th",{text:"دراسة الفكرة قبل التعاقد"}),el("td",{text:"منذ "+fmtDate(iso(new Date(w.pre.at)))})]):null,
     el("tr",[el("th",{text:"أمر البدء بالعمل"}),el("td",{text:wfStarted(p)?fmtDate(iso(new Date(w.go.at))):"لم يصدر"})]),
+    (function(){ var W=wtSummary(p); return W?el("tr",[el("th",{text:"مدة المشروع"}),el("td",{text:fmtDur(W.total)+" · عمل فعلي "+fmtDur(W.active)+(W.paused?" · توقف "+fmtDur(W.paused):"")})]):null; })(),
     el("tr",[el("th",{text:"نوع المخطط الابتدائي"}),el("td",{text:w.ptype||"—"})]),
     el("tr",[el("th",{text:"حالة العمل"}),el("td",{text:wsOf(p)+(wfPaused(p)?" — "+(p.pauseReason||""):"")})])
   ])]));
@@ -5099,6 +5187,306 @@ async function pfExport(sid){
   var fn="ملف-"+String(s.name).replace(/[\\\/:*?"<>|\s]+/g,"-")+"-"+iso(today())+".html";
   await saveFile(fn,html,"text/html;charset=utf-8");
 }
+
+/* ============ مدة المشروع ============
+   • «تقديم فكرة جديدة — دراسة فكرة قبل التعاقد»: تُفتح مرحلة الفكرة قبل أمر البدء.
+   • موعد التسليم للمهام يُحدَّد عند اعتماد المالك للفكرة، والموعد الرسمي (6–12 شهراً لاستخراج الرخصة)
+     يظهر للمسؤول الرئيسي وحده ويُحفظ في مساحته المحمية.
+   • لكل مرحلة مدة مقدّرة، والمدة الفعلية تُحسب عند اعتمادها بعد خصم أيام التوقف.
+   • كل توقف يُسجَّل بتاريخه ومرحلته ونوعه (اعتماد المالك، اعتماد الأمانة…) وسببه. */
+var PAUSE_CATS=["بانتظار اعتماد المالك","بانتظار اعتماد الأمانة / البلدية","بانتظار المالك (دفعة أو مستندات)","أخرى"];
+var WT_DAY=86400000;
+var WT_EST_DEF={concept:14,prelim:45,exec:60};
+function wfPre(p){ var w=wfOf(p); return !!(w.pre&&w.pre.at); }
+function wfBegun(p){ return wfStarted(p)||wfPre(p); }
+function wfT0(p){
+  var w=wfOf(p), a=w.pre&&w.pre.at, b=w.go&&w.go.at;
+  return a&&b?Math.min(a,b):(a||b||null);
+}
+function wtEndAt(p){ return (wsOf(p)==="مكتمل"&&p.completedAt)?p.completedAt:Date.now(); }
+function wtPauses(p){
+  var a=(wfOf(p).pauses||[]).map(function(x){ return Object.assign({},x); });
+  if(wfPaused(p)&&p.pausedAt) a.push({from:p.pausedAt,to:null,open:true,reason:p.pauseReason||"",
+    cat:p.pauseCat||"",stage:p.pauseStage||""});
+  return a;
+}
+function wtOverlap(ps,a,b){
+  var ms=0; ps.forEach(function(x){ var f=Math.max(a,x.from||0), t=Math.min(b,x.to||Date.now()); if(t>f) ms+=t-f; });
+  return ms;
+}
+function wtAuthAt(p){
+  if(p.final&&p.final.approvedAt){ var d=parseD(p.final.approvedAt); if(d) return d.getTime()+12*3600000; }
+  var m=0; revsFor(p.id).forEach(function(r){ if(r.status==="موافقة مبدئية"){ var t=r.updatedAt||r.createdAt||0; if(t>m) m=t; } });
+  return m||0;
+}
+/* تاريخ اعتماد المرحلة = آخر مهمة أُنجزت فيها */
+function wtStageEnd(p,st){
+  if(!wfStageDone(p,st)) return null;
+  var m=0;
+  wfApplicable(p,st).forEach(function(d){ var t=wfItem(p,d.k).at||0; if(!t&&d.auto==="review") t=wtAuthAt(p); if(t>m) m=t; });
+  return m||null;
+}
+function wtStageSpan(p,st){
+  var w=wfOf(p), go=(w.go&&w.go.at)||null, s=null;
+  if(st==="concept") s=wfT0(p);
+  else if(st==="prelim"){ var ce=wtStageEnd(p,"concept"); if(ce&&go) s=Math.max(ce,go); }
+  else { var pe=wtStageEnd(p,"prelim"); if(pe&&!wfLock(p,"exec")) s=pe; }
+  if(!s) return null;
+  var e=wtStageEnd(p,st);
+  if(e&&e<s) e=s;
+  return {from:s,to:e};
+}
+function wtDays(ms){ return Math.max(0,Math.round(ms/WT_DAY)); }
+function arN(n,one,two,few,many){
+  if(n===1) return one; if(n===2) return two; if(n>=3&&n<=10) return n+" "+few; return n+" "+many;
+}
+function fmtDur(days){
+  if(days===null||days===undefined||isNaN(days)) return "—";
+  days=Math.round(days);
+  if(days<=0) return "أقل من يوم";
+  var m=Math.floor(days/30), r=days%30;
+  var ms=m?arN(m,"شهر","شهران","أشهر","شهراً"):"", ds=r?arN(r,"يوم","يومان","أيام","يوماً"):"";
+  return ms&&ds?ms+" و"+ds:(ms||ds);
+}
+function wtWorkDays(a,b,ps){
+  var n=0, d=new Date(a); d.setHours(12,0,0,0);
+  var end=new Date(b), guard=0;
+  while(d<=end&&guard++<2000){
+    if(!WEEKEND[d.getDay()]){ var t=d.getTime(); if(!ps.some(function(x){ return t>=x.from&&t<=(x.to||Date.now()); })) n++; }
+    d.setDate(d.getDate()+1);
+  }
+  return n;
+}
+/* ملخص المدة */
+function wtSummary(p){
+  var t0=wfT0(p); if(!t0) return null;
+  var end=wtEndAt(p), ps=wtPauses(p);
+  var total=end-t0, paused=wtOverlap(ps,t0,end), cats={};
+  ps.forEach(function(x){ var d=wtOverlap([x],t0,end); var c=x.cat||"غير مصنّف"; cats[c]=(cats[c]||0)+d; });
+  var w=wfOf(p), stages=[];
+  if(w.pre&&w.pre.at){
+    var pe=(w.go&&w.go.at)||null;
+    stages.push({k:"pre",t:"دراسة الفكرة قبل التعاقد",from:w.pre.at,to:pe,done:!!pe,
+      act:wtDays((pe||end)-w.pre.at-wtOverlap(ps,w.pre.at,pe||end)),pz:wtDays(wtOverlap(ps,w.pre.at,pe||end)),est:null});
+  }
+  WF_STAGES.forEach(function(s){
+    var sp=wtStageSpan(p,s.k), est=(w.est&&w.est[s.k])?Number(w.est[s.k]):null;
+    if(!sp){ stages.push({k:s.k,t:s.t,from:null,to:null,done:false,act:null,pz:0,est:est}); return; }
+    var e=sp.to||end, pz=wtOverlap(ps,sp.from,e);
+    stages.push({k:s.k,t:s.t,from:sp.from,to:sp.to,done:!!sp.to,act:wtDays(e-sp.from-pz),pz:wtDays(pz),est:est});
+  });
+  return {t0:t0,end:end,total:wtDays(total),paused:wtDays(paused),active:wtDays(total-paused),
+    work:wtWorkDays(t0,end,ps),ps:ps,cats:cats,stages:stages,done:wsOf(p)==="مكتمل"};
+}
+/* الموعد الرسمي — للمسؤول الرئيسي وحده (محفوظ في مساحته المحمية) */
+function wtOffAll(){ return (S.perf&&S.perf._proj)||{}; }
+function wtOff(p){ return isRoot()?(wtOffAll()[p.id]||null):null; }
+function wtOffSuggest(){
+  var n=allProjects().filter(function(x){ return wsOf(x)!=="مكتمل"; }).length;
+  return Math.min(12,Math.max(6,6+Math.floor(n/4)));
+}
+function wtOffDates(p,o){
+  if(!o||!o.months) return null;
+  var w=wfOf(p), base=(w.go&&w.go.at)||wfT0(p)||p.createdAt||Date.now();
+  var d=new Date(base); d.setMonth(d.getMonth()+Number(o.months));
+  var ps=wtPauses(p), pz=wtOverlap(ps,base,wtEndAt(p));
+  var adj=new Date(d.getTime()+pz);
+  return {base:base,date:iso(d),adj:iso(adj),pz:wtDays(pz),fromContract:!!(w.go&&w.go.at)};
+}
+function wtSetOff(p,o){
+  var all=Object.assign({},wtOffAll());
+  if(o) all[p.id]=Object.assign({},o,{at:Date.now()}); else delete all[p.id];
+  return pfSave("_proj",all);
+}
+function wtOffForm(p,back){
+  if(!isRoot()) return;
+  var o=wtOff(p)||{}, sg=wtOffSuggest();
+  var opts=[]; for(var m=6;m<=12;m++) opts.push({v:String(m),t:arN(m,"شهر","شهران","أشهر","شهراً")+(m===sg?" — مقترح":"")});
+  var ms=sel("wtOffM",String(o.months||sg),opts);
+  var nt=inp("wtOffN",o.note||"",{placeholder:"مثال: بحسب ضغط العمل الحالي ومدة إصدار الرخصة من الأمانة"});
+  var prev=el("div",{class:"hint"});
+  function upd(){ var dd=wtOffDates(p,{months:Number(ms.value)});
+    prev.textContent=dd?("الموعد الرسمي: "+fmtDate(dd.date)+" (من "+(dd.fromContract?"تاريخ التعاقد":"بداية المشروع")+" "+fmtDate(iso(new Date(dd.base)))+")"+
+      (dd.pz?" · بعد إضافة أيام التوقف ("+dd.pz+"): "+fmtDate(dd.adj):"")):""; }
+  ms.addEventListener("change",upd); upd();
+  openModal(modal("الموعد الرسمي — "+p.name,[
+    el("p",{class:"hint",style:"margin:0",text:"يظهر لك وحدك ولا يراه الفريق. يُحدَّد بحسب إمكانيات المكتب والزمن المقدّر لاستخراج الرخصة (من 6 إلى 12 شهراً)، ويُحسب من تاريخ التعاقد."}),
+    field("المدة الرسمية",ms,"المقترح بحسب عدد المشاريع القائمة حالياً في المكتب: "+sg+" أشهر"),
+    field("ملاحظة",nt,null,true), prev
+  ],[
+    el("button",{class:"btn primary",text:"حفظ",onclick:function(){
+      wtSetOff(p,{months:Number(ms.value),note:nt.value.trim()}); toast("حُفظ الموعد الرسمي"); (back||function(){wtOpen(p);})(); }}),
+    o.months?el("button",{class:"btn danger",text:"إزالة",onclick:function(){ wtSetOff(p,null); toast("أُزيل الموعد الرسمي"); (back||function(){wtOpen(p);})(); }}):null,
+    el("button",{class:"btn",text:"رجوع",onclick:function(){ (back||function(){wtOpen(p);})(); }})
+  ]));
+}
+/* المدد المقدّرة لكل مرحلة + موعد التسليم للمهام */
+function wtEstForm(p,opt){
+  opt=opt||{};
+  if(!canEdit(p)) return;
+  var w=wfOf(p), est=Object.assign({},WT_EST_DEF,w.est||{});
+  var ins={};
+  var rows=WF_STAGES.map(function(s){
+    ins[s.k]=inp("wtE_"+s.k,String(est[s.k]),{type:"number",min:"1",max:"720",style:"max-width:110px"});
+    var sp=wtStageSpan(p,s.k), done=sp&&sp.to;
+    return el("div",{class:"wt-er"},[el("b",{text:s.ic+" "+s.t}),ins[s.k],el("span",{class:"hint",text:"يوماً"+(done?" · اعتُمدت":"")})]);
+  });
+  var dd=inp("wtDue",p.dueDate||"",{type:"date"});
+  var sug=el("div",{class:"hint"});
+  function calc(){
+    var rem=0, t=today();
+    WF_STAGES.forEach(function(s){ var sp=wtStageSpan(p,s.k); if(sp&&sp.to) return;
+      var n=Number(ins[s.k].value)||0;
+      if(sp&&!sp.to){ var used=wtDays(Date.now()-sp.from-wtOverlap(wtPauses(p),sp.from,Date.now())); n=Math.max(0,n-used); }
+      rem+=n; });
+    var d=new Date(t); d.setDate(d.getDate()+rem);
+    sug.textContent="المتبقي بحسب المدد المقدّرة: "+fmtDur(rem)+" ← موعد مقترح "+fmtDate(iso(d));
+    return iso(d);
+  }
+  Object.keys(ins).forEach(function(k){ ins[k].addEventListener("input",calc); });
+  var s0=calc(); if(!dd.value&&opt.due) dd.value=s0;
+  openModal(modal((opt.due?"اعتماد الفكرة — ":"")+"المدد المقدّرة وموعد التسليم — "+p.name,[
+    opt.due?el("div",{class:"banner",style:"margin:0;background:var(--good-soft);border-color:var(--good);color:var(--good)"},[
+      el("b",{text:"اعتُمدت الفكرة."}),el("span",{text:"حدّد الآن موعد التسليم الرئيسي للمهام بحسب هذا المشروع."})]):null,
+    el("div",{class:"wt-est"},rows),
+    el("div",{class:"field full"},[el("label",{text:"موعد التسليم الرئيسي للمهام"}),
+      el("div",{style:"display:flex;gap:8px;flex-wrap:wrap;align-items:center"},[dd,
+        el("button",{class:"btn sm",text:"استخدام الموعد المقترح",onclick:function(){ dd.value=calc(); }})]),
+      sug,
+      el("span",{class:"hint",text:"هذا الموعد للفريق ولحساب التأخير. الموعد الرسمي للرخصة يحدده المسؤول الرئيسي ويظهر له فقط."})])
+  ],[
+    el("button",{class:"btn primary",text:"حفظ",onclick:function(){
+      var ne={}; WF_STAGES.forEach(function(s){ ne[s.k]=Math.max(1,Math.min(720,Number(ins[s.k].value)||WT_EST_DEF[s.k])); });
+      var cur=S.projects[p.id]||p, w2=JSON.parse(JSON.stringify(cur.wf||{})); w2.est=ne;
+      var d={wf:w2,updatedAt:Date.now()}; if(dd.value) d.dueDate=dd.value;
+      patch("projects",p.id,d); toast("حُفظت المدد المقدّرة"+(dd.value?" وموعد التسليم":""));
+      if(opt.after) opt.after(); else wtOpen(S.projects[p.id]||p); }}),
+    el("button",{class:"btn",text:opt.due?"لاحقاً":"رجوع",onclick:function(){ if(opt.after) opt.after(); else wtOpen(p); }})
+  ]));
+}
+/* شريط زمني: المراحل والتوقفات */
+function wtBar(p,W){
+  var t0=W.t0, end=W.end, span=Math.max(1,end-t0);
+  function pos(t){ return Math.max(0,Math.min(100,100*(t-t0)/span)); }
+  var bar=el("div",{class:"wt-bar",title:"من "+fmtDate(iso(new Date(t0)))+" إلى "+(W.done?fmtDate(iso(new Date(end))):"اليوم")});
+  W.stages.forEach(function(s){
+    if(!s.from) return;
+    var a=pos(s.from), b=pos(s.to||end);
+    bar.appendChild(el("i",{class:"wt-seg s-"+s.k,style:"inset-inline-start:"+a+"%;width:"+Math.max(.6,b-a)+"%",title:s.t+" — "+fmtDur(s.act)}));
+  });
+  W.ps.forEach(function(x){
+    var a=pos(x.from), b=pos(x.to||end);
+    bar.appendChild(el("i",{class:"wt-pz",style:"inset-inline-start:"+a+"%;width:"+Math.max(.6,b-a)+"%",
+      title:"توقف: "+(x.cat||"")+(x.reason?" — "+x.reason:"")}));
+  });
+  var lg=el("div",{class:"wt-lg"},W.stages.filter(function(s){return s.from;}).map(function(s){
+    return el("span",[el("i",{class:"wt-dot s-"+s.k}),s.t]); }).concat(W.ps.length?[el("span",[el("i",{class:"wt-dot pz"}),"توقف"])]:[]));
+  return el("div",{class:"wt-barw"},[bar,
+    el("div",{class:"wt-ax"},[el("span",{text:fmtDate(iso(new Date(t0)))}),el("span",{text:W.done?fmtDate(iso(new Date(end))):"اليوم"})]),lg]);
+}
+/* الشريط المختصر في تفاصيل المشروع ونافذة المراحل */
+function WtMini(p){
+  var W=wtSummary(p);
+  if(!W) return el("button",{class:"wt-mini",onclick:function(){wtOpen(p);}},[el("span",{text:"⏱"}),
+    el("span",{text:"لم يبدأ احتساب المدة — يبدأ عند أمر البدء أو بدء دراسة الفكرة"}),el("span",{class:"wt-go",text:"لوحة المدة ←"})]);
+  var dd=p.dueDate?diffDays(p.dueDate):null;
+  return el("button",{class:"wt-mini",onclick:function(e){ e.stopPropagation(); wtOpen(p); }},[
+    el("span",{text:"⏱"}),
+    el("span",[el("b",{text:fmtDur(W.total)}),el("small",{text:" منذ البدء"})]),
+    el("span",[el("b",{text:fmtDur(W.active)}),el("small",{text:" عمل فعلي"})]),
+    W.paused?el("span",{class:"wt-pzt"},[el("b",{text:fmtDur(W.paused)}),el("small",{text:" توقف"})]):null,
+    wfPre(p)&&!wfStarted(p)?el("span",{class:"pill work",text:"دراسة فكرة — قبل التعاقد"}):null,
+    (dd!==null&&!W.done)?el("span",{class:"pill "+(dd<0?"late":"work"),text:dd<0?"تجاوز موعد المهام "+Math.abs(dd)+" يوم":"متبقٍ للمهام "+dd+" يوم"}):null,
+    el("span",{class:"wt-go",text:"لوحة المدة ←"})]);
+}
+/* لوحة المدة الكاملة */
+function wtOpen(p){
+  p=S.projects[p.id]||p;
+  var W=wtSummary(p), plan=canEdit(p), root=isRoot();
+  var body=el("div",{class:"wt"});
+  var w=wfOf(p);
+  if(!W){
+    body.appendChild(el("div",{class:"empty",style:"padding:24px"},[el("h3",{text:"لم يبدأ احتساب المدة بعد"}),
+      el("p",{text:"يبدأ العدّ عند إصدار أمر البدء بعد التعاقد، أو عند بدء دراسة الفكرة قبل التعاقد."}),
+      plan?el("button",{class:"btn primary",text:"بدء دراسة فكرة قبل التعاقد",onclick:function(){ wtStartPre(p); wtOpen(p); }}):null]));
+  } else {
+    var tiles=el("div",{class:"wt-tiles"});
+    function tile(t,v,sub,cls){ return el("div",{class:"wt-t"+(cls?" "+cls:"")},[el("small",{text:t}),el("b",{text:v}),sub?el("span",{text:sub}):null]); }
+    tiles.appendChild(tile(W.done?"المدة الإجمالية للمشروع":"المدة منذ البدء",fmtDur(W.total),
+      "من "+fmtDate(iso(new Date(W.t0)))+(W.done?" إلى "+fmtDate(iso(new Date(W.end))):"")+" · "+W.total+" يوماً"));
+    tiles.appendChild(tile("مدة العمل الفعلية",fmtDur(W.active),W.work+" يوم عمل (بدون الإجازة الأسبوعية وأيام التوقف)","good"));
+    tiles.appendChild(tile("مدة التوقف",W.paused?fmtDur(W.paused):"لا يوجد",W.ps.length?arN(W.ps.length,"مرة واحدة","مرتان","مرات","مرة"):"",W.paused?"pz":""));
+    var dd=p.dueDate?diffDays(p.dueDate):null;
+    tiles.appendChild(tile("موعد التسليم للمهام",p.dueDate?fmtDate(p.dueDate):"لم يُحدَّد",
+      p.dueDate?(W.done?"":(dd<0?"تجاوز "+Math.abs(dd)+" يوم":"متبقٍ "+dd+" يوم")):(wfPre(p)?"يُحدَّد عند اعتماد الفكرة":""),dd!==null&&dd<0&&!W.done?"late":""));
+    if(root){
+      var o=wtOff(p), od=wtOffDates(p,o);
+      var ot=el("div",{class:"wt-t off"},[el("small",{text:"🔒 الموعد الرسمي — لك وحدك"}),
+        el("b",{text:od?fmtDate(od.date):"لم يُحدَّد"}),
+        el("span",{text:od?(arN(o.months,"شهر","شهران","أشهر","شهراً")+" من "+(od.fromContract?"التعاقد":"البداية")+(od.pz?" · بعد التوقف: "+fmtDate(od.adj):"")):"من 6 إلى 12 شهراً لاستخراج الرخصة"}),
+        el("button",{class:"btn sm noprint",text:od?"تعديل":"تحديد",onclick:function(){wtOffForm(p);}})]);
+      tiles.appendChild(ot);
+    }
+    body.appendChild(tiles);
+    if(wfPaused(p)) body.appendChild(el("div",{class:"banner",style:"margin:0;background:var(--pause-soft);border-color:var(--pause);color:var(--ink-2)"},[
+      el("b",{text:"متوقف حالياً منذ "+fmtDate(iso(new Date(p.pausedAt||Date.now())))+"."}),
+      el("span",{text:(p.pauseCat?p.pauseCat+" — ":"")+(p.pauseReason||"")})]));
+    body.appendChild(wtBar(p,W));
+    /* جدول المراحل */
+    body.appendChild(el("div",{class:"wt-h"},[el("h3",{class:"psub",text:"المدة المقدّرة والفعلية لكل مرحلة"}),
+      plan?el("button",{class:"btn sm noprint",text:"⏱ تحديد المدد المقدّرة وموعد التسليم",onclick:function(){wtEstForm(p);}}):null]));
+    body.appendChild(el("table",{class:"psheet"},[
+      el("thead",[el("tr",["المرحلة","البداية","الاعتماد","المقدّرة","الفعلية","التوقف","الفرق"].map(function(h){return el("th",{text:h});}))]),
+      el("tbody",W.stages.map(function(s){
+        var diff=(s.est&&s.act!==null)?s.act-s.est:null;
+        var over=diff!==null&&diff>0&&(s.done||true);
+        return el("tr",{class:s.done?"st-done":(!s.from?"st-pause":"")},[
+          el("td",[el("b",{text:s.t})]),
+          el("td",{text:s.from?fmtDate(iso(new Date(s.from))):"—"}),
+          el("td",{text:s.to?fmtDate(iso(new Date(s.to))):(s.from?(s.k==="pre"?"بانتظار التعاقد":"جارية"):"لم تبدأ")}),
+          el("td",{text:s.est?fmtDur(s.est):"—"}),
+          el("td",{text:s.act!==null?fmtDur(s.act):"—"}),
+          el("td",{text:s.pz?fmtDur(s.pz):"—"}),
+          el("td",{class:diff===null?"":(over?"warncell":"okcell"),
+            text:diff===null?"—":(diff>0?"+"+fmtDur(diff)+(s.done?"":" حتى الآن"):(s.done?"أقل بـ "+fmtDur(-diff):"متبقٍ "+fmtDur(-diff)))})]);
+      }))]));
+    /* سجل التوقفات */
+    body.appendChild(el("h3",{class:"psub",text:"فترات التوقف وأسبابها"}));
+    if(!W.ps.length) body.appendChild(el("p",{class:"hint",text:"لم يتوقف المشروع حتى الآن."}));
+    else {
+      body.appendChild(el("div",{class:"wt-cats"},Object.keys(W.cats).map(function(c){
+        return el("span",{class:"pill pause"},[c+": ",el("b",{text:fmtDur(wtDays(W.cats[c]))})]); })));
+      body.appendChild(el("table",{class:"psheet"},[
+        el("thead",[el("tr",["#","من","إلى","المدة","المرحلة","النوع","السبب"].map(function(h){return el("th",{text:h});}))]),
+        el("tbody",W.ps.map(function(x,i){
+          var stg=WF_STAGES.filter(function(s){return s.k===x.stage;})[0];
+          return el("tr",{class:x.open?"st-pause":""},[el("td",{text:String(i+1)}),
+            el("td",{text:fmtDate(iso(new Date(x.from)))}),
+            el("td",{text:x.to?fmtDate(iso(new Date(x.to))):"مستمر"}),
+            el("td",{text:fmtDur(wtDays((x.to||Date.now())-x.from))}),
+            el("td",{text:stg?stg.s:(x.stage==="pre"?"دراسة الفكرة":"—")}),
+            el("td",{text:x.cat||"غير مصنّف"}),
+            el("td",{text:x.reason||"—"})]);
+        }))]));
+    }
+  }
+  var sheet=el("div",{class:"printsheet"},[
+    el("div",{class:"psheet-hd"},[el("b",{text:"لوحة مدة المشروع — "+p.name}),
+      el("span",{text:OFFICE+(p.code?" · رقم المشروع "+p.code:"")+" · "+DAYS[today().getDay()]+" "+fmtDate(iso(today()))+" · "+wsOf(p)})]),
+    body]);
+  openModal(modal("⏱ مدة المشروع — "+p.name,[sheet],[
+    el("button",{class:"btn primary",text:"طباعة / حفظ PDF",onclick:function(){window.print();}}),
+    el("button",{class:"btn",text:"مراحل العمل",onclick:function(){wfOpen(p,wfCurStage(p)||"concept");}}),
+    el("button",{class:"btn",text:"إغلاق",onclick:closeModal})
+  ]));
+  var md=$("#modal-root .modal"); if(md) md.style.maxWidth="900px";
+}
+function wtStartPre(p){
+  wfPatch(p,function(x){ x.pre={at:Date.now(),by:meId||""}; },"بدأت دراسة الفكرة قبل التعاقد — فُتحت مرحلة الفكرة");
+  audit("دراسة فكرة قبل التعاقد","projects",p.id,p.name,"");
+}
+/* حقل نوع التوقف */
+function pauseCatSel(id,val){ return sel(id,val||PAUSE_CATS[0],PAUSE_CATS); }
 
 /* ============ سجل التطورات (ملاحظات + تاريخ) ============ */
 function logForm(p,L){
@@ -7365,13 +7753,13 @@ function detail(p){
     ]),
     el("div",{class:"field full"},[
       el("label",{text:"مراحل العمل ونسبة الإنجاز — اضغط على أي مرحلة لعرض مهامها"}),
-      WfBar(p,false)
+      WfBar(p,false), WtMini(p)
     ]),
     el("div",{class:"f-grid"},[
       kv("المالك / العميل",p.client||"—"),
       kv("الأولوية",p.priority||"عادية"),
       kv("تاريخ البدء",fmtDate(p.startDate)),
-      kv("تاريخ التسليم",fmtDate(p.dueDate)+" — "+dayName(p.dueDate)),
+      kv("موعد التسليم للمهام",p.dueDate?fmtDate(p.dueDate)+" — "+dayName(p.dueDate):(wfPre(p)?"يُحدَّد عند اعتماد الفكرة":"—")),
       kv("القائم على المشروع",personName(p.assigneeId)),
       kv("المهندس المسؤول",personName(p.managerId)),
       kv("حالة العمل",wsOf(p)),
