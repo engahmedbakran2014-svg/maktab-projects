@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-2bxpCqjRpdsQtuYfK3dDL3ZMIoRihxT9RwXI22egnPU=' 'sha256-uMUkCsD/MXZKHJWpCIUc1pYrvGeVsCtD5hQ30dOgQVU=' 'sha256-xfPXEu46rVBJE3J4qac9lMCIj+tu2z1nA3fh0047Kec=' https://www.gstatic.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com wss://*.firebaseio.com https://*.firebaseapp.com https://www.gstatic.com; frame-src https://*.firebaseapp.com; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-2bxpCqjRpdsQtuYfK3dDL3ZMIoRihxT9RwXI22egnPU=' 'sha256-uMUkCsD/MXZKHJWpCIUc1pYrvGeVsCtD5hQ30dOgQVU=' 'sha256-ZpgCOoVl2LJfJzuVwqQtXhLNwaWUS0heZgek+aFNlvM=' https://www.gstatic.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com wss://*.firebaseio.com https://*.firebaseapp.com https://www.gstatic.com; frame-src https://*.firebaseapp.com; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="برنامج إدارة مشاريع المكتب الهندسي — ترتيب المشاريع والمهام والموافقات المبدئية">
@@ -41,6 +41,7 @@
   --good:#25714A; --good-soft:#D9EEE2;
   --pause:#6C7B84; --pause-soft:#E6EAEC;
   --info:#2A5A83; --info-soft:#DDE8F1;
+  --idea:#6B45B8; --idea-soft:#ECE4FA;
   --shadow:0 1px 2px rgba(22,35,46,.05), 0 10px 26px -16px rgba(22,35,46,.30);
   --r:10px;
   --f-body:"IBM Plex Sans Arabic","Segoe UI",system-ui,sans-serif;
@@ -59,6 +60,7 @@
     --good:#6DC292; --good-soft:#143020;
     --pause:#93A4AD; --pause-soft:#242E34;
     --info:#7EB1DB; --info-soft:#122534;
+    --idea:#B79AF0; --idea-soft:#2A2143;
     --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 26px -16px rgba(0,0,0,.8);
   }
 }
@@ -73,6 +75,7 @@
   --good:#6DC292; --good-soft:#143020;
   --pause:#93A4AD; --pause-soft:#242E34;
   --info:#7EB1DB; --info-soft:#122534;
+    --idea:#B79AF0; --idea-soft:#2A2143;
   --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 26px -16px rgba(0,0,0,.8);
 }
 *{box-sizing:border-box}
@@ -666,6 +669,69 @@ body:has(.lock:not(.gone)) .mask{z-index:86}
 .wt-er b{font-size:13px}
 @media (max-width:560px){ .wt-er{grid-template-columns:1fr auto} .wt-er .hint{grid-column:1/-1} }
 @media print{ .wt-bar{-webkit-print-color-adjust:exact;print-color-adjust:exact} .wt-mini{display:none} }
+/* ---------- مرحلة الفكرة (بنفسجي) والمشاريع الملغاة (أحمر) ---------- */
+.pill.idea{background:var(--idea-soft);color:var(--idea);box-shadow:inset 0 0 0 1px color-mix(in oklab,var(--idea) 35%,transparent)}
+.pill.cancel{background:var(--crit);color:#fff}
+.row.s-idea .stripe{background:var(--idea)}
+.row.s-idea{background:color-mix(in oklab,var(--idea-soft) 45%,var(--surface))!important}
+.row.s-cancel{background:var(--crit-soft)!important;box-shadow:inset 0 0 0 1px color-mix(in oklab,var(--crit) 45%,transparent)}
+.row.s-cancel .stripe{background:var(--crit)}
+.row.s-cancel .p-name,.row.s-cancel .p-meta,.row.s-cancel .who b,.row.s-cancel .who small,.row.s-cancel .due b,.row.s-cancel .due small{color:var(--crit)}
+.row.s-cancel .p-name span{text-decoration:line-through;text-decoration-thickness:1px}
+.t-idea .dot{background:var(--idea)} .t-idea .v{color:var(--idea)}
+.tiles{grid-template-columns:repeat(6,1fr)}
+@media (max-width:900px){ .tiles{grid-template-columns:repeat(3,1fr)} }
+@media (max-width:560px){ .tiles{grid-template-columns:repeat(2,1fr)} }
+.row.flash{animation:rowFlash 2.2s ease}
+@keyframes rowFlash{0%,40%{box-shadow:inset 0 0 0 2px var(--accent);background:var(--accent-soft)}100%{box-shadow:none}}
+/* ---------- مشاريعي في «أعمالي» ---------- */
+.dp{margin-top:14px}
+.dp-tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.dp-tiles>div{background:var(--surface);border:1px solid var(--line-soft);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column}
+.dp-tiles b{font:600 22px/1.1 var(--f-num)}
+.dp-tiles small{font-size:11.5px;color:var(--ink-3)}
+.dp-tiles .good b{color:var(--good)} .dp-tiles .work b{color:var(--work)} .dp-tiles .late b{color:var(--crit)}
+.dp-list{display:flex;flex-direction:column;gap:7px}
+.dp-row{display:grid;grid-template-columns:auto 1fr minmax(170px,240px) auto;gap:12px;align-items:center;text-align:right;
+  font:inherit;color:inherit;cursor:pointer;background:var(--surface);border:1px solid var(--line-soft);border-inline-start:4px solid var(--work);
+  border-radius:12px;padding:10px 12px;transition:transform .18s,box-shadow .18s,border-color .18s;animation:pfIn .4s both;animation-delay:calc(var(--i,0)*40ms)}
+.dp-row:hover{transform:translateY(-2px);box-shadow:var(--shadow);border-color:var(--accent)}
+.dp-row.s-late,.dp-row.s-today{border-inline-start-color:var(--crit)}
+.dp-row.s-pause{border-inline-start-color:var(--pause)}
+.dp-row.s-idea{border-inline-start-color:var(--idea);background:color-mix(in oklab,var(--idea-soft) 40%,var(--surface))}
+.dp-rank{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;background:var(--surface-3);font:600 12px var(--f-num);color:var(--ink-2)}
+.dp-main{min-width:0;display:flex;flex-direction:column;gap:5px}
+.dp-name{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.dp-name b{font-size:14px}
+.dp-name .pill{font-size:10.5px;padding:2px 8px}
+.dp-where{font-size:12px;color:var(--ink-2)}
+.dp-where.s-pause{color:var(--pause)} .dp-where.s-idea{color:var(--idea)} .dp-where.s-cancel{color:var(--crit)}
+.dp-cnt{display:flex;flex-direction:column;gap:4px}
+.dp-bar{height:6px;border-radius:4px;background:var(--surface-3);overflow:hidden}
+.dp-bar i{display:block;height:100%;background:var(--good);border-radius:4px}
+.dp-nums{display:flex;gap:10px;font-size:11.5px;flex-wrap:wrap}
+.dp-nums b{font-family:var(--f-num)}
+.dp-nums .good{color:var(--good)} .dp-nums .work{color:var(--work)} .dp-nums .late{color:var(--crit)}
+.dp-cnt small{font-size:10.5px;color:var(--ink-3)}
+.dp-go{color:var(--accent);font-weight:700}
+@media (max-width:640px){ .dp-row{grid-template-columns:auto 1fr} .dp-cnt{grid-column:1/-1} .dp-go{display:none} .dp-tiles{grid-template-columns:repeat(2,1fr)} }
+/* ---------- قائمة الفريق ---------- */
+.tl-wrap{overflow-x:auto}
+.tl-table input{width:100%;min-width:110px;font-size:12.5px;padding:5px 7px}
+.tl-table tr.tl-dirty td{background:var(--warn-soft)}
+.tl-snaps{display:flex;flex-direction:column;gap:6px;border-top:1px dashed var(--line);padding-top:10px}
+.tl-sl{display:flex;flex-direction:column;gap:4px;max-height:160px;overflow:auto}
+.tl-si{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12.5px;background:var(--surface-2);border-radius:8px;padding:4px 8px}
+/* ---------- سجل المشاريع ---------- */
+.hv{display:flex;flex-direction:column;gap:12px}
+.hv-h.s-cancel{color:var(--crit);border-bottom-color:var(--crit)}
+.hv-h.s-done{color:var(--good);border-bottom-color:var(--good)}
+.hv-t tbody tr{cursor:pointer}
+.hv-t tbody tr:hover td{background:var(--accent-soft)}
+.hv-t tr.s-cancel td{background:var(--crit-soft);color:var(--crit)}
+.hv-t tr.s-done td:first-child{box-shadow:inset -3px 0 0 var(--good)}
+.hv-t tr.s-idea td:first-child{box-shadow:inset -3px 0 0 var(--idea)}
+@media print{ .row.s-cancel,.hv-t tr.s-cancel td{-webkit-print-color-adjust:exact;print-color-adjust:exact} }
 /* ---------- أداء الفريق وملف الموظف ---------- */
 :root{--sc-l:38%}
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){--sc-l:62%} }
@@ -863,7 +929,7 @@ var STAGES = [
 ];
 var STAGE_KEYS = STAGES.map(function(s){return s.k;});
 var PRIOS = ["عادية","مرتفعة","عاجلة"];
-var WSTATES = ["قيد العمل","متوقف","مكتمل"];
+var WSTATES = ["قيد العمل","متوقف","مكتمل","ملغى"];
 var AUTHORITIES = ["أمانة منطقة المدينة المنورة","البلدية الفرعية","الدفاع المدني",
   "هيئة تطوير منطقة المدينة","وزارة السياحة","المكتب الهندسي المراجع","جهة أخرى"];
 var RSTATES = ["أُرسلت — بانتظار الرد","وردت ملاحظات","قيد التعديل","بانتظار موافقة المالك",
@@ -1842,6 +1908,7 @@ function wsOf(p){
    أخضر = مكتمل · رمادي = متوقف حتى يُذكر السبب */
 function statusOf(p){
   var ws=wsOf(p);
+  if(ws==="ملغى") return {k:"cancel",cls:"cancel",label:"ملغى",sub:"لم يُستكمل",cancel:p.cancelReason||""};
   if(ws==="متوقف"){
     var r=(p.pauseReason||"").trim();
     return {k:"paused",cls:"pause",label:"متوقف",sub:r?"بسبب مسجّل":"أضف السبب",needReason:!r,reason:r};
@@ -1852,6 +1919,10 @@ function statusOf(p){
       lateDone=c>parseD(p.dueDate); }
     return {k:"done",cls:"done",label:"مكتمل",sub:lateDone?"سُلّم متأخراً":"في وقته"};
   }
+  if(typeof wfPre==="function"&&wfPre(p)&&!wfStarted(p)){
+    var sn=Math.max(0,Math.round((Date.now()-wfOf(p).pre.at)/86400000));
+    return {k:"idea",cls:"idea",label:preLabel(p),sub:"مرحلة الفكرة — منذ "+sn+" يوم"};
+  }
   var d=diffDays(p.dueDate);
   if(d===null) return {k:"work",cls:"work",label:"قيد العمل",sub:"بلا موعد"};
   if(d<0) return {k:"late",cls:"late",label:"متأخر "+Math.abs(d)+" يوم",sub:"لم يُستكمل في وقته",n:Math.abs(d)};
@@ -1860,7 +1931,7 @@ function statusOf(p){
 }
 function stageP(s){ for(var i=0;i<STAGES.length;i++) if(STAGES[i].k===s) return STAGES[i].p; return 0; }
 function counts(){
-  var c={late:0,today:0,work:0,paused:0,done:0};
+  var c={late:0,today:0,work:0,paused:0,done:0,idea:0,cancel:0};
   projList().forEach(function(p){ c[statusOf(p).k]++; });
   return c;
 }
@@ -2386,8 +2457,9 @@ function staffFormOpen(s){
 }
 
 /* ============ project form ============ */
-function projForm(p){
-  var isNew=!p;
+function projForm(p,opt){
+  opt=opt||{};
+  var isNew=!p, past=!!(opt.past||(p&&p.past));
   var people=pickPeople(p);
   if(!people.length){ toast("أضف الموظفين أولاً من تبويب «الفريق»",true); return; }
   var opts=people.map(function(s){ return {v:s.id,t:s.name+(s.title?" — "+s.title:"")}; });
@@ -2397,7 +2469,16 @@ function projForm(p){
   var ty=sel("pjType",p?p.type:PTYPES[0],PTYPES);
   var st=sel("pjStage",p?p.stage:STAGE_KEYS[0],STAGE_KEYS);
   var pr=sel("pjPrio",p?p.priority:PRIOS[0],PRIOS);
-  var ws=sel("pjWS",p?wsOf(p):WSTATES[0],WSTATES);
+  var ws=sel("pjWS",p?wsOf(p):(opt.past?"مكتمل":WSTATES[0]),WSTATES);
+  var cxr=el("textarea",{id:"pjCancel",placeholder:"مثال: اعتذر المالك / لم يتم التعاقد / توقف التمويل",style:"min-height:60px"});
+  cxr.value=p?(p.cancelReason||""):"";
+  var cxField=el("div",{class:"field full"},[el("label",{text:"سبب عدم الاكتمال"}),cxr,
+    el("span",{class:"hint",text:"مطلوب عند اختيار «ملغى» — يظهر المشروع كله باللون الأحمر"})]);
+  var closeD=(p&&(p.cancelledAt||p.completedAt))?iso(new Date(p.cancelledAt||p.completedAt)):iso(today());
+  var cd=inp("pjClose",closeD,{type:"date"});
+  var cn=inp("pjCloseNote",p?(p.closeNote||""):"",{placeholder:"ملاحظة ختامية (اختياري) — مثال: سُلّم للبلدية وصدرت الرخصة"});
+  var cdField=el("div",{class:"field"},[el("label",{text:"تاريخ الانتهاء / الإلغاء"}),cd]);
+  var cnField=el("div",{class:"field full"},[el("label",{text:"ملاحظة ختامية"}),cn]);
   var rs=el("textarea",{id:"pjReason",placeholder:"مثال: بانتظار موافقة المالك / تعديل الصك / إيقاف من البلدية",
     style:"min-height:60px"});
   rs.value=p?(p.pauseReason||""):"";
@@ -2407,19 +2488,28 @@ function projForm(p){
     el("label",{text:"سبب التوقف"}), rs,
     el("span",{class:"hint",text:"مطلوب عند اختيار «متوقف» — يبقى المشروع باللون الرمادي حتى يُذكر السبب"})
   ]);
-  function syncWS(){ rsField.style.display = ws.value==="متوقف"?"":"none"; }
+  function syncWS(){ rsField.style.display = ws.value==="متوقف"?"":"none";
+    cxField.style.display = ws.value==="ملغى"?"":"none";
+    var cl=ws.value==="مكتمل"||ws.value==="ملغى"; cdField.style.display=cl?"":"none"; cnField.style.display=cl?"":"none"; }
   ws.addEventListener("change",syncWS);
-  var sd=inp("pjStart",p?p.startDate:iso(today()),{type:"date"});
+  var sd=inp("pjStart",p?p.startDate:(past?"":iso(today())),{type:"date"});
   var dd=inp("pjDue",p?p.dueDate:"",{type:"date"});
   /* بداية العمل: مشروع متعاقد، أو تقديم فكرة جديدة / دراسة فكرة قبل التعاقد */
   var canPre=isNew||!wfBegun(p);
-  var bg=sel("pjBegin",(p&&wfPre(p))?"pre":"contract",[
+  var bg=sel("pjBegin",(p&&wfPre(p))?(((wfOf(p).pre||{}).kind==="idea")?"idea":"pre"):"contract",[
     {v:"contract",t:"مشروع متعاقد — يبدأ العمل بأمر البدء"},
-    {v:"pre",t:"تقديم فكرة جديدة — دراسة فكرة قبل التعاقد"}]);
-  if(!canPre) bg.disabled=true;
+    {v:"idea",t:"البدء بفكرة — تقديم فكرة جديدة"},
+    {v:"pre",t:"فكرة للتعاقد — دراسة فكرة قبل التعاقد"}]);
+  if(!canPre||past) bg.disabled=true;
+  var idt=el("textarea",{id:"pjIdea",placeholder:"وصف الفكرة المقترحة: الفكرة العامة، عدد المقترحات، المتطلبات الأساسية…",style:"min-height:70px"});
+  idt.value=p?(p.idea||""):"";
+  var idField=el("div",{class:"field full"},[el("label",{text:"الفكرة"}),idt,
+    el("span",{class:"hint",text:"يظهر المشروع باللون البنفسجي في مرحلة الفكرة حتى التعاقد وأمر البدء"})]);
   var ddHint=el("span",{class:"hint"});
   var ddField=el("div",{class:"field"},[el("label",{text:"موعد التسليم للمهام",for:"pjDue"}),dd,ddHint]);
-  function syncBg(){ ddHint.textContent=bg.value==="pre"?"اختياري الآن — يُحدَّد عند اعتماد الفكرة بحسب المشروع":"يُحسب تأخير المهام من هذا التاريخ"; }
+  function syncBg(){ var pr0=bg.value!=="contract";
+    ddHint.textContent=past?"اختياري للمشاريع السابقة":pr0?"اختياري الآن — يُحدَّد عند اعتماد الفكرة بحسب المشروع":"يُحسب تأخير المهام من هذا التاريخ";
+    idField.style.display=(pr0||(p&&p.idea))?"":"none"; }
   bg.addEventListener("change",syncBg); syncBg();
   var asg=sel("pjAsg",p?p.assigneeId:(people[0]&&people[0].id),opts);
   var mgrOpts=isBoss()?opts.slice():opts.filter(function(o){return o.v===meId;});
@@ -2434,14 +2524,16 @@ function projForm(p){
   ]);
   var ds=el("textarea",{id:"pjDesc",placeholder:"نطاق العمل، عدد الأدوار، ملاحظات الاشتراطات…"});
   ds.value=p?(p.desc||""):"";
-  openModal(modal(isNew?"مشروع جديد":"تعديل المشروع",[
+  openModal(modal(isNew?(past?"إضافة مشروع سابق":"مشروع جديد"):"تعديل المشروع",[
+    past?el("p",{class:"hint",style:"margin:0",text:"سجّل مشروعاً قديماً قائماً أو منتهياً أو غير مكتمل ليظهر في «سجل المشاريع» مع سببه."}):null,
     el("div",{class:"f-grid"},[
       field("اسم المشروع",n,null,true),
       field("رقم المشروع",code),
       field("المالك / العميل",cl),
       field("نوع المشروع",ty),
       field("الأولوية",pr),
-      field("بداية العمل",bg,canPre?"الدراسة قبل التعاقد تفتح مرحلة الفكرة فوراً، ويبدأ احتساب مدة المشروع":"بدأ احتساب مدة هذا المشروع",true),
+      past?null:field("بداية العمل",bg,canPre?"البدء بفكرة أو فكرة للتعاقد: تُفتح مرحلة الفكرة فوراً ويبدأ احتساب مدة المشروع":"بدأ احتساب مدة هذا المشروع",true),
+      idField,
       field("تاريخ البدء",sd),
       ddField,
       field("الموظف القائم على المشروع",asg),
@@ -2449,14 +2541,16 @@ function projForm(p){
       pinField,
       field("المرحلة الحالية",st),
       field("حالة العمل",ws,"أحمر متأخر · برتقالي قيد العمل · أخضر مكتمل · رمادي متوقف"),
-      rsField,
+      rsField, cxField, cdField, cnField,
       field("وصف / نطاق العمل",ds,null,true)
     ])
   ],[
     el("button",{class:"btn primary",text:isNew?"إضافة المشروع":"حفظ التعديل",onclick:function(){
       if(!n.value.trim()) return toast("اكتب اسم المشروع",true);
       var state=ws.value;
-      if(!dd.value&&bg.value!=="pre"&&!(p&&wfBegun(p)&&!p.dueDate)) return toast("حدّد موعد التسليم",true);
+      if(!dd.value&&!past&&bg.value==="contract"&&!(p&&wfBegun(p)&&!p.dueDate)&&state!=="مكتمل"&&state!=="ملغى") return toast("حدّد موعد التسليم",true);
+      if(state==="ملغى"&&!cxr.value.trim()) return toast("اكتب سبب عدم اكتمال المشروع",true);
+      if((state==="مكتمل"||state==="ملغى")&&sd.value&&cd.value&&cd.value<sd.value) return toast("تاريخ الانتهاء قبل تاريخ البدء",true);
       if(state==="متوقف"&&!rs.value.trim()) return toast("اكتب سبب التوقف",true);
       var stage=st.value;
       if(state==="مكتمل") stage="مكتمل";
@@ -2471,10 +2565,18 @@ function projForm(p){
         pinned:pin.checked,
         workState:state,pauseReason:state==="متوقف"?rs.value.trim():"",
         pauseCat:state==="متوقف"?pcs.value:(cur.pauseCat||""),
+        idea:idt.value.trim(),
         createdAt:p?p.createdAt:Date.now(),updatedAt:Date.now(),
-        completedAt:state==="مكتمل"?((p&&p.completedAt)||Date.now()):null});
-      if(canPre&&bg.value==="pre"&&!(body.wf&&body.wf.pre&&body.wf.pre.at)){
-        body.wf=body.wf||{}; body.wf.pre={at:Date.now(),by:meId||""}; }
+        completedAt:state==="مكتمل"?((p&&p.completedAt&&iso(new Date(p.completedAt))===cd.value)?p.completedAt:((parseD(cd.value)||new Date()).getTime()+12*3600000)):null});
+      var closeAt=(parseD(cd.value)||new Date()).getTime()+12*3600000;
+      body.cancelReason=state==="ملغى"?cxr.value.trim():(cur.cancelReason||"");
+      body.cancelledAt=state==="ملغى"?((p&&p.cancelledAt&&iso(new Date(p.cancelledAt))===cd.value)?p.cancelledAt:closeAt):null;
+      body.closeNote=(state==="مكتمل"||state==="ملغى")?cn.value.trim():(cur.closeNote||"");
+      if(past) body.past=true;
+      var preK=bg.value==="contract"?"":bg.value==="idea"?"idea":"contract";
+      if(!past&&canPre&&preK){ body.wf=body.wf||{};
+        if(!(body.wf.pre&&body.wf.pre.at)) body.wf.pre={at:Date.now(),by:meId||"",kind:preK};
+        else body.wf.pre.kind=preK; }
       if(canPre&&bg.value==="contract"&&body.wf&&body.wf.pre) delete body.wf.pre;
       var was=p?wsOf(p):"";
       if(state==="متوقف"&&was!=="متوقف"){ body.pausedAt=Date.now(); body.pauseStage=p?(wfCurStage(p)||""):""; }
@@ -2532,28 +2634,36 @@ function stateForm(p,preset){
     el("label",{text:"سبب التوقف (مطلوب)"}), rs,
     el("span",{class:"hint",text:"يبقى المشروع رمادياً في القائمة حتى يُستكمل السبب"})
   ]);
+  var cx=el("textarea",{id:"wsCancel",placeholder:"مثال: اعتذر المالك عن استكمال المشروع / لم يتم التعاقد"});
+  cx.value=p.cancelReason||"";
+  var cxField=el("div",{class:"field full"},[el("label",{text:"سبب عدم الاكتمال (مطلوب)"}),cx,
+    el("span",{class:"hint",text:"يظهر المشروع كله باللون الأحمر، ويُنقل إلى «سجل المشاريع» ضمن غير المكتملة"})]);
   var box=el("div",{class:"picklist"});
   var META={"قيد العمل":{cls:"work",d:"العمل جارٍ ضمن الجدول — يظهر باللون البرتقالي، ويتحول للأحمر إذا تجاوز تاريخ التسليم"},
             "متوقف":{cls:"pause",d:"العمل معلّق لسبب خارجي — يظهر باللون الرمادي ولا يُحتسب ضمن التأخير"},
-            "مكتمل":{cls:"done",d:"سُلّم المشروع وانتهى العمل عليه — يظهر باللون الأخضر"}};
+            "مكتمل":{cls:"done",d:"سُلّم المشروع وانتهى العمل عليه — يظهر باللون الأخضر"},
+            "ملغى":{cls:"cancel",d:"أُلغي المشروع ولم يُستكمل — يظهر كله باللون الأحمر مع ذكر السبب"}};
   function draw(){
     box.innerHTML="";
     WSTATES.forEach(function(k){
       var m=META[k];
       box.appendChild(el("button",{class:"pick",style:picked===k?"border-color:var(--accent);background:var(--accent-soft)":"",
-        onclick:function(){ picked=k; draw(); rsField.style.display=picked==="متوقف"?"":"none"; }},[
+        onclick:function(){ picked=k; draw(); rsField.style.display=picked==="متوقف"?"":"none"; cxField.style.display=picked==="ملغى"?"":"none"; }},[
         el("span",{class:"pill "+m.cls,text:k}),
         el("span",{style:"flex:1;font-size:12.5px;color:var(--ink-2);line-height:1.6",text:m.d})
       ]));
     });
   }
-  draw(); rsField.style.display=picked==="متوقف"?"":"none";
-  openModal(modal("حالة العمل — "+p.name,[box,rsField],[
+  draw(); rsField.style.display=picked==="متوقف"?"":"none"; cxField.style.display=picked==="ملغى"?"":"none";
+  openModal(modal("حالة العمل — "+p.name,[box,rsField,cxField],[
     el("button",{class:"btn primary",text:"حفظ الحالة",onclick:function(){
       if(picked==="متوقف"&&!rs.value.trim()) return toast("اكتب سبب التوقف أولاً",true);
+      if(picked==="ملغى"&&!cx.value.trim()) return toast("اكتب سبب عدم اكتمال المشروع",true);
       var d={workState:picked,updatedAt:Date.now(),
         pauseReason:picked==="متوقف"?rs.value.trim():""};
       if(picked==="متوقف") d.pauseCat=pc.value;
+      if(picked==="ملغى"){ d.cancelReason=cx.value.trim(); d.cancelledAt=p.cancelledAt||Date.now(); }
+      else { d.cancelledAt=null; }
       /* إيقاف الوقت أثناء التوقف، وتمديد المواعيد عند الاستئناف */
       if(picked==="متوقف"&&wsOf(p)!=="متوقف"){ d.pausedAt=Date.now(); d.pauseStage=wfBegun(p)&&!wfStarted(p)&&wfStageDone(p,"concept")?"pre":(wfCurStage(p)||""); }
       if(picked!=="متوقف"&&wsOf(p)==="متوقف") wfResumeShift(p,d);
@@ -3242,18 +3352,22 @@ function importJSON(){
   });
   openModal(modal("استعادة نسخة احتياطية",[
     el("p",{style:"margin:0;font-size:13px;line-height:1.8;color:var(--ink-2)",
-      text:"تُضاف السجلات الموجودة في الملف إلى القائمة الحالية، ويُستبدل أي سجل يحمل نفس المعرّف. لا يُحذف شيء."}),
+      text:"تُضاف السجلات الجديدة فقط بدون تكرار: الموظف الموجود (بنفس الرقم أو الاسم) لا يُضاف مرة ثانية، والمشروع الموجود (بنفس الرقم أو الاسم والمالك) يُحدَّث إذا كانت نسخة الملف أحدث. لا يُحذف شيء."}),
     field("ملف النسخة الاحتياطية (.json)",f,null,true), info
   ],[
     el("button",{class:"btn primary",text:"استعادة",onclick:function(){
       if(!data) return toast("اختر ملفاً صالحاً أولاً",true);
-      var n=0;
-      ["staff","projects","notes","reviews","logs","orders","briefs"].forEach(function(c){
-        var src=data[c]||{};
-        for(var k in src){ var row=src[k]; if(!row||typeof row!=="object") continue;
-          delete row.id; put(c,k,row); n++; }
-      });
-      closeModal(); toast("تمت استعادة "+n+" سجل");
+      var rep=mergeBackup(data);
+      closeModal();
+      openModal(modal("نتيجة الاستعادة",[
+        el("table",{class:"psheet"},[el("tbody",[
+          el("tr",[el("th",{text:"سجلات جديدة أُضيفت"}),el("td",{text:String(rep.added)})]),
+          el("tr",[el("th",{text:"منها موظفون جدد"}),el("td",{text:String(rep.staffNew)})]),
+          el("tr",[el("th",{text:"سجلات حُدّثت بنسخة أحدث"}),el("td",{text:String(rep.updated)})]),
+          el("tr",[el("th",{text:"موظفون موجودون — لم يُكرَّروا"}),el("td",{text:String(rep.staffDup)})]),
+          el("tr",[el("th",{text:"مشاريع موجودة — لم تُكرَّر"}),el("td",{text:String(rep.projDup)})]),
+          el("tr",[el("th",{text:"سجلات أخرى مكررة تُجوهلت"}),el("td",{text:String(rep.dup-rep.projDup)})])])])
+      ],[el("button",{class:"btn primary",text:"تم",onclick:closeModal})]));
     }}),
     el("button",{class:"btn",text:"إلغاء",onclick:closeModal})
   ]));
@@ -3894,7 +4008,7 @@ function wfWho(p,d){ var it=wfItem(p,d.k); return it.who||(d.grp==="disc"?"":p.a
 function wfPaused(p){ return wsOf(p)==="متوقف"; }
 function wfLate(p,d){
   var it=wfItem(p,d.k);
-  if(!it.due||it.na||wfDone(p,d)||wfPaused(p)||wsOf(p)==="مكتمل") return false;
+  if(!it.due||it.na||wfDone(p,d)||wfPaused(p)||wsOf(p)==="مكتمل"||wsOf(p)==="ملغى") return false;
   var x=diffDays(it.due); return x!==null&&x<0;
 }
 function wfCanTick(p,d){
@@ -3917,6 +4031,7 @@ function wfItemsOf(sid,opt){
       wfDefs(p,s.k).forEach(function(d){
         var it=wfItem(p,d.k); if(it.na) return;
         if(wfWho(p,d)!==sid) return;
+        if(wsOf(p)==="ملغى"&&!wfDone(p,d)) return;
         out.push({p:p,st:s.k,d:d,it:it,done:wfDone(p,d),late:wfLate(p,d),locked:!!wfLock(p,s.k)});
       });
     });
@@ -3969,7 +4084,7 @@ function WfBar(p,compact){
   if(!compact) bar.appendChild(el("button",{class:"wfstep total",title:"نسبة إنجاز المشروع",
     onclick:function(){wfOpen(p,wfCurStage(p)||"concept");}},
     [ring(wfTotal(p),58,wfPaused(p)?"pause":wfTotal(p)===100?"done":"work","الإنجاز الكلي",
-      wfBegun(p)?(wfPaused(p)?"متوقف — الوقت موقوف":(!wfStarted(p)?"دراسة فكرة — قبل التعاقد":"مرحلة "+(WF_STAGES.filter(function(s){return s.k===wfCurStage(p);})[0]||{}).s)):"لم يصدر أمر البدء")]));
+      wfBegun(p)?(wfPaused(p)?"متوقف — الوقت موقوف":(!wfStarted(p)?preLabel(p)+" — مرحلة الفكرة":"مرحلة "+(WF_STAGES.filter(function(s){return s.k===wfCurStage(p);})[0]||{}).s)):"لم يصدر أمر البدء")]));
   WF_STAGES.forEach(function(s){
     var cls=wfStageCls(p,s.k), lk=wfLock(p,s.k);
     var a=wfApplicable(p,s.k), dn=a.filter(function(d){return wfDone(p,d);}).length;
@@ -4019,7 +4134,7 @@ function WfStartBox(p,redraw){
     el("b",{text:"متطلبات بدء العمل"}),
     wfStarted(p)?el("span",{class:"pill done",text:"صدر أمر البدء "+fmtDate(iso(new Date(w.go.at)))}):
       el("span",{class:"pill pause",text:"لم يصدر أمر البدء"}),
-    wfPre(p)?el("span",{class:"pill work",text:"دراسة فكرة قبل التعاقد منذ "+fmtDate(iso(new Date(w.pre.at)))}):
+    wfPre(p)?el("span",{class:"pill idea",text:preLabel(p)+" منذ "+fmtDate(iso(new Date(w.pre.at)))}):
       ((!wfStarted(p)&&canEdit(p))?el("button",{class:"btn sm",text:"💡 بدء دراسة فكرة قبل التعاقد",
         title:"تفتح مرحلة الفكرة قبل التعاقد، ويبدأ احتساب مدة المشروع",
         onclick:function(){ wtStartPre(p); setTimeout(redraw,60); }}):null),
@@ -4504,7 +4619,7 @@ function pfMetrics(sid,R){
   var items=wfItemsOf(sid);
   var doneIn=items.filter(function(x){ return x.done&&x.it.at&&x.it.at>=R.from&&x.it.at<=R.to; });
   var pend=items.filter(function(x){
-    if(x.done||x.locked||wfPaused(x.p)||wsOf(x.p)==="مكتمل"||!x.it.due) return false;
+    if(x.done||x.locked||wfPaused(x.p)||wsOf(x.p)==="مكتمل"||wsOf(x.p)==="ملغى"||!x.it.due) return false;
     var d=parseD(x.it.due); return !!d&&d.getTime()<=R.to; });
   var bDone=0,bOn=0,bPend=0,bList=[];
   for(var k in S.briefs){
@@ -4527,8 +4642,8 @@ function pfMetrics(sid,R){
   var revLog=log.filter(function(l){ return l.type==="تعديل"&&l.date>=R.fromIso&&l.date<=R.toIso; }).length;
   var revs=(E.own&&e.revs!==undefined&&e.revs!==null&&e.revs!=="")?Number(e.revs):revLog;
   var act={}, sub={};
-  allProjects().forEach(function(p){ if(p.assigneeId===sid&&wsOf(p)!=="مكتمل") act[p.id]=1; });
-  items.forEach(function(x){ if(!x.done&&wsOf(x.p)!=="مكتمل") act[x.p.id]=1; });
+  allProjects().forEach(function(p){ if(p.assigneeId===sid&&wsOf(p)!=="مكتمل"&&wsOf(p)!=="ملغى") act[p.id]=1; });
+  items.forEach(function(x){ if(!x.done&&wsOf(x.p)!=="مكتمل"&&wsOf(x.p)!=="ملغى") act[x.p.id]=1; });
   doneIn.forEach(function(x){ sub[x.p.id]=1; });
   bList.forEach(function(x){ if(x.b.projectId) sub[x.b.projectId]=1; });
   return {comp:comp,onAuto:onAuto,time:time,qual:qual,req:req,etime:e.time,outq:e.qual,idea:e.idea,
@@ -5203,7 +5318,7 @@ function wfT0(p){
   var w=wfOf(p), a=w.pre&&w.pre.at, b=w.go&&w.go.at;
   return a&&b?Math.min(a,b):(a||b||null);
 }
-function wtEndAt(p){ return (wsOf(p)==="مكتمل"&&p.completedAt)?p.completedAt:Date.now(); }
+function wtEndAt(p){ return (wsOf(p)==="مكتمل"&&p.completedAt)?p.completedAt:(wsOf(p)==="ملغى"&&p.cancelledAt)?p.cancelledAt:Date.now(); }
 function wtPauses(p){
   var a=(wfOf(p).pauses||[]).map(function(x){ return Object.assign({},x); });
   if(wfPaused(p)&&p.pausedAt) a.push({from:p.pausedAt,to:null,open:true,reason:p.pauseReason||"",
@@ -5276,13 +5391,13 @@ function wtSummary(p){
     stages.push({k:s.k,t:s.t,from:sp.from,to:sp.to,done:!!sp.to,act:wtDays(e-sp.from-pz),pz:wtDays(pz),est:est});
   });
   return {t0:t0,end:end,total:wtDays(total),paused:wtDays(paused),active:wtDays(total-paused),
-    work:wtWorkDays(t0,end,ps),ps:ps,cats:cats,stages:stages,done:wsOf(p)==="مكتمل"};
+    work:wtWorkDays(t0,end,ps),ps:ps,cats:cats,stages:stages,done:wsOf(p)==="مكتمل"||wsOf(p)==="ملغى"};
 }
 /* الموعد الرسمي — للمسؤول الرئيسي وحده (محفوظ في مساحته المحمية) */
 function wtOffAll(){ return (S.perf&&S.perf._proj)||{}; }
 function wtOff(p){ return isRoot()?(wtOffAll()[p.id]||null):null; }
 function wtOffSuggest(){
-  var n=allProjects().filter(function(x){ return wsOf(x)!=="مكتمل"; }).length;
+  var n=allProjects().filter(function(x){ return wsOf(x)!=="مكتمل"&&wsOf(x)!=="ملغى"; }).length;
   return Math.min(12,Math.max(6,6+Math.floor(n/4)));
 }
 function wtOffDates(p,o){
@@ -5395,7 +5510,7 @@ function WtMini(p){
     el("span",[el("b",{text:fmtDur(W.total)}),el("small",{text:" منذ البدء"})]),
     el("span",[el("b",{text:fmtDur(W.active)}),el("small",{text:" عمل فعلي"})]),
     W.paused?el("span",{class:"wt-pzt"},[el("b",{text:fmtDur(W.paused)}),el("small",{text:" توقف"})]):null,
-    wfPre(p)&&!wfStarted(p)?el("span",{class:"pill work",text:"دراسة فكرة — قبل التعاقد"}):null,
+    wfPre(p)&&!wfStarted(p)?el("span",{class:"pill idea",text:preLabel(p)+" — قبل التعاقد"}):null,
     (dd!==null&&!W.done)?el("span",{class:"pill "+(dd<0?"late":"work"),text:dd<0?"تجاوز موعد المهام "+Math.abs(dd)+" يوم":"متبقٍ للمهام "+dd+" يوم"}):null,
     el("span",{class:"wt-go",text:"لوحة المدة ←"})]);
 }
@@ -5487,6 +5602,377 @@ function wtStartPre(p){
 }
 /* حقل نوع التوقف */
 function pauseCatSel(id,val){ return sel(id,val||PAUSE_CATS[0],PAUSE_CATS); }
+
+/* ============ أدوات مشتركة: مطابقة الأسماء والأرقام لمنع التكرار ============ */
+function normDigits(s){
+  return String(s==null?"":s).replace(/[٠-٩]/g,function(d){return String("٠١٢٣٤٥٦٧٨٩".indexOf(d));})
+    .replace(/[۰-۹]/g,function(d){return String("۰۱۲۳۴۵۶۷۸۹".indexOf(d));});
+}
+function phoneKey(s){ var d=normDigits(s).replace(/\D/g,""); return d.length>=7?d.slice(-9):""; }
+function nameKey(s){
+  return String(s||"").replace(/^\s*(?:المهندسة|المهندس|مهندسة|مهندس|م|د|أ)\s*\.?\s+/,"")
+    .replace(/[إأآا]/g,"ا").replace(/ة/g,"ه").replace(/ى/g,"ي").replace(/[ً-ْـ]/g,"")
+    .replace(/[.\-_،,]/g," ").replace(/\s+/g," ").trim().toLowerCase();
+}
+function findStaffMatch(row,exceptId){
+  var pk=phoneKey(row.phone), nk=nameKey(row.name), byName=null;
+  for(var k in S.staff){ if(k===exceptId) continue; var s=S.staff[k]; if(!s) continue;
+    if(pk&&phoneKey(s.phone)===pk) return s;
+    if(!byName&&nk&&nameKey(s.name)===nk) byName=s; }
+  return byName;
+}
+/* استبدال المعرّفات القديمة بالجديدة داخل أي سجل (المسند إليه، المسؤول، الفريق، المهام…) */
+function remapIds(o,map){
+  if(typeof o==="string") return map.hasOwnProperty(o)?map[o]:o;
+  if(Array.isArray(o)) return o.map(function(x){ return remapIds(x,map); });
+  if(o&&typeof o==="object"){ var r={}; for(var k in o) r[k]=remapIds(o[k],map); return r; }
+  return o;
+}
+function recTime(r){ return Number((r&&(r.updatedAt||r.createdAt))||0); }
+
+/* ============ استعادة النسخة الاحتياطية بدون تكرار ============ */
+function mergeBackup(data){
+  var rep={added:0,updated:0,dup:0,staffNew:0,staffDup:0,projDup:0};
+  var map={};
+  /* الفريق: نفس المعرّف، أو نفس رقم الجوال، أو نفس الاسم = نفس الشخص */
+  var src=data.staff||{};
+  for(var k in src){
+    var row=src[k]; if(!row||typeof row!=="object"||!row.name) continue;
+    var cur=S.staff[k]||findStaffMatch(row);
+    if(cur){
+      if(cur.id!==k) map[k]=cur.id;
+      var fill={}; ["phone","title","specialty"].forEach(function(f){ if(!cur[f]&&row[f]) fill[f]=row[f]; });
+      if(Object.keys(fill).length){ patch("staff",cur.id,fill); rep.updated++; } else rep.staffDup++;
+      continue;
+    }
+    var nr=JSON.parse(JSON.stringify(row)); delete nr.id;
+    if(nr.pin){ for(var k2 in S.staff){ if(S.staff[k2]&&S.staff[k2].pin&&String(S.staff[k2].pin)===String(nr.pin)){ delete nr.pin; break; } } }
+    if(MODE_FB&&nr.pin&&String(nr.pin).length<6) delete nr.pin;
+    put("staff",k,nr); rep.staffNew++; rep.added++;
+  }
+  /* المشاريع: نفس المعرّف، أو نفس الرقم، أو نفس الاسم والمالك = نفس المشروع — يبقى الأحدث */
+  var psrc=data.projects||{};
+  for(var pk in psrc){
+    var p=psrc[pk]; if(!p||typeof p!=="object"||!p.name) continue;
+    var ex=S.projects[pk]||null;
+    if(!ex){ for(var q in S.projects){ var o=S.projects[q];
+      if((p.code&&o.code&&String(o.code).trim()===String(p.code).trim())||
+         (nameKey(o.name)===nameKey(p.name)&&nameKey(o.client)===nameKey(p.client))){ ex=o; break; } } }
+    if(ex&&ex.id!==pk) map[pk]=ex.id;
+  }
+  for(var pk2 in psrc){
+    var p2=psrc[pk2]; if(!p2||typeof p2!=="object"||!p2.name) continue;
+    var id=map[pk2]||pk2, ex2=S.projects[id];
+    var np=remapIds(JSON.parse(JSON.stringify(p2)),map); delete np.id;
+    if(ex2){ if(recTime(np)>recTime(ex2)){ put("projects",id,Object.assign({},ex2,np)); rep.updated++; } else { rep.dup++; rep.projDup++; } }
+    else { put("projects",id,np); rep.added++; }
+  }
+  /* بقية السجلات: بالمعرّف، والملاحظات أيضاً بالنص والتاريخ */
+  ["notes","reviews","logs","orders","briefs"].forEach(function(c){
+    var s2=data[c]||{};
+    for(var rk in s2){
+      var r=s2[rk]; if(!r||typeof r!=="object") continue;
+      var nr2=remapIds(JSON.parse(JSON.stringify(r)),map); delete nr2.id;
+      var ex3=S[c][rk];
+      if(!ex3&&c==="notes"){ for(var nk in S.notes){ var n=S.notes[nk];
+        if(n&&n.text===nr2.text&&n.projectId===nr2.projectId&&Math.abs(recTime(n)-recTime(nr2))<60000){ ex3=n; break; } } }
+      if(ex3){ if(recTime(nr2)>recTime(ex3)&&ex3.id===rk){ put(c,rk,Object.assign({},ex3,nr2)); rep.updated++; } else rep.dup++; }
+      else { put(c,rk,nr2); rep.added++; }
+    }
+  });
+  return rep;
+}
+
+/* ============ قائمة الفريق بالأرقام: عرض وتعديل وتصدير واستيراد وحفظ نسخ داخلية ============ */
+function teamRows(){
+  var a=[]; for(var k in S.staff){ var s=S.staff[k]; if(!s) continue; if(!isRoot()&&s.role==="root") continue; a.push(s); }
+  var rk={root:0,manager:1,staff:2};
+  a.sort(function(x,y){ var cx=isContact(x)?1:0, cy=isContact(y)?1:0;
+    return (cx-cy)||((rk[x.role]||2)-(rk[y.role]||2))||String(x.name||"").localeCompare(String(y.name||""),"ar"); });
+  return a;
+}
+function kindLabel(s){ return isContact(s)?"مدير (يستقبل المستجدات)":roleName(s.role); }
+function teamRoster(){
+  if(!canManageStaff()) return;
+  var rows=teamRows(), edits={};
+  var tb=el("tbody");
+  function draw(){
+    tb.innerHTML="";
+    rows.forEach(function(s,i){
+      var can=canEditStaff(s);
+      function cell(f,ph,dir){ var x=inp("tl_"+f+"_"+s.id,(edits[s.id]&&edits[s.id][f]!==undefined)?edits[s.id][f]:(s[f]||""),{placeholder:ph,dir:dir||null});
+        if(!can) x.disabled=true;
+        x.addEventListener("input",function(){ edits[s.id]=edits[s.id]||{}; edits[s.id][f]=x.value; tr.classList.add("tl-dirty"); });
+        return el("td",[x]); }
+      var tr=el("tr",{class:(edits[s.id]?"tl-dirty":"")},[
+        el("td",{class:"num",text:String(i+1)}),
+        cell("name","الاسم"), cell("phone","05xxxxxxxx","ltr"), cell("title","المسمى الوظيفي"),
+        el("td",[el("span",{class:"pill "+(isContact(s)?"":s.role==="staff"?"":"accent"),text:kindLabel(s)})])]);
+      tb.appendChild(tr);
+    });
+  }
+  draw();
+  var dupWarn=(function(){ var seen={}, d=[]; rows.forEach(function(s){ var k=phoneKey(s.phone); if(!k) return; if(seen[k]) d.push(seen[k].name+" و"+s.name); else seen[k]=s; }); return d; })();
+  var body=[
+    el("p",{class:"hint",style:"margin:0",text:"عدّل الأسماء والأرقام مباشرة ثم اضغط «حفظ التعديلات». الرقم السري والصلاحيات من نافذة تعديل الموظف."}),
+    dupWarn.length?el("div",{class:"banner",style:"margin:0;background:var(--warn-soft);border-color:var(--warn);color:var(--warn)"},[
+      el("b",{text:"أرقام مكررة: "}),el("span",{text:dupWarn.join(" · ")})]):null,
+    el("div",{class:"tl-wrap"},[el("table",{class:"psheet tl-table"},[
+      el("thead",[el("tr",["#","الاسم","رقم الجوال","المسمى الوظيفي","النوع"].map(function(h){return el("th",{text:h});}))]), tb])])
+  ];
+  var snaps=isRoot()?(((S.perf&&S.perf._team)||{}).snaps||[]):[];
+  if(isRoot()) body.push(el("div",{class:"tl-snaps"},[
+    el("b",{text:"النسخ المحفوظة في النظام ("+snaps.length+")"}),
+    snaps.length?el("div",{class:"tl-sl"},snaps.slice().reverse().map(function(sn){
+      return el("div",{class:"tl-si"},[el("span",{text:fmtDate(iso(new Date(sn.at)))+" · "+sn.rows.length+" عضو"}),
+        el("button",{class:"btn ghost sm",text:"عرض واستعادة",onclick:function(){ teamImportPreview(sn.rows,"نسخة "+fmtDate(iso(new Date(sn.at)))); }})]); })):
+      el("span",{class:"hint",text:"لم تُحفظ أي نسخة بعد."})]));
+  openModal(modal("قائمة الفريق بالأرقام",body,[
+    el("button",{class:"btn primary",text:"حفظ التعديلات",onclick:function(){
+      var n=0, bad="";
+      Object.keys(edits).forEach(function(id){
+        var s=S.staff[id], e=edits[id]; if(!s||!canEditStaff(s)) return;
+        var d={}; ["name","phone","title"].forEach(function(f){ if(e[f]!==undefined&&String(e[f]).trim()!==String(s[f]||"")) d[f]=String(e[f]).trim(); });
+        if(d.name==="") { bad="الاسم لا يمكن أن يكون فارغاً"; return; }
+        if(d.phone){ var m=findStaffMatch({phone:d.phone},id); if(m&&phoneKey(m.phone)===phoneKey(d.phone)){ bad="الرقم "+d.phone+" مسجّل باسم "+m.name; return; } }
+        if(Object.keys(d).length){ patch("staff",id,d); n++; }
+      });
+      if(bad) return toast(bad,true);
+      toast(n?"حُفظت تعديلات "+n+" عضو":"لا توجد تعديلات"); edits={}; teamRoster(); }}),
+    el("button",{class:"btn",text:"+ إضافة عضو",onclick:function(){staffForm(null);}}),
+    el("button",{class:"btn",text:"استيراد / إضافة قائمة",onclick:teamImport}),
+    el("button",{class:"btn",text:"تصدير (Excel)",onclick:teamExportCSV}),
+    isRoot()?el("button",{class:"btn",text:"حفظ نسخة في النظام",onclick:function(){
+      var t=Object.assign({},(S.perf&&S.perf._team)||{}), list=(t.snaps||[]).slice();
+      list.push({at:Date.now(),by:meId||"",rows:teamRows().map(function(s){ return {name:s.name||"",phone:s.phone||"",title:s.title||"",specialty:s.specialty||"",kind:isContact(s)?"contact":"staff",role:s.role||"staff"}; })});
+      t.snaps=list.slice(-12); pfSave("_team",t); toast("حُفظت نسخة من قائمة الفريق في النظام"); setTimeout(teamRoster,80); }}):null,
+    el("button",{class:"btn",text:"طباعة",onclick:function(){window.print();}}),
+    el("button",{class:"btn",text:"إغلاق",onclick:closeModal})
+  ]));
+  var md=$("#modal-root .modal"); if(md) md.style.maxWidth="900px";
+}
+function teamExportCSV(){
+  var rows=[["الاسم","رقم الجوال","المسمى الوظيفي","التخصص","النوع"].map(csvCell).join(",")];
+  teamRows().forEach(function(s){ rows.push([s.name,s.phone,s.title,s.specialty,isContact(s)?"مدير":(s.role==="manager"?"مهندس مسؤول":s.role==="root"?"المسؤول الرئيسي":"موظف")].map(csvCell).join(",")); });
+  saveFile("قائمة-الفريق-"+iso(today())+".csv","﻿"+rows.join("\r\n"),"text/csv;charset=utf-8");
+}
+/* قراءة قائمة من ملف أو نص ملصوق: CSV / JSON / أسطر «الاسم - الرقم» */
+function parseTeamText(txt){
+  txt=String(txt||"").replace(/^﻿/,"").trim(); if(!txt) return [];
+  if(/^[\[{]/.test(txt)){
+    try{ var o=JSON.parse(txt), arr=[];
+      if(Array.isArray(o)) arr=o;
+      else if(o.staff) arr=Object.keys(o.staff).map(function(k){return o.staff[k];});
+      else if(o.team) arr=o.team;
+      return arr.filter(function(x){return x&&x.name;}).map(function(x){ return {name:String(x.name).trim(),phone:x.phone||"",title:x.title||"",specialty:x.specialty||"",kind:x.kind==="contact"?"contact":"staff"}; });
+    }catch(e){}
+  }
+  var lines=txt.split(/\r?\n/).map(function(l){return l.trim();}).filter(Boolean);
+  var delim=/\t/.test(lines[0])?"\t":/;/.test(lines[0])&&!/,/.test(lines[0])?";":",";
+  function split(l){ var out=[],cur="",q=false; for(var i=0;i<l.length;i++){ var ch=l[i];
+    if(ch==='"'){ if(q&&l[i+1]==='"'){cur+='"';i++;} else q=!q; } else if(ch===delim&&!q){ out.push(cur); cur=""; } else cur+=ch; }
+    out.push(cur); return out.map(function(x){return x.trim();}); }
+  var head=split(lines[0]), idx={};
+  head.forEach(function(h,i){ var x=h.toLowerCase();
+    if(/اسم|name/.test(x)&&idx.name===undefined) idx.name=i;
+    else if(/جوال|رقم|هاتف|phone|mobile|tel/.test(x)&&idx.phone===undefined) idx.phone=i;
+    else if(/مسمى|title/.test(x)) idx.title=i;
+    else if(/تخصص|special/.test(x)) idx.specialty=i;
+    else if(/نوع|kind|type/.test(x)) idx.kind=i; });
+  var hasHead=idx.name!==undefined||idx.phone!==undefined;
+  var out=[];
+  (hasHead?lines.slice(1):lines).forEach(function(l){
+    var c=split(l), r;
+    if(hasHead) r={name:c[idx.name]||"",phone:c[idx.phone]||"",title:c[idx.title]||"",specialty:c[idx.specialty]||"",kind:/مدير|contact/.test(c[idx.kind]||"")?"contact":"staff"};
+    else if(c.length>1) r={name:c[0],phone:c[1],title:c[2]||"",specialty:"",kind:"staff"};
+    else { var m=normDigits(l).match(/\+?\d[\d\s]{6,}\d/); r={name:(m?l.replace(m[0],""):l).replace(/[-–:|،,]+/g," ").trim(),phone:m?m[0].replace(/\s/g,""):"",title:"",specialty:"",kind:"staff"}; }
+    if(r.name) out.push(r);
+  });
+  return out;
+}
+function teamImport(){
+  var f=el("input",{type:"file",accept:".csv,.txt,.json,text/csv,application/json"});
+  var ta=el("textarea",{id:"tlPaste",placeholder:"أو الصق القائمة هنا — كل عضو في سطر:\nم. أحمد علي - 0501234567\nسارة محمد, 0559876543, رسامة",style:"min-height:120px"});
+  f.addEventListener("change",function(){ var file=f.files&&f.files[0]; if(!file) return;
+    var r=new FileReader(); r.onload=function(){ ta.value=String(r.result||""); }; r.readAsText(file); });
+  openModal(modal("استيراد أو إضافة قائمة الفريق",[
+    el("p",{class:"hint",style:"margin:0",text:"يقبل ملف Excel محفوظ بصيغة CSV، أو ملف القائمة المصدَّر من البرنامج، أو ملف النسخة الاحتياطية، أو نصاً ملصوقاً. لا يُضاف أي عضو موجود مسبقاً — تتم المطابقة برقم الجوال ثم بالاسم."}),
+    field("ملف القائمة",f,null,true), field("أو الصق القائمة",ta,null,true)
+  ],[
+    el("button",{class:"btn primary",text:"معاينة",onclick:function(){
+      var rows=parseTeamText(ta.value); if(!rows.length) return toast("لم يُعثر على أسماء في القائمة",true);
+      teamImportPreview(rows,"القائمة المستوردة"); }}),
+    el("button",{class:"btn",text:"رجوع",onclick:teamRoster})
+  ]));
+}
+function teamImportPreview(rows,title){
+  var seen={}, plan=rows.map(function(r){
+    var key=phoneKey(r.phone)||("n:"+nameKey(r.name));
+    if(seen[key]) return {r:r,act:"dupfile"};
+    seen[key]=1;
+    var m=findStaffMatch(r);
+    if(!m) return {r:r,act:"new"};
+    var fill={}; if(!m.phone&&r.phone) fill.phone=r.phone; if(!m.title&&r.title) fill.title=r.title; if(!m.specialty&&r.specialty&&!isContact(m)) fill.specialty=r.specialty;
+    var diff=r.phone&&m.phone&&phoneKey(r.phone)!==phoneKey(m.phone);
+    return {r:r,act:Object.keys(fill).length?"fill":"same",m:m,fill:fill,diff:diff};
+  });
+  var LBL={"new":["جديد — سيُضاف","done"],"fill":["موجود — تُكمَّل بياناته","accent"],"same":["موجود — لا تكرار","pause"],"dupfile":["مكرر في القائمة — يُتجاهل","pause"]};
+  var n={}; plan.forEach(function(x){ n[x.act]=(n[x.act]||0)+1; });
+  openModal(modal("معاينة: "+title,[
+    el("div",{class:"wt-cats"},Object.keys(n).map(function(k){ return el("span",{class:"pill "+LBL[k][1],text:LBL[k][0]+": "+n[k]}); })),
+    el("div",{class:"tl-wrap"},[el("table",{class:"psheet"},[
+      el("thead",[el("tr",["الاسم","الجوال","المسمى","الإجراء"].map(function(h){return el("th",{text:h});}))]),
+      el("tbody",plan.map(function(x){ return el("tr",{class:x.act==="new"?"st-done":(x.act==="dupfile"||x.act==="same")?"st-pause":""},[
+        el("td",{text:x.r.name+(x.m&&x.m.name!==x.r.name?" (= "+x.m.name+")":"")}),el("td",{class:"num",text:x.r.phone||"—"}),el("td",{text:x.r.title||x.r.specialty||"—"}),
+        el("td",{text:LBL[x.act][0]+(x.diff?" · رقم مختلف عن المسجّل ("+x.m.phone+")":"")})]); }))])]),
+    el("p",{class:"hint",style:"margin:0",text:"الأعضاء الجدد يُضافون كموظفين بدون رقم سري — حدّد رمز الدخول لكل منهم من نافذة تعديل الموظف."})
+  ],[
+    el("button",{class:"btn primary",text:"تطبيق",onclick:function(){
+      var add=0, upd=0;
+      plan.forEach(function(x){
+        if(x.act==="new"){ put("staff",uid(),{name:x.r.name,title:x.r.title||"",specialty:x.r.kind==="contact"?"":(x.r.specialty||""),phone:x.r.phone||"",
+          role:"staff",kind:x.r.kind==="contact"?"contact":"staff",perms:{staff:false,projects:false,msgScope:x.r.kind==="contact"?"none":"all"},pin:"",createdAt:Date.now()}); add++; }
+        else if(x.act==="fill"&&canEditStaff(x.m)){ patch("staff",x.m.id,x.fill); upd++; }
+      });
+      toast("أُضيف "+add+" عضو · أُكملت بيانات "+upd+" · بدون تكرار"); setTimeout(teamRoster,120); }}),
+    el("button",{class:"btn",text:"رجوع",onclick:teamRoster})
+  ]));
+  var md=$("#modal-root .modal"); if(md) md.style.maxWidth="860px";
+}
+
+/* ============ مشاريعي في «أعمالي»: المستوفي والمتبقي وأين توقف ============ */
+function preLabel(p){ var k=(wfOf(p).pre||{}).kind; return k==="idea"?"تقديم فكرة":"فكرة للتعاقد"; }
+function projTaskCounts(p,sid){
+  var all=[], mine=[];
+  WF_STAGES.forEach(function(s){ var lk=!!wfLock(p,s.k);
+    wfDefs(p,s.k).forEach(function(d){ var it=wfItem(p,d.k); if(it.na) return;
+      var x={done:wfDone(p,d),late:wfLate(p,d),d:d,st:s,locked:lk}; all.push(x); if(sid&&wfWho(p,d)===sid) mine.push(x); }); });
+  taskList(p).forEach(function(t){ var x={done:t.status==="منجز",late:false,d:{t:t.title||t.kind||"عمل"},st:null,legacy:1};
+    all.push(x); if(sid&&t.assigneeId===sid) mine.push(x); });
+  function c(a){ return {done:a.filter(function(x){return x.done;}).length,left:a.filter(function(x){return !x.done;}).length,late:a.filter(function(x){return x.late;}).length,list:a}; }
+  return {all:c(all),mine:c(mine)};
+}
+function projWhere(p,sid){
+  var ws=wsOf(p);
+  if(ws==="ملغى") return {cls:"cancel",t:"ملغى — "+(p.cancelReason||"لم يُذكر السبب")};
+  if(ws==="مكتمل") return {cls:"done",t:"مكتمل"+(p.completedAt?" في "+fmtDate(iso(new Date(p.completedAt))):"")};
+  if(ws==="متوقف") return {cls:"pause",t:"متوقف"+(p.pauseCat?" ("+p.pauseCat+")":"")+(p.pauseReason?" — "+p.pauseReason:"")};
+  if(!wfBegun(p)) return {cls:"pause",t:"بانتظار أمر البدء بالعمل"};
+  if(!wfStarted(p)&&wfStageDone(p,"concept")) return {cls:"idea",t:"اكتملت الفكرة — بانتظار التعاقد وأمر البدء"};
+  var st=wfCurStage(p)||"concept", sd=WF_STAGES.filter(function(s){return s.k===st;})[0];
+  var lk=wfLock(p,st);
+  if(lk) return {cls:"pause",t:sd.t+" — "+lk};
+  var open=wfDefs(p,st).filter(function(d){ return !wfItem(p,d.k).na&&!wfDone(p,d); });
+  var mineOpen=sid?open.filter(function(d){return wfWho(p,d)===sid;}):[];
+  var nx=(mineOpen[0]||open[0]);
+  return {cls:!wfStarted(p)?"idea":"work",t:sd.t+(nx?" ← "+nx.t:"")};
+}
+function goProject(p){
+  V.tab="projects"; V.filter="all"; V.who="all"; V.mgr="all"; V.stage="all"; V.q="";
+  if(wsOf(p)==="مكتمل"||wsOf(p)==="ملغى") V.showDone=true;
+  closeModal(); render();
+  setTimeout(function(){
+    var r=document.querySelector('.row[data-pid="'+p.id+'"]');
+    if(r){ r.scrollIntoView({block:"center",behavior:"smooth"}); r.classList.add("flash"); setTimeout(function(){ r.classList.remove("flash"); },2200); }
+    detail(S.projects[p.id]||p);
+  },80);
+}
+function DeskProjects(sid){
+  var ps=projList().filter(function(p){
+    if(isRoot()||isBoss()) return p.managerId===sid||p.assigneeId===sid||projTaskCounts(p,sid).mine.list.length>0;
+    return true; });
+  var active=ps.filter(function(p){ var w=wsOf(p); return w!=="مكتمل"&&w!=="ملغى"; });
+  active.sort(function(a,b){
+    var qa=PRIO_RANK[a.priority]===undefined?2:PRIO_RANK[a.priority], qb=PRIO_RANK[b.priority]===undefined?2:PRIO_RANK[b.priority];
+    return (qa-qb)||sortProjects(a,b); });
+  var tot={done:0,left:0,late:0};
+  var rows=active.map(function(p){ var c=projTaskCounts(p,sid), use=c.mine.list.length?c.mine:c.all;
+    tot.done+=c.mine.done; tot.left+=c.mine.left; tot.late+=c.mine.late; return {p:p,c:c,use:use,own:c.mine.list.length>0}; });
+  var wrap=el("div",{class:"dp"});
+  wrap.appendChild(el("div",{class:"dp-tiles"},[
+    el("div",[el("b",{text:String(active.length)}),el("small",{text:"مشاريع قائمة"})]),
+    el("div",{class:"good"},[el("b",{text:String(tot.done)}),el("small",{text:"مهام مستوفاة"})]),
+    el("div",{class:"work"},[el("b",{text:String(tot.left)}),el("small",{text:"مهام متبقية"})]),
+    el("div",{class:tot.late?"late":""},[el("b",{text:String(tot.late)}),el("small",{text:"متأخرة"})])]));
+  wrap.appendChild(el("h3",{style:"margin:16px 0 8px;font-size:15px",text:"مشاريعي حسب الأولوية ("+active.length+")"}));
+  if(!rows.length){ wrap.appendChild(el("p",{class:"hint",text:"لا توجد مشاريع قائمة مسندة إليك."})); return wrap; }
+  var list=el("div",{class:"dp-list"});
+  rows.forEach(function(x,i){
+    var p=x.p, st=statusOf(p), wh=projWhere(p,sid), tot2=x.use.done+x.use.left, pc=tot2?Math.round(100*x.use.done/tot2):0;
+    list.appendChild(el("button",{class:"dp-row s-"+st.cls,style:"--i:"+i,title:"الانتقال إلى المشروع وتفاصيله",onclick:function(){goProject(p);}},[
+      el("span",{class:"dp-rank",text:String(i+1)}),
+      el("div",{class:"dp-main"},[
+        el("div",{class:"dp-name"},[el("b",{text:p.name}),p.code?el("span",{class:"code",text:p.code}):null,
+          el("span",{class:"pill "+(p.priority==="عاجلة"?"late":p.priority==="مرتفعة"?"work":""),text:p.priority||"عادية"}),
+          el("span",{class:"pill "+st.cls,text:st.label})]),
+        el("div",{class:"dp-where s-"+wh.cls},[el("span",{text:"📍 "}),el("span",{text:wh.t})])]),
+      el("div",{class:"dp-cnt"},[
+        el("div",{class:"dp-bar"},[el("i",{style:"width:"+pc+"%"})]),
+        el("div",{class:"dp-nums"},[el("span",{class:"good"},[el("b",{text:String(x.use.done)})," مستوفاة"]),
+          el("span",{class:"work"},[el("b",{text:String(x.use.left)})," متبقية"]),
+          x.use.late?el("span",{class:"late"},[el("b",{text:String(x.use.late)})," متأخرة"]):null]),
+        el("small",{text:x.own?"مهامي في المشروع":"كل مهام المشروع"})]),
+      el("span",{class:"dp-go",text:"←"})]));
+  });
+  wrap.appendChild(list);
+  return wrap;
+}
+
+/* ============ سجل المشاريع: القائمة والمنتهية وغير المكتملة مع السبب ============ */
+var HV={f:"all"};
+function HistoryView(){
+  var wrap=el("div",{class:"hv"});
+  var all=projList();
+  var G={
+    act:all.filter(function(p){ var w=wsOf(p); return w!=="مكتمل"&&w!=="ملغى"; }),
+    done:all.filter(function(p){ return wsOf(p)==="مكتمل"; }),
+    cancel:all.filter(function(p){ return wsOf(p)==="ملغى"; })
+  };
+  function seg(k,t,n){ return el("button",{class:"pf-sb"+(HV.f===k?" on":""),text:t+" ("+n+")",onclick:function(){HV.f=k;render();}}); }
+  wrap.appendChild(el("div",{class:"pf-hd"},[
+    el("div",{class:"pf-ttl"},[el("h2",{text:"سجل المشاريع"}),el("span",{class:"hint",text:"كل مشاريع المكتب: القائمة، والمنتهية، وغير المكتملة مع سبب عدم اكتمالها."})]),
+    el("div",{class:"pf-tools"},[
+      el("div",{class:"pf-seg"},[seg("all","الكل",all.length),seg("act","القائمة",G.act.length),seg("done","المنتهية",G.done.length),seg("cancel","غير المكتملة",G.cancel.length)]),
+      canAddProject()?el("button",{class:"btn primary sm",text:"+ إضافة مشروع سابق",onclick:function(){projForm(null,{past:true});}}):null,
+      el("button",{class:"btn sm",text:"تصدير (Excel)",onclick:function(){historyCSV(G);}}),
+      el("button",{class:"btn sm",text:"طباعة",onclick:function(){window.print();}})])]));
+  function dur(p){
+    var W=wtSummary(p);
+    if(W) return fmtDur(W.total);
+    var a=parseD(p.startDate), b=(p.completedAt||p.cancelledAt)?new Date(p.completedAt||p.cancelledAt):new Date();
+    return a?fmtDur(Math.round((b-a)/86400000)):"—";
+  }
+  function table(key,title,cls,list){
+    if(HV.f!=="all"&&HV.f!==key) return;
+    wrap.appendChild(el("h3",{class:"psub hv-h s-"+cls,text:title+" — "+list.length}));
+    if(!list.length){ wrap.appendChild(el("p",{class:"hint",text:"لا توجد مشاريع."})); return; }
+    list=list.slice().sort(function(a,b){ return recTime(b)-recTime(a); });
+    wrap.appendChild(el("div",{class:"tl-wrap"},[el("table",{class:"psheet hv-t"},[
+      el("thead",[el("tr",["المشروع","المالك","النوع","البداية",key==="cancel"?"تاريخ الإلغاء":key==="done"?"تاريخ الانتهاء":"موعد التسليم","المدة","الحالة",key==="act"?"أين متوقف":"السبب / ملاحظة","المهندس"].map(function(h){return el("th",{text:h});}))]),
+      el("tbody",list.map(function(p){
+        var st=statusOf(p), wh=projWhere(p);
+        var endTxt=key==="cancel"?(p.cancelledAt?fmtDate(iso(new Date(p.cancelledAt))):"—"):key==="done"?(p.completedAt?fmtDate(iso(new Date(p.completedAt))):"—"):(p.dueDate?fmtDate(p.dueDate):"—");
+        return el("tr",{class:"hv-r s-"+st.cls,onclick:function(){detail(p);},title:"تفاصيل المشروع"},[
+          el("td",[el("b",{text:p.name}),p.code?el("div",{class:"hint",text:p.code}):null,p.past?el("span",{class:"pill",style:"font-size:10px",text:"مشروع سابق"}):null]),
+          el("td",{text:p.client||"—"}),el("td",{text:p.type||"—"}),el("td",{text:fmtDate(p.startDate)}),el("td",{text:endTxt}),
+          el("td",{text:dur(p)}),el("td",[el("span",{class:"pill "+st.cls,text:st.label})]),
+          el("td",{class:key==="cancel"?"warncell":"",text:key==="cancel"?(p.cancelReason||"لم يُذكر السبب"):key==="act"?wh.t:(p.closeNote||"—")}),
+          el("td",{text:personName(p.managerId)})]);
+      }))])]));
+  }
+  table("act","المشاريع القائمة","work",G.act);
+  table("done","المشاريع المنتهية","done",G.done);
+  table("cancel","المشاريع غير المكتملة / الملغاة","cancel",G.cancel);
+  return wrap;
+}
+function historyCSV(G){
+  var rows=[["المجموعة","المشروع","رقم المشروع","المالك","النوع","البداية","الانتهاء / الإلغاء","الحالة","السبب","المهندس المسؤول"].map(csvCell).join(",")];
+  [["القائمة",G.act],["المنتهية",G.done],["غير المكتملة",G.cancel]].forEach(function(g){
+    g[1].forEach(function(p){ rows.push([g[0],p.name,p.code,p.client,p.type,p.startDate,
+      p.cancelledAt?iso(new Date(p.cancelledAt)):p.completedAt?iso(new Date(p.completedAt)):"",wsOf(p),
+      wsOf(p)==="ملغى"?(p.cancelReason||""):wsOf(p)==="متوقف"?(p.pauseReason||""):(p.closeNote||""),personName(p.managerId)].map(csvCell).join(",")); }); });
+  saveFile("سجل-المشاريع-"+iso(today())+".csv","﻿"+rows.join("\r\n"),"text/csv;charset=utf-8");
+}
 
 /* ============ سجل التطورات (ملاحظات + تاريخ) ============ */
 function logForm(p,L){
@@ -7011,6 +7497,7 @@ function MyDeskView(){
       onclick:function(){projForm(null);}}):null
   ]));
 
+  wrap.appendChild(DeskProjects(meId));
   wrap.appendChild(WfMine(meId));
   var pend=pendingReviews();
   if(pend.length){
@@ -7449,6 +7936,7 @@ function doRender(){
   else if(V.tab==="timeline") root.appendChild(TimelineView());
   else if(V.tab==="notes") root.appendChild(NotesView());
   else if(V.tab==="perf") root.appendChild(PerfView());
+  else if(V.tab==="history") root.appendChild(HistoryView());
   else root.appendChild(StaffView());
   root.appendChild(Foot());
   window.scrollTo(0,scrollY);
@@ -7527,6 +8015,7 @@ function Tiles(){
     tile("late","t-late","متأخرة",c.late,"لم تُستكمل في وقتها"),
     tile("today","t-today","تستحق اليوم",c.today,DAYS[today().getDay()]),
     tile("work","t-work","قيد العمل",c.work,"ضمن الجدول"),
+    tile("idea","t-idea","مرحلة الفكرة",c.idea,"تقديم فكرة / فكرة للتعاقد"),
     tile("paused","t-pause","متوقفة",c.paused,noReasonList().length?noReasonList().length+" بلا سبب":"بأسباب مسجّلة"),
     tile("done","t-done","مكتملة",c.done,"مسلّمة")
   ]);
@@ -7544,6 +8033,7 @@ function Tabs(){
     tb("orders","أوامر خارجية",orderList().filter(function(o){return o.status==="جديد";}).length),
     tb("reviews","الموافقات المبدئية",revExpired().length),
     tb("final","المرحلة النهائية"),
+    tb("history","سجل المشاريع"),
     tb("timeline","الجدول الزمني"),
     tb("notes","الملاحظات والتنبيهات",un),
     rosterVisible()?tb("staff","الفريق"):null,
@@ -7556,7 +8046,7 @@ function applyFilters(list){
   return list.filter(function(p){
     var st=statusOf(p);
     if(V.filter!=="all" && st.k!==V.filter) return false;
-    if(V.filter==="all" && !V.showDone && st.k==="done") return false;
+    if(V.filter==="all" && !V.showDone && (st.k==="done"||st.k==="cancel")) return false;
     if(V.who!=="all" && p.assigneeId!==V.who) return false;
     if(V.mgr!=="all" && p.managerId!==V.mgr) return false;
     if(V.stage!=="all" && p.stage!==V.stage) return false;
@@ -7569,9 +8059,9 @@ function applyFilters(list){
 }
 /* الترتيب: المثبّت أولاً، ثم الأولوية (عاجلة ← عادية)، ثم حالة العمل، ثم أقرب تسليم */
 function sortProjects(x,y){
-  var ord={late:0,today:1,work:2,paused:3,done:4};
+  var ord={late:0,today:1,work:2,idea:3,paused:4,done:5,cancel:6};
   var kx=statusOf(x).k, ky=statusOf(y).k;
-  var dx=kx==="done"?1:0, dy=ky==="done"?1:0;
+  var dx=(kx==="done"||kx==="cancel")?1:0, dy=(ky==="done"||ky==="cancel")?1:0;
   if(dx!==dy) return dx-dy;
   var px=x.pinned?0:1, py=y.pinned?0:1;
   if(px!==py) return px-py;
@@ -7689,7 +8179,7 @@ function Row(p){
         el("span",{text:st.label}), el("span",{style:"opacity:.6",text:"⌄"})])
     : el("span",{class:"pill "+st.cls,style:"margin-top:5px",text:st.label});
 
-  return el("div",{class:"row s-"+(st.cls||"")+(st.needReason?" needs-reason":"")},[
+  return el("div",{class:"row s-"+(st.cls||"")+(st.needReason?" needs-reason":""),"data-pid":p.id},[
     el("div",{class:"stripe"}),
     el("div",{style:"min-width:0"},[
       el("div",{class:"p-name"},[
@@ -7705,6 +8195,8 @@ function Row(p){
         p.priority&&p.priority!=="عادية"?el("span",{class:"pill "+(p.priority==="عاجلة"?"late":"work"),text:p.priority}):null,
         mine?el("span",{class:"pill accent",text:"مشروعي"}):null,
         st.reason?el("span",{style:"color:var(--pause)",text:"سبب التوقف: "+st.reason}):null,
+        st.k==="cancel"?el("span",{style:"font-weight:600",text:"سبب عدم الاكتمال: "+(st.cancel||"لم يُذكر")}):null,
+        st.k==="idea"&&p.idea?el("span",{style:"color:var(--idea)",text:"الفكرة: "+String(p.idea).slice(0,80)}):null,
         st.needReason?el("span",{style:"color:var(--crit);font-weight:600",text:"⚠ متوقف بلا سبب مسجّل"}):null,
         openRev?el("button",{class:"pill "+revClock(openRev).cls,title:"ملاحظات "+openRev.authority,
           onclick:function(){V.tab="reviews";V.revf="all";render();}},
@@ -7934,6 +8426,8 @@ function StaffView(){
                   :"لديك صلاحية إضافة وتعديل الموظفين (الرسام والمساعد وغيرهم) بأمر من المسؤول الرئيسي.")
         :"قائمة فريق المكتب — إضافة الموظفين وتعديلهم من صلاحية المسؤول."}),
     el("span",{class:"spacer"}),
+    canManageStaff()?el("button",{class:"btn sm",text:"📋 قائمة الفريق بالأرقام",
+      onclick:function(){teamRoster();}}):null,
     canManageStaff()?el("button",{class:"btn primary sm",text:"+ إضافة موظف",
       onclick:function(){staffForm(null);}}):null
   ]));
